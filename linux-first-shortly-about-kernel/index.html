@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="yandex-verification" content="377f121897ba8c7a" />
+  
+  <title>Linux First: Кратко о linux-ядре | root around</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Этим постом начинаю серию статей “Linux First” - разбираюсь как устроен и как работает linux с начала загрузки ядра и дальше про подсистемы, сеть, процессы и многое другое. Весь список статей будет в">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux First: Кратко о linux-ядре">
+<meta property="og:url" content="https://rootaround.github.io/linux-first-shortly-about-kernel/index.html">
+<meta property="og:site_name" content="root around">
+<meta property="og:description" content="Этим постом начинаю серию статей “Linux First” - разбираюсь как устроен и как работает linux с начала загрузки ядра и дальше про подсистемы, сеть, процессы и многое другое. Весь список статей будет в">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="https://rootaround.github.io/css/images/linux-kernel-1.jpg">
+<meta property="article:published_time" content="2020-05-12T18:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-23T11:57:22.581Z">
+<meta property="article:author" content="alekzonder">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="linux-first">
+<meta property="article:tag" content="kernel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://rootaround.github.io/css/images/linux-kernel-1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="root around" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500i,700" rel="stylesheet">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-107925287-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter46241478 = new Ya.Metrika({
+                    id:46241478,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/37993695" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">root around</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">многосерийные linux-раскопки и не только</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">главная</a>
+        
+          <a class="main-nav-link" href="/toc">оглавление</a>
+        
+          <a class="main-nav-link" href="/archives">архив</a>
+        
+          <a class="main-nav-link" href="https://t.me/rootaround" target="_blank" rel="noopener">telegram</a>
+        
+          <a class="main-nav-link" href="https://twitter.com/root_around" target="_blank" rel="noopener">twitter</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rootaround.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux-first-shortly-about-kernel" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/linux-first-shortly-about-kernel/" class="article-date">
+  <time datetime="2020-05-12T18:00:00.000Z" itemprop="datePublished">2020-05-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux First: Кратко о linux-ядре
+    </h1>
+  
+
+      </header>
+    
+
+    <div class="article-entry article-nav-title">1 min. read</div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Этим постом начинаю серию статей “Linux First” - разбираюсь как устроен и как работает linux с начала загрузки ядра и дальше про подсистемы, сеть, процессы и многое другое.</p>
+<p>Весь список статей будет в <a href="/toc#linux-first">Оглавлении</a>.</p>
+<p>Сегодня немного про историю и в общем про архитектуру.</p>
+<a id="more"></a>
+<h3 id="История">История</h3>
+<p>В августе 1991 года Линус Торвальдс написал в новостную ленту “minix” <a href="https://groups.google.com/forum/#!msg/comp.os.minix/dlNtH7RRrGA/SwRavCzVE7gJ" target="_blank" rel="noopener">сообщение</a> о том что он разрабатывает свободную операционую систему и хочет получить фидбэк от заинтересованных людей.</p>
+<p>В сентябре Линус опубликовал версию 0.01. Этот исторический код можно посмотреть на <a href="https://github.com/zavg/linux-0.01" target="_blank" rel="noopener">github</a>.</p>
+<p><a href="http://www.oldlinux.org" target="_blank" rel="noopener">Особо сентиментальные ребята</a> запилили образы для Qemu, в которых запускаются первые версии ядра и можно даже вызывать “доисторические” команды ls без хэлпов и прочих прелестей современных unix-команд.</p>
+<p>К проекту сразу появился интерес и совместными усилиями Линуса и коммьюнити linux-ядро начало развиваться.</p>
+<p>Через 3 года в 1994 выходит <a href="https://github.com/kalamangga-net/linux-1.0" target="_blank" rel="noopener">первая версия</a>.</p>
+<p>Ядро изначально проектировалось как монолитное и переносимое на разные процессорные архитектуры.<br />
+Собственно из-за аритектуры в 1992 в группе обсуждения minix разгорелся холивар “монолит-ядро vs микро-ядрo” между Линусом Торвальдсом и Эндрю Таненбаумом (<em>почти как и сейчас про монолит vs микросервисы</em>).</p>
+<!-- ОС Minix была разработана Эндрю Таненбаумом для образовательных целей, чтобы его студенты могли  поэкспериментировать с операционной системой. -->
+<p>Основной посыл холивара был в том что монолитное ядро устарело уже в 1992 году, а микроядра рулят и за ними будущее, но как показала история, даже 26 лет спустя монолитное ядро все еще живо и продолжает развиваться.</p>
+<p>Текущая версия доросла до <code>5.6</code> (май 2020) и код начиная с <code>2.6</code> можно смотреть на <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/refs/" target="_blank" rel="noopener">оф сайте</a> или на github-зеркале <a href="https://github.com/torvalds/linux" target="_blank" rel="noopener">torvalds/linux</a></p>
+<h3 id="Архитектура">Архитектура</h3>
+<p><img src="/css/images/linux-kernel-1.jpg" alt="Cхема из статьи IBM &quot;Анатомия ядра Linux&quot;" /></p>
+<p>Ядро делится на пространство ядра и пространство пользователя.</p>
+<p>Пространство ядра через Интерфейс системных вызовов (SCI) позволяется вызывать функции ядра из пространства пользователя.</p>
+<p>Вся работа с железом контролируется ядром, основная часть ядра архитектурно-независима, то есть этот код работает на любой архитектуре процессоров.</p>
+<p>Специфичный код для работы с железом -  архитектуро-зависимый - и либо уже есть в дистрибутиве Linux для определенной архитектуры, либо добавляется с помощью драйверов.</p>
+<p>Ресурсы <strong>CPU</strong> распределяются между процессами планировщиком процессов O(1). Код планировщика может использовать фишки определенной процессорной архитектуры, поэтому как раз код планировщика разделен на архитектурно-независимый и архитектурно-зависимый.</p>
+<p><strong>Память</strong> аналогично ресурсам CPU контролируется ядром и эта же подсистема управляет подкачкой (swap).</p>
+<p><strong>Виртуальная файловая система (VFS)</strong> абстрагирует от конкретных файловых систем и через SCI позволяет работать с любыми файловыми система одинаково. Поддержка конкретных файлов систем добавляется через модули ядра.</p>
+<p><strong>Сеть</strong> контролируется отдельной подсистемой и через все тот же SCI позволяет открывать и работать с сетевыми сокетами разных протоколов.</p>
+<p>Если хочется узнать подробнее про подсистемы - есть целая интерактивная карта linux-ядра, из которой можно узнать много нового и интересного - <a href="http://www.makelinux.net/kernel_map/" target="_blank" rel="noopener"><strong>www.makelinux.net/kernel_map</strong></a></p>
+<p>Ну и документацию конечно никто не отменял <a href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener"><strong>www.kernel.org/doc/html/latest/</strong></a></p>
+<h3 id="Источники">Источники</h3>
+<ul>
+<li>Схема архитектуры и описание из статьи IBM “<a href="https://www.ibm.com/developerworks/ru/library/l-linux-kernel/" target="_blank" rel="noopener">Анатомия ядра Linux</a>”. В статье чуть подробнее описано как устроено ядро.</li>
+</ul>
+<hr />
+<p><a href="/toc#linux-first">Все статьи серии “Linux First”</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+
+      
+
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-first/" rel="tag">linux-first</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/linux-first-boot-mbr/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Следующий</strong>
+      <div class="article-nav-title">
+        
+          Linux First: Загрузка ядра
+        
+      </div>
+    </a>
+  
+  
+    <a href="/start/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Предыдущий</strong>
+      <div class="article-nav-title">start</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+      </div>
+      <footer id="footer">
+
+
+
+  
+    <aside id="sidebar" class="outer">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Метки</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/boot/" rel="tag">boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grub/" rel="tag">grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/initrd/" rel="tag">initrd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-first/" rel="tag">linux-first</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mbr/" rel="tag">mbr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/" rel="tag">qemu</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Облако меток</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/boot/" style="font-size: 10px;">boot</a> <a href="/tags/grub/" style="font-size: 10px;">grub</a> <a href="/tags/initrd/" style="font-size: 10px;">initrd</a> <a href="/tags/kernel/" style="font-size: 20px;">kernel</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/linux-first/" style="font-size: 20px;">linux-first</a> <a href="/tags/mbr/" style="font-size: 10px;">mbr</a> <a href="/tags/qemu/" style="font-size: 10px;">qemu</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Архив</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">май 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Недавние записи</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/linux-first-boot-mbr/">Linux First: Загрузка ядра</a>
+          </li>
+        
+          <li>
+            <a href="/linux-first-shortly-about-kernel/">Linux First: Кратко о linux-ядре</a>
+          </li>
+        
+          <li>
+            <a href="/start/">start</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 alekzonder<br>
+      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">главная</a>
+  
+    <a href="/toc" class="mobile-nav-link">оглавление</a>
+  
+    <a href="/archives" class="mobile-nav-link">архив</a>
+  
+    <a href="https://t.me/rootaround" target="_blank" rel="noopener" class="mobile-nav-link">telegram</a>
+  
+    <a href="https://twitter.com/root_around" target="_blank" rel="noopener" class="mobile-nav-link">twitter</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>

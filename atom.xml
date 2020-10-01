@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>root around</title>
+  
+  <subtitle>многосерийные linux-раскопки и не только</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://rootaround.github.io/"/>
+  <updated>2020-10-01T06:25:44.037Z</updated>
+  <id>https://rootaround.github.io/</id>
+  
+  <author>
+    <name>alekzonder</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux First: Загрузка ядра</title>
+    <link href="https://rootaround.github.io/linux-first-boot-mbr/"/>
+    <id>https://rootaround.github.io/linux-first-boot-mbr/</id>
+    <published>2020-05-14T17:00:00.000Z</published>
+    <updated>2020-10-01T06:25:44.037Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;После предыдущего поста &lt;a href=&quot;/linux-first-shortly-about-kernel&quot;&gt;“Кратко о linux-ядре”&lt;/a&gt; есть общее представление как устроено ядро. Дальше поговорим про загрузку компьютера в общем и ядра в частности.&lt;/p&gt;
+&lt;p&gt;Попутно создадим образ жесткого диска, на базе которого продолжим разбираться с linux в следующих статьях.&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="linux" scheme="https://rootaround.github.io/tags/linux/"/>
+    
+      <category term="linux-first" scheme="https://rootaround.github.io/tags/linux-first/"/>
+    
+      <category term="boot" scheme="https://rootaround.github.io/tags/boot/"/>
+    
+      <category term="mbr" scheme="https://rootaround.github.io/tags/mbr/"/>
+    
+      <category term="kernel" scheme="https://rootaround.github.io/tags/kernel/"/>
+    
+      <category term="grub" scheme="https://rootaround.github.io/tags/grub/"/>
+    
+      <category term="qemu" scheme="https://rootaround.github.io/tags/qemu/"/>
+    
+      <category term="initrd" scheme="https://rootaround.github.io/tags/initrd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux First: Кратко о linux-ядре</title>
+    <link href="https://rootaround.github.io/linux-first-shortly-about-kernel/"/>
+    <id>https://rootaround.github.io/linux-first-shortly-about-kernel/</id>
+    <published>2020-05-12T18:00:00.000Z</published>
+    <updated>2020-09-23T11:57:22.581Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Этим постом начинаю серию статей “Linux First” - разбираюсь как устроен и как работает linux с начала загрузки ядра и дальше про подсистемы, сеть, процессы и многое другое.&lt;/p&gt;
+&lt;p&gt;Весь список статей будет в &lt;a href=&quot;/toc#linux-first&quot;&gt;Оглавлении&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Сегодня немного про историю и в общем про архитектуру.&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="linux" scheme="https://rootaround.github.io/tags/linux/"/>
+    
+      <category term="linux-first" scheme="https://rootaround.github.io/tags/linux-first/"/>
+    
+      <category term="kernel" scheme="https://rootaround.github.io/tags/kernel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>start</title>
+    <link href="https://rootaround.github.io/start/"/>
+    <id>https://rootaround.github.io/start/</id>
+    <published>2020-05-12T17:00:00.000Z</published>
+    <updated>2020-09-23T11:57:22.581Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Вторая попытка старта блога, будем надеятся что успешная :).&lt;/p&gt;
+&lt;p&gt;С этого момента буду писать минимум по посту в неделю на разные темы 
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
