@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="yandex-verification" content="377f121897ba8c7a" />
+  
+  <title>Linux Tools: shells, часть 1 - историческая | root around</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Shell, шелл, терминал, консоль, Command Line Interface, cli – по сути все это название командного интерпретатора, которые существует во всех операционных системах и позволяет посылать системе команды">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Tools: shells, часть 1 - историческая">
+<meta property="og:url" content="https://rootaround.github.io/linux-tools-shells-part-1-historical/index.html">
+<meta property="og:site_name" content="root around">
+<meta property="og:description" content="Shell, шелл, терминал, консоль, Command Line Interface, cli – по сути все это название командного интерпретатора, которые существует во всех операционных системах и позволяет посылать системе команды">
+<meta property="og:locale" content="ru_RU">
+<meta property="article:published_time" content="2020-12-23T11:35:00.000Z">
+<meta property="article:modified_time" content="2020-12-24T06:30:12.545Z">
+<meta property="article:author" content="alekzonder">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="linux-tools">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="root around" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500i,700" rel="stylesheet">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-107925287-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter46241478 = new Ya.Metrika({
+                    id:46241478,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/37993695" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">root around</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">многосерийные linux-раскопки и не только</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">главная</a>
+        
+          <a class="main-nav-link" href="/toc">оглавление</a>
+        
+          <a class="main-nav-link" href="/archives">архив</a>
+        
+          <a class="main-nav-link" href="https://t.me/rootaround" target="_blank" rel="noopener">telegram</a>
+        
+          <a class="main-nav-link" href="https://twitter.com/root_around" target="_blank" rel="noopener">twitter</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rootaround.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux-tools-shells-part-1-historical" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/linux-tools-shells-part-1-historical/" class="article-date">
+  <time datetime="2020-12-23T11:35:00.000Z" itemprop="datePublished">2020-12-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux Tools: shells, часть 1 - историческая
+    </h1>
+  
+
+      </header>
+    
+
+    <div class="article-entry article-nav-title">2 min. read</div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>Shell, шелл, терминал, консоль, Command Line Interface, cli</em> – по сути все это название командного интерпретатора, которые существует во всех операционных системах и позволяет посылать системе команды для выполнения, собирать эти команды в скрипты и выполнять уже наборы команд.</p>
+<a id="more"></a>
+<p>Звучит все очень просто, но так было не всегда и все удобства современных командных интерпретаторов появились не сразу. Сегодня кратко рассмотрим историю развития шеллов.</p>
+<p><strong>1971, Thompson shell</strong> - написан Кеном (внезапно) Томпсоном в Bell Labs и использовался в первой версии Unix. Кен Томпсон совместно с Денисом Ритчи являются ни много ни мало создателями операционной система Unix и языка программирования C.</p>
+<p><strong>1975, PWB (Mashey) shell</strong> - разработан Джоном Маши (John Mashey) в Bell Labs для PWB (Programmer’s Workbench) Unix - дистрибутив для разработчиков (но не взлетел). Основан на Thompson Shell c фичами для упрощения разработки.</p>
+<p>Тут следует сделать небольшое отступление – все шеллы до Borne Shell были больше нацелены на выполнения команд (интерактивный режим), а не для скриптов.</p>
+<p>Thompson Shell создавался очень минималистичным, в одной из последних был реализован концепт пайпов (<code>command1 &gt; command2</code>), но в остальном даже такие простые вещи как <code>if</code> были сделаны отдельными командами — основной функционал был направлен именно на выполнение команд.</p>
+<p>В Mashey shell <code>if</code>, <code>elseif</code>, <code>goto</code> (и другие) были добавлены как часть самого шелла, появились аналоги $HOME, $PATH.</p>
+<p>Bourne Shell был написан с нуля, фичи обсуждались с участниками сообщества, плюс популярность после  публикации книги The Unix Programming Environment Брайна Кернигана и Роба Пайка —  все это сыграло в пользу Borne Shell и разработка Mashey Shell была прекращена, хотя достаточно много фич из Mashey были реализованы в Borne.</p>
+<p><strong>1976, 1979, Bourne Shell (sh)</strong> - в 1976 Стивен Борн начал разработку, а в 1979 Bourne Shell был включен в  Unix версии 7 как шелл по умолчанию. Это первый распространенный  шелл со скриптовым языком.</p>
+<p><strong>1978, C shell (csh)</strong> – разработан Биллом Джоем, шелл с собственным синтаксисом несовместимым с sh, был широко распространен в BSD-дистрибутивах. Если <strong>sh</strong> привносил удобства написания скриптов, то <strong>сsh</strong> добавлял множество фич именно для пользователя:  перенаправление потоков, пайпы, история, навигация внутри командной строки, автодополнение и еще много удобств интерактивного режима.</p>
+<p><strong>1983, Korn Shell (ksh)</strong> - разработан Дэвидом Корном и первоначально основан на bash (видимо на каких-то дорелизных версиях). Позже реализованный в ksh механизм работы с задачами (jobs) был добавлен в bash.</p>
+<p><strong>1989, Born Again Shell (bash)</strong> - первый релиз того самого шелла. Разрабатывался сначала Ричардлом Столлманом, потом Брайном Фоксом. bash совместил лучшее из sh и csh, привнес свое и стал популярен в том числе благодаря Линусу Торвальдсу, который запустил bash одной из первых программ на своем новом ядре.</p>
+<p><strong>1989, Almquist shell (ash)</strong> - Kenneth Almquist выпустил первую версию легковесного шелла совместимого с Bourne Shell. ash пришел на замену sh в BSD версиях Unix. Основным плюсом была его малый размер и скорость работы и конечно совместимость с sh.</p>
+<p><strong>1990, Z Shell (zsh)</strong> - разработан Паулем Фалстадом (Paul Falstad). Кратко - это bash с кучей улучшений: история выполненных команд шарится между сессиями, программируемое автодополнение команд, коррекция опечаток (это все конечно уже в настоящее время).</p>
+<p><strong>1997, 2002, Debian Almquist shell (dash)</strong> - в 1997 Herbert Xu портирует код из NetBSD в Debian Linux, а в 2002 происходит переимнование в dash.</p>
+<p><strong>2001</strong> - код ash <a href="https://git.busybox.net/busybox/commit/shell/ash.c?id=cb57d551a207198fabdb8c46f96e6a0932143923" target="_blank" rel="noopener">добавлен</a> в Busybox (это минимальный набор unix-утилит в одном бинарнике).</p>
+<p><strong>2005, Friendly interactive shell (fish)</strong> - начал разрабатываться Акселем Лильенкранцем. Расширенное автодополнение, подсветка синтаксиса и другие улучшения  нацеленные именно на удобство пользователя.</p>
+<p><strong>2006</strong> - dash становится дефолтным шелом /bin/sh в дистрибутивах Ubuntu и Debian — вот так из 1980’ых в 2000’ые ash попал как базовый скриптовый шелл в одни из самых популярных дистрибутивов Linux.</p>
+<p>Многие шеллы завершили разработку, но в них были разработаны фичи, которые  перенесли в более популярных реализации. С этой стороны, глобально, разработка каждого шелла в чем-то способствовала общему развитию.</p>
+<p> </p>
+<p>Дальше более подробно рассмотрим современную реализацию ash. По скриптовым возможностям ash совместим с bash, но по функционалу (особенно интерактивному) гораздо меньше — поэтому изучив ash, изучим основу bash.</p>
+<h2 id="Ссылки">Ссылки</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Thompson_shell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Thompson_shell</a></li>
+<li><a href="https://en.wikipedia.org/wiki/PWB_shell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/PWB_shell</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bourne_shell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Bourne_shell</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Bash_(Unix_shell)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Almquist_shell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Almquist_shell</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Z_shell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Z_shell</a></li>
+<li><a href="https://en.wikipedia.org/wiki/KornShell" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/KornShell</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ken_Thompson" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Ken_Thompson</a></li>
+<li><a href="https://en.wikipedia.org/wiki/John_Mashey" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/John_Mashey</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Stephen_R._Bourne" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Stephen_R._Bourne</a></li>
+<li><a href="https://en.wikipedia.org/wiki/The_Unix_Programming_Environment" target="_blank" rel="noopener">The Unix Programming Environment</a> by <a href="https://en.wikipedia.org/wiki/Brian_Kernighan" target="_blank" rel="noopener">Brian Kernighan</a> and <a href="https://en.wikipedia.org/wiki/Rob_Pike" target="_blank" rel="noopener">Rob Pike</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Version_7_Unix" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Version_7_Unix</a></li>
+<li><a href="http://gondor.apana.org.au/~herbert/dash/" target="_blank" rel="noopener">Dash by Herbert Xu</a></li>
+<li><a href="https://ru.wikipedia.org/wiki/BusyBox" target="_blank" rel="noopener">https://ru.wikipedia.org/wiki/BusyBox</a></li>
+<li><a href="https://wiki.ubuntu.com/DashAsBinSh" target="_blank" rel="noopener">https://wiki.ubuntu.com/DashAsBinSh</a></li>
+</ul>
+<hr />
+<p><a href="/toc#linux-tools">Все статьи серии “Linux Tools”</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+
+      
+
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-tools/" rel="tag">linux-tools</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/linux-first-boot-mbr/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Предыдущий</strong>
+      <div class="article-nav-title">Linux First: Загрузка ядра</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+      </div>
+      <footer id="footer">
+
+
+
+  
+    <aside id="sidebar" class="outer">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Метки</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/boot/" rel="tag">boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grub/" rel="tag">grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/initrd/" rel="tag">initrd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-first/" rel="tag">linux-first</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-tools/" rel="tag">linux-tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mbr/" rel="tag">mbr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/" rel="tag">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Облако меток</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/boot/" style="font-size: 10px;">boot</a> <a href="/tags/grub/" style="font-size: 10px;">grub</a> <a href="/tags/initrd/" style="font-size: 10px;">initrd</a> <a href="/tags/kernel/" style="font-size: 15px;">kernel</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/linux-first/" style="font-size: 15px;">linux-first</a> <a href="/tags/linux-tools/" style="font-size: 10px;">linux-tools</a> <a href="/tags/mbr/" style="font-size: 10px;">mbr</a> <a href="/tags/qemu/" style="font-size: 10px;">qemu</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Архив</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">декабрь 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">май 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Недавние записи</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/linux-tools-shells-part-1-historical/">Linux Tools: shells, часть 1 - историческая</a>
+          </li>
+        
+          <li>
+            <a href="/linux-first-boot-mbr/">Linux First: Загрузка ядра</a>
+          </li>
+        
+          <li>
+            <a href="/linux-first-shortly-about-kernel/">Linux First: Кратко о linux-ядре</a>
+          </li>
+        
+          <li>
+            <a href="/start/">start</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 alekzonder<br>
+      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">главная</a>
+  
+    <a href="/toc" class="mobile-nav-link">оглавление</a>
+  
+    <a href="/archives" class="mobile-nav-link">архив</a>
+  
+    <a href="https://t.me/rootaround" target="_blank" rel="noopener" class="mobile-nav-link">telegram</a>
+  
+    <a href="https://twitter.com/root_around" target="_blank" rel="noopener" class="mobile-nav-link">twitter</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
