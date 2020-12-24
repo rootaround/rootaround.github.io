@@ -59,11 +59,11 @@
     
       <category term="linux-first" scheme="https://rootaround.github.io/tags/linux-first/"/>
     
-      <category term="kernel" scheme="https://rootaround.github.io/tags/kernel/"/>
-    
       <category term="boot" scheme="https://rootaround.github.io/tags/boot/"/>
     
       <category term="mbr" scheme="https://rootaround.github.io/tags/mbr/"/>
+    
+      <category term="kernel" scheme="https://rootaround.github.io/tags/kernel/"/>
     
       <category term="grub" scheme="https://rootaround.github.io/tags/grub/"/>
     
