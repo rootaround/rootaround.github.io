@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="yandex-verification" content="377f121897ba8c7a" />
+  
+  <title>Linux Tools: shells, часть 2 - ash startup, ash arguments | root around</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ash - это минималистичный shell, который предоставляет меньше удобств по сравнению с bash, но по функционалу для скриптинга совместим с bash.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Tools: shells, часть 2 - ash startup, ash arguments">
+<meta property="og:url" content="https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/index.html">
+<meta property="og:site_name" content="root around">
+<meta property="og:description" content="ash - это минималистичный shell, который предоставляет меньше удобств по сравнению с bash, но по функционалу для скриптинга совместим с bash.">
+<meta property="og:locale" content="ru_RU">
+<meta property="article:published_time" content="2020-12-24T12:21:00.000Z">
+<meta property="article:modified_time" content="2020-12-25T06:34:55.149Z">
+<meta property="article:author" content="alekzonder">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="linux-tools">
+<meta property="article:tag" content="shell">
+<meta property="article:tag" content="ash">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="root around" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500i,700" rel="stylesheet">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-107925287-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter46241478 = new Ya.Metrika({
+                    id:46241478,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/37993695" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">root around</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">многосерийные linux-раскопки и не только</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">главная</a>
+        
+          <a class="main-nav-link" href="/toc">оглавление</a>
+        
+          <a class="main-nav-link" href="/archives">архив</a>
+        
+          <a class="main-nav-link" href="https://t.me/rootaround" target="_blank" rel="noopener">telegram</a>
+        
+          <a class="main-nav-link" href="https://twitter.com/root_around" target="_blank" rel="noopener">twitter</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rootaround.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2020-12-linux-tools-shells-part-2-ash-startup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020-12-linux-tools-shells-part-2-ash-startup/" class="article-date">
+  <time datetime="2020-12-24T12:21:00.000Z" itemprop="datePublished">2020-12-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux Tools: shells, часть 2 - ash startup, ash arguments
+    </h1>
+  
+
+      </header>
+    
+
+    <!-- <div class="article-entry article-nav-title">4 min. read</div> -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ash - это минималистичный shell, который предоставляет меньше удобств по сравнению с bash, но по функционалу для скриптинга совместим с bash.</p>
+<a id="more"></a>
+<p>В статье <a href="/linux-first-boot-mbr">“Linux First: Загрузка ядра”</a> мы уже использовали ash в качестве login shell и пришло время разобраться подробнее с режимами запуска и аргументами.</p>
+<p>Документации на ash в busybox нет, поэтому смотреть можно доку на dash —  <a href="https://man7.org/linux/man-pages/man1/dash.1.html" target="_blank" rel="noopener">https://man7.org/linux/man-pages/man1/dash.1.html</a>, тем более что сейчас в busybox за основу взята именно <a href="https://git.busybox.net/busybox/tree/shell/ash.c#n28" target="_blank" rel="noopener">эта версия</a>.</p>
+<h2 id="Interactive-shell">Interactive shell</h2>
+<p>Шелл может быть запущен в интерактивным и неинтерактивном режимах. По умолчанию ash запускается в  интерактивном режиме, принудительно можно включить режим опцией <code>-i</code>. В этом режиме команды ожидаются из stdin - стандартного input потока.</p>
+<p>Пара слов про потоки (streams), каждый linux-процесс имеет три потока: stdin, stdout, stderr.</p>
+<ul>
+<li>из <strong>stdin</strong> можно читать входные данные, например, другой команды. Упрощенно - через stdin передается ввод команд с клавиатуры  в интерактивном режиме;</li>
+<li>в <strong>stdout</strong> процесс пишет свой вывод, результаты;</li>
+<li>в <strong>stderr</strong> должны записываться сообщения об ошибках и отладке.</li>
+</ul>
+<p>Подробнее с потоками и дескрипторами разбираться будем в серии Linux First.</p>
+<p>Интерактивный режим позволяет вводить, редактировать и выполнять команды снова, видеть ошибки выполнения команд, в общем напрямую взаимодействовать с системой.</p>
+<h2 id="Запуск-shell-скриптов-non-interactive-shell">Запуск shell-скриптов - non-interactive shell</h2>
+<p>Противоположность интерактивному режиму - запуск скриптов с помощью ash, это режим включается при указании пути к скрипту или аргумента <code>-c</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ash ./test.sh</span><br><span class="line"></span><br><span class="line">$ ash -c <span class="string">'echo 100500'</span></span><br></pre></td></tr></table></figure>
+<p>С этим режимом связано довольно много аргументов ash, помогающих разрабатывать скрипты.</p>
+<h4 id="noexec-аргумент-n">noexec - аргумент <code>-n</code></h4>
+<p>Проверка скрипта без выполнения команд. Работает только при выполнении файла-скрипта, но <strong>не</strong> работает при указании команд через <code>-c</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat test.sh</span><br><span class="line"><span class="built_in">echo</span> 123 &amp;&amp; <span class="built_in">exit</span> 0</span><br><span class="line"></span><br><span class="line">$ ash test.sh</span><br><span class="line">123</span><br><span class="line"></span><br><span class="line">$ ash -n test.sh</span><br></pre></td></tr></table></figure>
+<p>У последней команды не будет никакого вывода, потому что указан аргумент <code>-n</code> и команды echo и exit не будет выполнены, но в случае именно ошибки синтаксиса выведется текст ошибки и ненулевой exit code.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ cat test.sh</span><br><span class="line">&amp; <span class="built_in">echo</span> 123 &amp;&amp; <span class="built_in">exit</span> 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># '&amp;' в начале это ошибка в shell-скрипте</span></span><br><span class="line"></span><br><span class="line">$ ash -n test.sh</span><br><span class="line">./test.sh: line 1: syntax error: unexpected <span class="string">"&amp;"</span></span><br></pre></td></tr></table></figure>
+<p>Конечно этот режим не проверяет наличие самих команд, но для проверки синтаксиса удобно.</p>
+<h4 id="verbose-аргумент-v">verbose - аргумент <code>-v</code></h4>
+<p>В stderr будет записано все что ash читает в процессе работы.</p>
+<p>Например, в login-режиме (про него далее) читается файл <code>$HOME/.profile</code> и выполняются команды из него – с опцией <code>-v</code> все содержимое <code>.profile</code> будет записано в stderr для отладки.</p>
+<h4 id="xtrace-аргумент-x">xtrace - аргумент <code>-x</code></h4>
+<p>С этим аргументом каждая выполняемая команда будет записано в stderr</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ cat test.sh</span><br><span class="line"><span class="built_in">echo</span> 123 &amp;&amp; <span class="built_in">exit</span> 0</span><br><span class="line"></span><br><span class="line">$ ash -x test.sh</span><br><span class="line">+ <span class="built_in">echo</span> 123</span><br><span class="line">123</span><br><span class="line">+ <span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+<p>Вообще все опции включатся через <code>-</code> , а выключаются через <code>+</code> <em>// кажется что нелогично и должно быть наоборот</em></p>
+<p>В интерактивном режиме тоже можно включать опции с помощью builtin-команды set</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ <span class="built_in">set</span> -x</span><br><span class="line"></span><br><span class="line"><span class="comment"># xtrace ВКЛючен</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">set</span> +x</span><br><span class="line"></span><br><span class="line"><span class="comment"># xtrace ВЫКЛючен</span></span><br></pre></td></tr></table></figure>
+<h4 id="errexit-аргумент-e">errexit - аргумент <code>-e</code></h4>
+<p>С <code>-e</code> все непротестированные команды (без проверки exit-кода через <code>if</code>, <code>elif</code>) будут приводить к завершению скрипта.</p>
+<p>Для примера рассмотрим скрипт с листингом несуществующей директории.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ cat test.sh</span><br><span class="line">ls /none; <span class="built_in">echo</span> <span class="string">'good'</span></span><br><span class="line"></span><br><span class="line">$ ash test.sh</span><br><span class="line">ls: /none: No such file or directory</span><br><span class="line">good</span><br><span class="line">$ <span class="built_in">echo</span> $?</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p>При обычном запуске команды <code>ls</code> и <code>echo</code> выполняются независимо друг от друга и <code>echo</code> будет выполнено после <code>ls</code> <em>// конечно в данном случае нужно использовать <code>&amp;&amp;</code>, но об этом в следующих статьях</em></p>
+<p>С аргументом <code>-e</code> выход из скрипта произойдет после <code>ls</code> и скрипт завершится с ненулевым exit-кодом.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ ash -e test.sh</span><br><span class="line">ls: /none: No such file or directory</span><br><span class="line">$ <span class="built_in">echo</span> $?</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>Еще один полезный момент — передача параметров при запуске скрипта. Все аргументы после указания пути к скрипту считаются позиционными аргументами и могут быть почитаны в скрипте из переменных $1, $2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat test.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$1</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$11</span></span><br><span class="line"></span><br><span class="line">$ ash test.sh 1 2 3 4 5 6 7 8 9 10 11</span><br><span class="line">1</span><br><span class="line">11</span><br></pre></td></tr></table></figure>
+<p>Отдельно стоит отметить $0 - это переменная содержит путь к скрипту</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat test.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$0</span></span><br><span class="line"></span><br><span class="line">$ ash ./test.sh</span><br><span class="line">./test.sh</span><br></pre></td></tr></table></figure>
+<h2 id="login-shell">login shell</h2>
+<p>Еще одним режимом запуска является login, включается опцией <code>-l</code> или передачей первым аргументом символа <code>-</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ ash -l</span><br><span class="line"></span><br><span class="line">$ ash -</span><br></pre></td></tr></table></figure>
+<p>Работает в interactive и non-interactive режимах.</p>
+<p>Смысл режима инициализировать окружение для пользователя. В login-режиме ash ищет и выполняет shell-скрипты <code>/etc/profile</code> и <code>$HOME/.profile</code>. Если в этих файлах указать и экспортировать переменную ENV, в которой указать путь к файлу, его содержимое также будет обработано и выполнено как shell-скрипт на этапе запуска.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENV&#x3D;$HOME&#x2F;.shinit; export ENV</span><br></pre></td></tr></table></figure>
+<h2 id="Arguments">Arguments</h2>
+<p>Для полноты картины пройдемся по всем аргументам командной строки</p>
+<h4 id="a"><code>-a</code></h4>
+<p>allexport</p>
+<p>Экспорт env-переменных <em>// не увидел разницы с обычным режимом, все назначенные переменные окружения и так видны внутри shell при запуске</em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ env -i TEST=100 ash -c <span class="string">'echo $TEST'</span></span><br><span class="line">100</span><br><span class="line"></span><br><span class="line">$ env -i TEST=100 ash -a -c <span class="string">'echo $TEST'</span></span><br><span class="line">100</span><br></pre></td></tr></table></figure>
+<h4 id="c"><code>-c</code></h4>
+<p>Режим выполнения команд мы уже разобрали чуть раньше, выполняет команды указанные после аргумента</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ash -c <span class="string">'echo 100500'</span></span><br><span class="line">100500</span><br></pre></td></tr></table></figure>
+<h4 id="C"><code>-C</code></h4>
+<p>noclobber <em>// не колошматить :)</em></p>
+<p>тут речь про оператор <code>&gt;</code> при записи в файл, по умолчанию этот оператор создает или перезаписывает содержимое файла, аргумент <code>-C</code> меняет это поведение — если файл уже существует, произойдет ошибка.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># скрипт записывает значение первого аргумента в файл</span></span><br><span class="line">$ cat test.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$1</span> &gt; tmp.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># выполняем</span></span><br><span class="line">$ ash test.sh 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># в файл записано 100</span></span><br><span class="line">$ cat tmp.txt</span><br><span class="line">100</span><br><span class="line"></span><br><span class="line"><span class="comment"># выполняем еще раз</span></span><br><span class="line">$ ash test.txt 101</span><br><span class="line"></span><br><span class="line"><span class="comment"># файл перезаписан со значением 101</span></span><br><span class="line">$ cat tmp.txt</span><br><span class="line">101</span><br><span class="line"></span><br><span class="line"><span class="comment"># выполняем c аргументом -C - получаем ошибку</span></span><br><span class="line">$ ash -C test.txt 102</span><br><span class="line">test.sh: line 1: can<span class="string">'t create test.txt: File exists</span></span><br></pre></td></tr></table></figure>
+<h4 id="e"><code>-e</code></h4>
+<p>errexit</p>
+<p>Этот аргумент рассмотрели выше — выход из скрипта, если команда завершается с ненулевым exit-кодом и не обработана условиями типа <code>if</code></p>
+<h4 id="f"><code>-f</code></h4>
+<p>noglob</p>
+<p>В шеллах существует прекрасная штука - file globbing - это возможность указывать путь к файлам не полностью, а, например, через wildcard — <code>cat *.txt</code> — вывести на экран все файлы с расширением txt.</p>
+<p>Так вот опция <code>-f</code> отключает file globbing для выполняемого скрипта.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ cat test.sh</span><br><span class="line"><span class="comment"># this is script</span></span><br><span class="line">cat *.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># выводит все файлы с расширением sh</span></span><br><span class="line">$ ash test.sh</span><br><span class="line"><span class="comment"># this is script</span></span><br><span class="line">cat *.sh</span><br><span class="line"></span><br><span class="line">file globbing отключен - *.sh интерпретируется как имя файла</span><br><span class="line">$ ash -f test.sh</span><br><span class="line">cat: can<span class="string">'t open '</span>*.sh<span class="string">': No such file or directory</span></span><br></pre></td></tr></table></figure>
+<h4 id="n"><code>-n</code></h4>
+<p>noexec</p>
+<p>Не выполняет команды, удобно для проверки синтаксиса</p>
+<h4 id="u"><code>-u</code></h4>
+<p>nounset</p>
+<p>Завершать скрипт с ошибкой если происходит обращение к переменной, которая не определена.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ cat test.sh</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SOME</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># скрипт успешно выполнен, хотя переменная SOME не определена</span></span><br><span class="line">$ ash test.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># с аргументом -u присходит ошибка</span></span><br><span class="line">$ ash -u test.sh</span><br><span class="line">test.sh: line 1: SOME: parameter not <span class="built_in">set</span></span><br></pre></td></tr></table></figure>
+<h4 id="v"><code>-v</code></h4>
+<p>verbose</p>
+<p>Выводит в stderr все shell-файлы, которые ash читает и выполняет</p>
+<h4 id="x"><code>-x</code></h4>
+<p>xtrace</p>
+<p>Выводит в stderr все команды, которые ash выполняет</p>
+<h4 id="I"><code>-I</code></h4>
+<p>ignoreeof</p>
+<p>Игнорирует EOF (символы конца строки) из stdin</p>
+<p><em>// Пока не очень понятно зачем это нужно, но работает так</em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># echo передает EOF (/n) после строки и скрипт выводит содержимое файла скриптов</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'cat *.sh'</span> | ash</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$SOME</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># с -I конец строки игнорируется и будет ошибка</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'cat *.sh'</span> | ash -I</span><br><span class="line">Use <span class="string">"exit"</span> to leave shell.</span><br><span class="line"></span><br><span class="line">Use <span class="string">"exit"</span> to leave shell.</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h4 id="i"><code>-i</code></h4>
+<p>interactive</p>
+<p>принудительно включается интерактивный режим</p>
+<h4 id="l"><code>-l</code></h4>
+<p>login</p>
+<p>Включает login-режим</p>
+<h4 id="m"><code>-m</code></h4>
+<p>monitor</p>
+<p>включает job control, автоматически включается в интерактивном режиме,  видимо позволяет включать работу с jobs в скриптах <em>// рассмотрим позже, но уже интересно — можно запустить задачу фоном в скрипте, а потом проконтролировать ее и завершить скрипт</em></p>
+<h4 id="s"><code>-s</code></h4>
+<p>stdin</p>
+<p>читать скрипт из stdin. Если не указан путь к скрипту, то включено.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'date'</span> | ash</span><br><span class="line">Fri Dec 24 00:38:31 UTC 2020</span><br><span class="line"></span><br><span class="line"><span class="comment"># идентично c -s</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'date'</span> | ash -s</span><br><span class="line">Fri Dec 24 00:38:31 UTC 2020</span><br><span class="line"></span><br><span class="line"><span class="comment"># но не работает если указан скрипт</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'date'</span> | ash -s test.sh</span><br><span class="line"><span class="comment"># test script commands</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># при этом выполняются обе команды с -c и -s</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'date'</span> | ash -s -c <span class="string">'date'</span></span><br><span class="line">Fri Dec 24 00:38:31 UTC 2020</span><br><span class="line">Fri Dec 24 00:38:31 UTC 2020</span><br></pre></td></tr></table></figure>
+<p> </p>
+<p>Сегодня разобрали запуск ash, режимы и аргументы, в следующих статьях начнем разбирать возможности скриптов, синтаксис и команды.</p>
+<h2 id="Ссылки">Ссылки</h2>
+<ul>
+<li><a href="https://man7.org/linux/man-pages/man1/dash.1.html" target="_blank" rel="noopener">https://man7.org/linux/man-pages/man1/dash.1.html</a></li>
+</ul>
+<hr />
+<p><a href="/toc#linux-tools">Все статьи серии “Linux Tools”</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+
+      
+
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ash/" rel="tag">ash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-tools/" rel="tag">linux-tools</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020-12-linux-tools-shells-part-1-historical/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Предыдущий</strong>
+      <div class="article-nav-title">Linux Tools: shells, часть 1 - историческая</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+      </div>
+      <footer id="footer">
+
+
+
+  
+    <aside id="sidebar" class="outer">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Метки</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ash/" rel="tag">ash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/boot/" rel="tag">boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grub/" rel="tag">grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/initrd/" rel="tag">initrd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-first/" rel="tag">linux-first</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-tools/" rel="tag">linux-tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mbr/" rel="tag">mbr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/" rel="tag">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Облако меток</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ash/" style="font-size: 10px;">ash</a> <a href="/tags/boot/" style="font-size: 10px;">boot</a> <a href="/tags/grub/" style="font-size: 10px;">grub</a> <a href="/tags/initrd/" style="font-size: 10px;">initrd</a> <a href="/tags/kernel/" style="font-size: 15px;">kernel</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/linux-first/" style="font-size: 15px;">linux-first</a> <a href="/tags/linux-tools/" style="font-size: 15px;">linux-tools</a> <a href="/tags/mbr/" style="font-size: 10px;">mbr</a> <a href="/tags/qemu/" style="font-size: 10px;">qemu</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Архив</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">декабрь 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">май 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Недавние записи</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020-12-linux-tools-shells-part-2-ash-startup/">Linux Tools: shells, часть 2 - ash startup, ash arguments</a>
+          </li>
+        
+          <li>
+            <a href="/2020-12-linux-tools-shells-part-1-historical/">Linux Tools: shells, часть 1 - историческая</a>
+          </li>
+        
+          <li>
+            <a href="/linux-first-boot-mbr/">Linux First: Загрузка ядра</a>
+          </li>
+        
+          <li>
+            <a href="/linux-first-shortly-about-kernel/">Linux First: Кратко о linux-ядре</a>
+          </li>
+        
+          <li>
+            <a href="/start/">start</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 alekzonder<br>
+      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">главная</a>
+  
+    <a href="/toc" class="mobile-nav-link">оглавление</a>
+  
+    <a href="/archives" class="mobile-nav-link">архив</a>
+  
+    <a href="https://t.me/rootaround" target="_blank" rel="noopener" class="mobile-nav-link">telegram</a>
+  
+    <a href="https://twitter.com/root_around" target="_blank" rel="noopener" class="mobile-nav-link">twitter</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
