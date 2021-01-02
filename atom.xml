@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://rootaround.github.io/"/>
-  <updated>2020-12-25T06:38:59.754Z</updated>
+  <updated>2021-01-02T16:40:53.268Z</updated>
   <id>https://rootaround.github.io/</id>
   
   <author>
@@ -17,11 +17,61 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Linux Tools: shells, часть 2 - ash startup, ash arguments</title>
+    <title>Linux Tools: shells, часть 4 - ash syntax, redirections</title>
+    <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/"/>
+    <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/</id>
+    <published>2021-01-02T13:22:00.000Z</published>
+    <updated>2021-01-02T16:40:53.268Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Продолжаем про ash и простые команды, сегодня разберемся с потоками и перенаправлением потоков процесса.&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="linux" scheme="https://rootaround.github.io/tags/linux/"/>
+    
+      <category term="linux-tools" scheme="https://rootaround.github.io/tags/linux-tools/"/>
+    
+      <category term="shell" scheme="https://rootaround.github.io/tags/shell/"/>
+    
+      <category term="ash" scheme="https://rootaround.github.io/tags/ash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux Tools: shells, часть 3 - ash syntax, simple commands</title>
+    <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/"/>
+    <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/</id>
+    <published>2020-12-29T13:12:00.000Z</published>
+    <updated>2021-01-02T16:40:53.267Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;В прошлой статье поговорили про запуск ash, в этой начнем разбираться с самым интересным - синтаксис и написание shell-скриптов. Для изучения продолжаем использовать ash из busybox.&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="linux" scheme="https://rootaround.github.io/tags/linux/"/>
+    
+      <category term="linux-tools" scheme="https://rootaround.github.io/tags/linux-tools/"/>
+    
+      <category term="shell" scheme="https://rootaround.github.io/tags/shell/"/>
+    
+      <category term="ash" scheme="https://rootaround.github.io/tags/ash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux Tools: shells, часть 2 - ash startup and arguments</title>
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/</id>
     <published>2020-12-24T12:21:00.000Z</published>
-    <updated>2020-12-25T06:38:59.754Z</updated>
+    <updated>2021-01-02T16:40:46.766Z</updated>
     
     <summary type="html">
     
@@ -46,7 +96,7 @@
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/</id>
     <published>2020-12-23T11:35:00.000Z</published>
-    <updated>2020-12-25T05:46:32.635Z</updated>
+    <updated>2021-01-02T16:40:46.765Z</updated>
     
     <summary type="html">
     
@@ -84,11 +134,11 @@
     
       <category term="linux-first" scheme="https://rootaround.github.io/tags/linux-first/"/>
     
-      <category term="kernel" scheme="https://rootaround.github.io/tags/kernel/"/>
-    
       <category term="boot" scheme="https://rootaround.github.io/tags/boot/"/>
     
       <category term="mbr" scheme="https://rootaround.github.io/tags/mbr/"/>
+    
+      <category term="kernel" scheme="https://rootaround.github.io/tags/kernel/"/>
     
       <category term="grub" scheme="https://rootaround.github.io/tags/grub/"/>
     
