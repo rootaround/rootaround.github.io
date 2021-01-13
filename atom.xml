@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://rootaround.github.io/"/>
-  <updated>2021-01-02T16:40:53.268Z</updated>
+  <updated>2021-01-13T03:35:56.417Z</updated>
   <id>https://rootaround.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Linux Tools: shells, часть 5 - ash syntax, complex commands, pipelines, conditions and loops</title>
+    <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-5-ash-complex-commands/"/>
+    <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-5-ash-complex-commands/</id>
+    <published>2021-01-13T01:00:00.000Z</published>
+    <updated>2021-01-13T03:35:56.417Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;В предыдущей статье изучили как работает перенаправление потоков, сегодня начнем разбираться как выполнять комбинации команд, но сперва обсудим какие могут быть команды.&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="linux" scheme="https://rootaround.github.io/tags/linux/"/>
+    
+      <category term="linux-tools" scheme="https://rootaround.github.io/tags/linux-tools/"/>
+    
+      <category term="shell" scheme="https://rootaround.github.io/tags/shell/"/>
+    
+      <category term="ash" scheme="https://rootaround.github.io/tags/ash/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linux Tools: shells, часть 4 - ash syntax, redirections</title>
     <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/"/>
     <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/</id>
     <published>2021-01-02T13:22:00.000Z</published>
-    <updated>2021-01-02T16:40:53.268Z</updated>
+    <updated>2021-01-13T03:17:34.852Z</updated>
     
     <summary type="html">
     
@@ -46,7 +71,7 @@
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/</id>
     <published>2020-12-29T13:12:00.000Z</published>
-    <updated>2021-01-02T16:40:53.267Z</updated>
+    <updated>2021-01-13T03:16:37.463Z</updated>
     
     <summary type="html">
     
@@ -71,7 +96,7 @@
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/</id>
     <published>2020-12-24T12:21:00.000Z</published>
-    <updated>2021-01-02T16:40:46.766Z</updated>
+    <updated>2021-01-13T03:17:04.660Z</updated>
     
     <summary type="html">
     
@@ -96,7 +121,7 @@
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/</id>
     <published>2020-12-23T11:35:00.000Z</published>
-    <updated>2021-01-02T16:40:46.765Z</updated>
+    <updated>2021-01-11T04:09:11.075Z</updated>
     
     <summary type="html">
     
