@@ -113,7 +113,7 @@
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/</id>
     <published>2020-12-24T12:21:00.000Z</published>
-    <updated>2021-06-16T09:29:11.445Z</updated>
+    <updated>2021-06-16T09:32:46.446Z</updated>
     
     
     <summary type="html">&lt;p&gt;ash - это минималистичный shell, который предоставляет меньше удобств по сравнению с bash, но по функционалу для скриптинга совместим с bash.&lt;/p&gt;</summary>
@@ -132,11 +132,11 @@
   </entry>
   
   <entry>
-    <title>Linux Tools: shells, - историческая часть</title>
+    <title>Linux Tools: shells - историческая часть</title>
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/</id>
     <published>2020-12-23T11:35:00.000Z</published>
-    <updated>2021-06-16T09:29:45.769Z</updated>
+    <updated>2021-06-16T09:32:25.485Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;em&gt;Shell, шелл, терминал, консоль, Command Line Interface, cli&lt;/em&gt; – по сути все это название командного интерпретатора, которые существует во всех операционных системах и позволяет посылать системе команды для выполнения, собирать эти команды в скрипты и выполнять уже наборы команд.&lt;/p&gt;</summary>
