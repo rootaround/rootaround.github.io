@@ -6,7 +6,7 @@
   <link href="https://rootaround.github.io/atom.xml" rel="self"/>
   
   <link href="https://rootaround.github.io/"/>
-  <updated>2021-06-16T09:10:24.181Z</updated>
+  <updated>2021-06-16T09:28:25.830Z</updated>
   <id>https://rootaround.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Linux Tools: shells, часть 6 - ash syntax, functions</title>
+    <title>Linux Tools: shells, ash #5 - ash syntax, functions</title>
     <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-6-ash-functions/"/>
     <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-6-ash-functions/</id>
     <published>2021-01-20T12:03:00.000Z</published>
-    <updated>2021-06-16T09:10:24.181Z</updated>
+    <updated>2021-06-16T09:28:25.830Z</updated>
     
     
     <summary type="html">&lt;p&gt;В прошлой статье прошли по сложным командам, циклам и условиям. Теперь усложняем. Что если нужно выполнять много сложных команд и еще хочется переиспользовать некоторые части команд?&lt;/p&gt;</summary>
@@ -40,11 +40,11 @@
   </entry>
   
   <entry>
-    <title>Linux Tools: shells, часть 5 - ash syntax, complex commands, pipelines, conditions and loops</title>
+    <title>Linux Tools: shells, ash #4 - ash syntax, complex commands, pipelines, conditions and loops</title>
     <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-5-ash-complex-commands/"/>
     <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-5-ash-complex-commands/</id>
     <published>2021-01-13T01:00:00.000Z</published>
-    <updated>2021-01-20T12:34:00.775Z</updated>
+    <updated>2021-06-16T09:28:40.212Z</updated>
     
     
     <summary type="html">&lt;p&gt;В предыдущей статье изучили как работает перенаправление потоков, сегодня начнем разбираться как выполнять комбинации команд, но сперва обсудим какие могут быть команды.&lt;/p&gt;</summary>
@@ -63,11 +63,11 @@
   </entry>
   
   <entry>
-    <title>Linux Tools: shells, часть 4 - ash syntax, redirections</title>
+    <title>Linux Tools: shells, ash #3 - ash syntax, redirections</title>
     <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/"/>
     <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/</id>
     <published>2021-01-02T13:22:00.000Z</published>
-    <updated>2021-01-13T03:17:34.852Z</updated>
+    <updated>2021-06-16T09:28:53.985Z</updated>
     
     
     <summary type="html">&lt;p&gt;Продолжаем про ash и простые команды, сегодня разберемся с потоками и перенаправлением потоков процесса.&lt;/p&gt;</summary>
@@ -86,11 +86,11 @@
   </entry>
   
   <entry>
-    <title>Linux Tools: shells, часть 3 - ash syntax, simple commands</title>
+    <title>Linux Tools: shells, ash #2 - ash syntax, simple commands</title>
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/</id>
     <published>2020-12-29T13:12:00.000Z</published>
-    <updated>2021-01-13T03:16:37.463Z</updated>
+    <updated>2021-06-16T09:29:02.706Z</updated>
     
     
     <summary type="html">&lt;p&gt;В прошлой статье поговорили про запуск ash, в этой начнем разбираться с самым интересным - синтаксис и написание shell-скриптов. Для изучения продолжаем использовать ash из busybox.&lt;/p&gt;</summary>
@@ -109,11 +109,11 @@
   </entry>
   
   <entry>
-    <title>Linux Tools: shells, часть 2 - ash startup and arguments</title>
+    <title>Linux Tools: shells, ash #1 - ash startup and arguments</title>
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/</id>
     <published>2020-12-24T12:21:00.000Z</published>
-    <updated>2021-01-13T03:17:04.660Z</updated>
+    <updated>2021-06-16T09:29:11.445Z</updated>
     
     
     <summary type="html">&lt;p&gt;ash - это минималистичный shell, который предоставляет меньше удобств по сравнению с bash, но по функционалу для скриптинга совместим с bash.&lt;/p&gt;</summary>
@@ -132,11 +132,11 @@
   </entry>
   
   <entry>
-    <title>Linux Tools: shells, часть 1 - историческая</title>
+    <title>Linux Tools: shells, - историческая часть</title>
     <link href="https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/"/>
     <id>https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/</id>
     <published>2020-12-23T11:35:00.000Z</published>
-    <updated>2021-01-11T04:09:11.075Z</updated>
+    <updated>2021-06-16T09:29:45.769Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;em&gt;Shell, шелл, терминал, консоль, Command Line Interface, cli&lt;/em&gt; – по сути все это название командного интерпретатора, которые существует во всех операционных системах и позволяет посылать системе команды для выполнения, собирать эти команды в скрипты и выполнять уже наборы команд.&lt;/p&gt;</summary>

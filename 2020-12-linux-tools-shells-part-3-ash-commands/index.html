@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="yandex-verification" content="377f121897ba8c7a" />
   
-  <title>Linux Tools: shells, часть 3 - ash syntax, simple commands | root around</title>
+  <title>Linux Tools: shells, ash #2 - ash syntax, simple commands | root around</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="В прошлой статье поговорили про запуск ash, в этой начнем разбираться с самым интересным - синтаксис и написание shell-скриптов. Для изучения продолжаем использовать ash из busybox.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux Tools: shells, часть 3 - ash syntax, simple commands">
+<meta property="og:title" content="Linux Tools: shells, ash #2 - ash syntax, simple commands">
 <meta property="og:url" content="https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/index.html">
 <meta property="og:site_name" content="root around">
 <meta property="og:description" content="В прошлой статье поговорили про запуск ash, в этой начнем разбираться с самым интересным - синтаксис и написание shell-скриптов. Для изучения продолжаем использовать ash из busybox.">
 <meta property="og:locale" content="ru_RU">
 <meta property="article:published_time" content="2020-12-29T13:12:00.000Z">
-<meta property="article:modified_time" content="2021-01-13T03:16:37.463Z">
+<meta property="article:modified_time" content="2021-06-16T09:29:02.706Z">
 <meta property="article:author" content="alekzonder">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="linux-tools">
@@ -94,7 +94,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Linux Tools: shells, часть 3 - ash syntax, simple commands
+      Linux Tools: shells, ash #2 - ash syntax, simple commands
     </h1>
   
 
@@ -107,8 +107,8 @@
       
         <p>В прошлой статье поговорили про запуск ash, в этой начнем разбираться с самым интересным - синтаксис и написание shell-скриптов. Для изучения продолжаем использовать ash из busybox.</p>
 <span id="more"></span>
-<p>Предыдущая статья: <a href="/2020-12-linux-tools-shells-part-2-ash-startup/">shells, часть 2 - ash startup and arguments</a><br />
-Следующая статья: <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">shells, часть 4 - ash syntax, redirections</a></p>
+<p>Предыдущая статья: <a href="/2020-12-linux-tools-shells-part-2-ash-startup/">shells, ash #1 - ash startup and arguments</a><br />
+Следующая статья: <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">shells, ash #3 - ash syntax, redirections</a></p>
 <p>Тут нужно сделать небольшое отступление про стандарты. Существует стандарт POSIX 1003.2, который определяет много чего, но сейчас нам важно что он определяет как должна работать командная оболочка, какие команды должны существовать, как работать.</p>
 <p>Так вот ash практически ее поддерерживает судя по документации:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">... is in the process of being changed to conform</span><br><span class="line">with the POSIX 1003.2 and 1003.2a specifications for the shell.</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Only features designated by POSIX, plus a few Berkeley extensions,</span><br><span class="line">are being incorporated into this shell.</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
@@ -188,7 +188,7 @@
 <p> </p>
 <h1>=</h1>
 <p>Сегодня начали разбирать синтаксис и посмотрели как можно писать команды и аргументы с помощью кавычек, как формируется команда, как работать с переменными в общем и с переменными окружения в частности. В следующей статье разберемся как управлять перенаправлением потоков stdin, stdout и stderr с помощью redirection operators.</p>
-<p>Следующая статья: <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">shells, часть 4 - ash syntax, redirections</a></p>
+<p>Следующая статья: <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">shells, ash #3 - ash syntax, redirections</a></p>
 <p> </p>
 <h2 id="Ссылки">Ссылки</h2>
 <ul>
@@ -217,7 +217,7 @@
       <strong class="article-nav-caption">Следующий</strong>
       <div class="article-nav-title">
         
-          Linux Tools: shells, часть 4 - ash syntax, redirections
+          Linux Tools: shells, ash #3 - ash syntax, redirections
         
       </div>
     </a>
@@ -225,7 +225,7 @@
   
     <a href="/2020-12-linux-tools-shells-part-2-ash-startup/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Предыдущий</strong>
-      <div class="article-nav-title">Linux Tools: shells, часть 2 - ash startup and arguments</div>
+      <div class="article-nav-title">Linux Tools: shells, ash #1 - ash startup and arguments</div>
     </a>
   
 </nav>
@@ -283,23 +283,23 @@
       <ul>
         
           <li>
-            <a href="/2021-01-linux-tools-shells-part-6-ash-functions/">Linux Tools: shells, часть 6 - ash syntax, functions</a>
+            <a href="/2021-01-linux-tools-shells-part-6-ash-functions/">Linux Tools: shells, ash #5 - ash syntax, functions</a>
           </li>
         
           <li>
-            <a href="/2021-01-linux-tools-shells-part-5-ash-complex-commands/">Linux Tools: shells, часть 5 - ash syntax, complex commands, pipelines, conditions and loops</a>
+            <a href="/2021-01-linux-tools-shells-part-5-ash-complex-commands/">Linux Tools: shells, ash #4 - ash syntax, complex commands, pipelines, conditions and loops</a>
           </li>
         
           <li>
-            <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">Linux Tools: shells, часть 4 - ash syntax, redirections</a>
+            <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">Linux Tools: shells, ash #3 - ash syntax, redirections</a>
           </li>
         
           <li>
-            <a href="/2020-12-linux-tools-shells-part-3-ash-commands/">Linux Tools: shells, часть 3 - ash syntax, simple commands</a>
+            <a href="/2020-12-linux-tools-shells-part-3-ash-commands/">Linux Tools: shells, ash #2 - ash syntax, simple commands</a>
           </li>
         
           <li>
-            <a href="/2020-12-linux-tools-shells-part-2-ash-startup/">Linux Tools: shells, часть 2 - ash startup and arguments</a>
+            <a href="/2020-12-linux-tools-shells-part-2-ash-startup/">Linux Tools: shells, ash #1 - ash startup and arguments</a>
           </li>
         
       </ul>
