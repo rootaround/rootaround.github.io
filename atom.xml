@@ -6,7 +6,7 @@
   <link href="https://rootaround.github.io/atom.xml" rel="self"/>
   
   <link href="https://rootaround.github.io/"/>
-  <updated>2021-06-16T09:28:25.830Z</updated>
+  <updated>2021-06-16T13:41:56.955Z</updated>
   <id>https://rootaround.github.io/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Linux Tools: shells, ash #6 - environment variables</title>
+    <link href="https://rootaround.github.io/2021-06-linux-tools-shells-ash-6-environment-variables/"/>
+    <id>https://rootaround.github.io/2021-06-linux-tools-shells-ash-6-environment-variables/</id>
+    <published>2021-06-16T13:00:00.000Z</published>
+    <updated>2021-06-16T13:41:56.955Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Уже достаточно много раз говорили о переменных и environment-переменных , в этом разделе разберем встроенные переменные ash&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="linux" scheme="https://rootaround.github.io/tags/linux/"/>
+    
+    <category term="linux-tools" scheme="https://rootaround.github.io/tags/linux-tools/"/>
+    
+    <category term="shell" scheme="https://rootaround.github.io/tags/shell/"/>
+    
+    <category term="ash" scheme="https://rootaround.github.io/tags/ash/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linux Tools: shells, ash #5 - ash syntax, functions</title>
     <link href="https://rootaround.github.io/2021-01-linux-tools-shells-part-6-ash-functions/"/>
     <id>https://rootaround.github.io/2021-01-linux-tools-shells-part-6-ash-functions/</id>
     <published>2021-01-20T12:03:00.000Z</published>
-    <updated>2021-06-16T09:28:25.830Z</updated>
+    <updated>2021-06-16T10:36:23.289Z</updated>
     
     
     <summary type="html">&lt;p&gt;В прошлой статье прошли по сложным командам, циклам и условиям. Теперь усложняем. Что если нужно выполнять много сложных команд и еще хочется переиспользовать некоторые части команд?&lt;/p&gt;</summary>

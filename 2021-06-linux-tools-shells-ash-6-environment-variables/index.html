@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="yandex-verification" content="377f121897ba8c7a" />
+  
+  <title>Linux Tools: shells, ash #6 - environment variables | root around</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Уже достаточно много раз говорили о переменных и environment-переменных , в этом разделе разберем встроенные переменные ash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Tools: shells, ash #6 - environment variables">
+<meta property="og:url" content="https://rootaround.github.io/2021-06-linux-tools-shells-ash-6-environment-variables/index.html">
+<meta property="og:site_name" content="root around">
+<meta property="og:description" content="Уже достаточно много раз говорили о переменных и environment-переменных , в этом разделе разберем встроенные переменные ash">
+<meta property="og:locale" content="ru_RU">
+<meta property="article:published_time" content="2021-06-16T13:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-16T13:41:56.955Z">
+<meta property="article:author" content="alekzonder">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="linux-tools">
+<meta property="article:tag" content="shell">
+<meta property="article:tag" content="ash">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="root around" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500i,700" rel="stylesheet">
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">root around</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">главная</a>
+        
+          <a class="main-nav-link" href="/toc">оглавление</a>
+        
+          <a class="main-nav-link" href="/archives">архив</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="https://t.me/rootaround">telegram</a>
+        
+          <a class="main-nav-link" target="_blank" rel="noopener" href="https://twitter.com/root_around">twitter</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://rootaround.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2021-06-linux-tools-shells-ash-6-environment-variables" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021-06-linux-tools-shells-ash-6-environment-variables/" class="article-date">
+  <time datetime="2021-06-16T13:00:00.000Z" itemprop="datePublished">2021-06-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux Tools: shells, ash #6 - environment variables
+    </h1>
+  
+
+      </header>
+    
+
+    <!-- <div class="article-entry article-nav-title">2 min. read</div> -->
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Уже достаточно много раз говорили о переменных и environment-переменных , в этом разделе разберем встроенные переменные ash</p>
+<span id="more"></span>
+<p>Предыдущая статья: <a href="/2021-01-linux-tools-shells-part-6-ash-functions/">shells, ash #5 - ash functions</a></p>
+<h2 id="HOME">HOME</h2>
+<p>Домашняя директория пользователя и passwd файла, переменная устанавливается командой login и используется множеством разных команд, например, командой cd без параметров для перехода в домашнюю директорию пользователя</p>
+<p>Для проверки можно запустить ash без env-переменных от root пользователя и выполнить команду login</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## запускаем ash без env-параметров текущего shell и под root</span></span><br><span class="line"><span class="comment">## root - нужен для запуска login, </span></span><br><span class="line"><span class="comment">## иначе будет ошибка login: must be suid to work properly</span></span><br><span class="line">$ sudo env -i /usr/bin/ash</span><br><span class="line"></span><br><span class="line"><span class="comment">## далее одинарная решетка это prompt root пользователя</span></span><br><span class="line"><span class="comment"># env</span></span><br><span class="line">SHLVL=1</span><br><span class="line">PATH=/sbin:/usr/sbin:/bin:/usr/bin</span><br><span class="line">PWD=/home/ubuntu</span><br><span class="line"></span><br><span class="line"><span class="comment"># login -f ubuntu</span></span><br><span class="line"><span class="comment">## ...</span></span><br><span class="line">PATH=/home/ubuntu/bin:/home/ubuntu/.<span class="built_in">local</span>/bin:/data/bin:/bin:/usr/bin</span><br><span class="line">PWD=/home/ubuntu</span><br><span class="line">SHLVL=1</span><br><span class="line">USER=ubuntu</span><br><span class="line">HOME=/home/ubuntu</span><br><span class="line"><span class="comment">## ...</span></span><br></pre></td></tr></table></figure>
+<h2 id="PATH">PATH</h2>
+<p>Список директорий разделенный двоеточиями</p>
+<p>В этих директориях shell ищет программы, подробнее процесс поиска мы рассмотрели <a href="/2021-01-linux-tools-shells-part-5-ash-complex-commands/#command-types-programs">в статье с выполнением команд</a></p>
+<h2 id="CDPATH">CDPATH</h2>
+<p>Путь относительно которого работает команда cd</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># задаем CDPATH=/home/ubuntu</span></span><br><span class="line">$ <span class="built_in">export</span> CDPATH=/home/ubuntu</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span></span><br><span class="line">/home/ubuntu</span><br><span class="line"></span><br><span class="line"><span class="comment"># теперь все относительные пути без указания первого слэша</span></span><br><span class="line"><span class="comment"># будут считаться относительно /home/ubuntu</span></span><br><span class="line">$ <span class="built_in">cd</span> tmp</span><br><span class="line"><span class="comment"># мы в /home/ubuntu/tmp - если такая директория существует</span></span><br></pre></td></tr></table></figure>
+<h2 id="MAIL">MAIL</h2>
+<p>Следующие 3 env-переменных нужны для проверки почты, точнее в самом shell реализовано слежение за изменением в файле</p>
+<p>в MAIL может содержаться путь к файлу, за изменениями которого нужно следить</p>
+<h2 id="MAILCHECK">MAILCHECK</h2>
+<p>в MAILCHECK устанавливается время в секундах, через сколько нужно проверять файл или файлы указанные в MAIL или MAILPATH</p>
+<p>По умолчанию = 60</p>
+<p>Если поставить 0, то проверка будет происходит после каждого выполнения команды, В доке формулируется так “If set to 0, the check will occur at each prompt”, то есть при каждом показе  приглашения к вводу команды.</p>
+<h2 id="MAILPATH">MAILPATH</h2>
+<p>в MAILPATH через двоеточие <code>:</code> может быть указано несколько файлов, которые нужно проверять</p>
+<p>если указан MAILPATH, то MAIL игнорируется.</p>
+<p>работает это так</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ touch ~/mail.txt</span><br><span class="line">$ <span class="built_in">export</span> MAILPATH=/home/ubuntu/mail.txt</span><br><span class="line">$ <span class="built_in">export</span> MAILCHECK=5</span><br><span class="line"></span><br><span class="line"><span class="comment"># меняем файл, в случае почтовых программ они меняют файл </span></span><br><span class="line"><span class="comment"># и bash видимо умеет их парсить и выводить даже количество писем</span></span><br><span class="line">$ <span class="built_in">echo</span> 1 &gt;&gt; ~/mail.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># далее после выполнения команды или просто пустой строки ash выведет</span></span><br><span class="line">$</span><br><span class="line">you have mail</span><br><span class="line">$ </span><br><span class="line"><span class="comment"># то есть проверка происходит перед показом prompt</span></span><br></pre></td></tr></table></figure>
+<h2 id="PS1">PS1</h2>
+<p>Prompt String - это основная подсказка к вводу команды и по умолчанию для обычного пользователя это переменная равна  <code>$ </code> (доллар и пробел), для суперпользователя root <code># </code> (решетка и пробел)</p>
+<p>значение может содержать не специальные последовательности</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># например, по умолчанию PS1 в ash выводит еще и текущую директорию</span></span><br><span class="line"><span class="comment"># сейчас мы в домашней директории</span></span><br><span class="line">~ $</span><br><span class="line"></span><br><span class="line"><span class="comment"># а переменная равна </span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PS1</span></span><br><span class="line">\w \$</span><br></pre></td></tr></table></figure>
+<p>Подробнее про эти опции поговорим в статьях про bash</p>
+<h2 id="PS2">PS2</h2>
+<p>Подсказка ввода для многострочных команд. По умолчанию <code>&gt; </code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ (</span><br><span class="line">&gt; echo 123</span><br><span class="line">&gt; )</span><br><span class="line">123</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="PS3">PS3</h2>
+<p>Почему-то не описано в документации, возможно в ash не используется</p>
+<h2 id="PS4">PS4</h2>
+<p>В случае если включена трассировка опцией <code>-x</code>, перед каждой выполненной командой выводится значение PS4</p>
+<p>По умолчанию равно <code>+ </code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">set</span> -x</span><br><span class="line">$ <span class="built_in">echo</span> 1 ; <span class="built_in">echo</span> 2</span><br><span class="line">+ <span class="built_in">echo</span> 1</span><br><span class="line">1</span><br><span class="line">+ <span class="built_in">echo</span> 2</span><br><span class="line">2</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
+<h2 id="IFS">IFS</h2>
+<p>Input Field Separators</p>
+<p>Разделители при чтении и выводе параметров - подробнее разберем в следующей статье про Special Parameters (здесь будет ссылка на статью)</p>
+<h2 id="TERM">TERM</h2>
+<p>В переменной  содержится название текущего терминала, и используется программами для определения возможностей терминала, например, программа может определить поддерживает ли терминал цвета (xterm или xterm-256color)</p>
+<h2 id="HISTSIZE">HISTSIZE</h2>
+<p>Сколько команд хранить в истории shell’a (это переключение истории команд стрелками)</p>
+<p>По умолчанию равно 15</p>
+<h2 id="PWD">PWD</h2>
+<p>Текущая директория, эту переменную меняет команда cd</p>
+<h2 id="OLDPWD">OLDPWD</h2>
+<p>Предыдущая директория</p>
+<h2 id="PPID">PPID</h2>
+<p>ID  процесса текущего shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PPID</span></span><br><span class="line">1527</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="">=</h2>
+<p>В статье разобрали все возможные Environment Variables в ash, больше переменных и логики будет в bash</p>
+<p> </p>
+<p>Предыдущая статья: <a href="/2021-01-linux-tools-shells-part-6-ash-functions/">shells, ash #5 - ash functions</a></p>
+<p> </p>
+<h2 id="Ссылки">Ссылки</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man1/dash.1.html">https://man7.org/linux/man-pages/man1/dash.1.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man1/login.1.html">https://man7.org/linux/man-pages/man1/login.1.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mandober/enwars#mail">https://github.com/mandober/enwars#mail</a></li>
+<li><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/528323/what-uses-the-term-variable">https://unix.stackexchange.com/questions/528323/what-uses-the-term-variable</a></li>
+</ul>
+<p> </p>
+<hr />
+<p><a href="/toc#linux-tools">Все статьи серии “Linux Tools”</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+
+      
+
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ash/" rel="tag">ash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-tools/" rel="tag">linux-tools</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021-01-linux-tools-shells-part-6-ash-functions/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Предыдущий</strong>
+      <div class="article-nav-title">Linux Tools: shells, ash #5 - ash syntax, functions</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+      </div>
+      <footer id="footer">
+
+
+
+  
+    <aside id="sidebar" class="outer">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Метки</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ash/" rel="tag">ash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/boot/" rel="tag">boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grub/" rel="tag">grub</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/initrd/" rel="tag">initrd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-first/" rel="tag">linux-first</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux-tools/" rel="tag">linux-tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mbr/" rel="tag">mbr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/" rel="tag">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Облако меток</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ash/" style="font-size: 15px;">ash</a> <a href="/tags/boot/" style="font-size: 10px;">boot</a> <a href="/tags/grub/" style="font-size: 10px;">grub</a> <a href="/tags/initrd/" style="font-size: 10px;">initrd</a> <a href="/tags/kernel/" style="font-size: 12.5px;">kernel</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/linux-first/" style="font-size: 12.5px;">linux-first</a> <a href="/tags/linux-tools/" style="font-size: 17.5px;">linux-tools</a> <a href="/tags/mbr/" style="font-size: 10px;">mbr</a> <a href="/tags/qemu/" style="font-size: 10px;">qemu</a> <a href="/tags/shell/" style="font-size: 17.5px;">shell</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Архив</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">июнь 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">январь 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">декабрь 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">май 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Недавние записи</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021-06-linux-tools-shells-ash-6-environment-variables/">Linux Tools: shells, ash #6 - environment variables</a>
+          </li>
+        
+          <li>
+            <a href="/2021-01-linux-tools-shells-part-6-ash-functions/">Linux Tools: shells, ash #5 - ash syntax, functions</a>
+          </li>
+        
+          <li>
+            <a href="/2021-01-linux-tools-shells-part-5-ash-complex-commands/">Linux Tools: shells, ash #4 - ash syntax, complex commands, pipelines, conditions and loops</a>
+          </li>
+        
+          <li>
+            <a href="/2021-01-linux-tools-shells-part-4-ash-redirections/">Linux Tools: shells, ash #3 - ash syntax, redirections</a>
+          </li>
+        
+          <li>
+            <a href="/2020-12-linux-tools-shells-part-3-ash-commands/">Linux Tools: shells, ash #2 - ash syntax, simple commands</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 alekzonder<br>
+      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">главная</a>
+  
+    <a href="/toc" class="mobile-nav-link">оглавление</a>
+  
+    <a href="/archives" class="mobile-nav-link">архив</a>
+  
+    <a target="_blank" rel="noopener" href="https://t.me/rootaround" class="mobile-nav-link">telegram</a>
+  
+    <a target="_blank" rel="noopener" href="https://twitter.com/root_around" class="mobile-nav-link">twitter</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
