@@ -14,7 +14,7 @@
 <meta property="og:description" content="Уже достаточно много раз говорили о переменных и environment-переменных , в этом разделе разберем встроенные переменные ash">
 <meta property="og:locale" content="ru_RU">
 <meta property="article:published_time" content="2021-06-16T13:00:00.000Z">
-<meta property="article:modified_time" content="2021-06-16T13:41:56.955Z">
+<meta property="article:modified_time" content="2021-11-11T09:16:58.889Z">
 <meta property="article:author" content="alekzonder">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="linux-tools">
@@ -144,7 +144,7 @@
 <p>В случае если включена трассировка опцией <code>-x</code>, перед каждой выполненной командой выводится значение PS4</p>
 <p>По умолчанию равно <code>+ </code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">set</span> -x</span><br><span class="line">$ <span class="built_in">echo</span> 1 ; <span class="built_in">echo</span> 2</span><br><span class="line">+ <span class="built_in">echo</span> 1</span><br><span class="line">1</span><br><span class="line">+ <span class="built_in">echo</span> 2</span><br><span class="line">2</span><br><span class="line">$</span><br></pre></td></tr></table></figure>
-<h2 id="IFS">IFS</h2>
+<h2 id="a-id-IFS-href-IFS-a-IFS"><a id="IFS" href="#IFS">#</a> IFS</h2>
 <p>Input Field Separators</p>
 <p>Разделители при чтении и выводе параметров - подробнее разберем в следующей статье про Special Parameters (здесь будет ссылка на статью)</p>
 <h2 id="TERM">TERM</h2>
