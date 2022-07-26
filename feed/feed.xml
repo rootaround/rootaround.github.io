@@ -5,12 +5,25 @@
 	
 	<link href="https://rootaround.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://rootaround.github.io/"/>
-	<updated>2022-07-26T14:18:30Z</updated>
+	<updated>2022-07-26T22:40:00Z</updated>
 	<id>https://example.com/</id>
 	<author>
 		<name></name>
 		<email></email>
 	</author>
+	
+	<entry>
+		<title>Переехал с hexo на 11ly</title>
+		<link href="https://rootaround.github.io/posts/blog/202207262240/"/>
+		<updated>2022-07-26T22:40:00Z</updated>
+		<id>https://rootaround.github.io/posts/blog/202207262240/</id>
+		<content type="html">&lt;p&gt;Переехал с hexo на 11ly - &lt;a href=&quot;https://www.11ty.dev/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.11ty.dev/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Понадобилось, чтобы вести посты и вики в obsidian.&lt;/p&gt;
+&lt;p&gt;Почти из коробки завелись obsidian-ссылки вида &lt;code&gt;[[javascript]]&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Кроме  этого понравилась минималистичная тема базового шаблона и такой же подход eleventy к работе - по сути один конфиг на старте и один пакет, ничего лишнего.&lt;/p&gt;
+&lt;p&gt;Пробую, смотрю как летит.&lt;/p&gt;
+</content>
+	</entry>
 	
 	<entry>
 		<title></title>

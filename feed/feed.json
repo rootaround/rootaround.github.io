@@ -10,6 +10,12 @@
     "url": ""
   },
   "items": [{
+      "id": "https://rootaround.github.io/posts/blog/202207262240/",
+      "url": "https://rootaround.github.io/posts/blog/202207262240/",
+      "title": "Переехал с hexo на 11ly",
+      "content_html": "<p>Переехал с hexo на 11ly - <a href=\"https://www.11ty.dev/\" target=\"_blank\" rel=\"noopener\">https://www.11ty.dev/</a></p>\n<p>Понадобилось, чтобы вести посты и вики в obsidian.</p>\n<p>Почти из коробки завелись obsidian-ссылки вида <code>[[javascript]]</code>.</p>\n<p>Кроме  этого понравилась минималистичная тема базового шаблона и такой же подход eleventy к работе - по сути один конфиг на старте и один пакет, ничего лишнего.</p>\n<p>Пробую, смотрю как летит.</p>\n",
+      "date_published": "2022-07-26T22:40:00Z"
+    },{
       "id": "https://rootaround.github.io/toc/",
       "url": "https://rootaround.github.io/toc/",
       "title": "",
