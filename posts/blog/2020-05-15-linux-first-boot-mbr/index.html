@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux First: Загрузка ядра</title>
+    <meta
+    name="description" content="">
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="root around ⚒️">
+    <link
+    rel="alternate" href="/feed/feed.json" type="application/json" title="root around ⚒️">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+          (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t),
+        a = e.getElementsByTagName(t)[0],
+        k.async = 1,
+        k.src = r,
+        a.parentNode.insertBefore(k, a)
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym(46241478, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    </script>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/46241478" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+  <body>
+    <header>
+      
+      <h1 class="home">
+        <a href="/">root around ⚒️</a>
+      </h1>
+      <ul class="nav">
+          <li class="nav-item">
+            <a href="/">blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="/wiki/">wiki</a>
+          </li>
+        <li class="nav-item">
+          <a href="https://t.me/rootaround" target="_blank">telegram</a>
+        </li>
+      </ul>
+    </header>
+    <main  class="tmpl-post" >
+      
+<h1>Linux First: Загрузка ядра</h1>
+<time datetime="2020-05-15">15 May 2020</time>
+  <a href="/tags/linux/" class="post-tag">linux</a>
+  <a href="/tags/linux-first/" class="post-tag">linux-first</a>
+  <a href="/tags/boot/" class="post-tag">boot</a>
+  <a href="/tags/mbr/" class="post-tag">mbr</a>
+  <a href="/tags/kernel/" class="post-tag">kernel</a>
+  <a href="/tags/grub/" class="post-tag">grub</a>
+  <a href="/tags/qemu/" class="post-tag">qemu</a>
+  <a href="/tags/initrd/" class="post-tag">initrd</a>
+<p>После предыдущего поста <a href="/posts/blog/2020-05-13-linux-first-shortly-about-kernel/">“Кратко о linux-ядре”</a> есть общее представление как устроено ядро. Дальше поговорим про загрузку компьютера в общем и ядра в частности.</p>
+<p>Попутно создадим образ жесткого диска, на базе которого продолжим разбираться с linux в следующих статьях.</p>
+<!--more-->
+<h2 id="zagruzka-ot-vklyucheniya-pk-do-ustrojstva" tabindex="-1">Загрузка от включения ПК до устройства <a class="direct-link" href="#zagruzka-ot-vklyucheniya-pk-do-ustrojstva" aria-hidden="true">#</a></h2>
+<ul>
+<li>После включения код BIOS загружается в оперативную память (ОЗУ) из постоянной памяти (ПЗУ)</li>
+<li>После загрузки в ОЗУ код BIOS выполняет тест оборудования Power-On Self-Test (POST-тест)</li>
+<li>Читает настройки BIOS из ПЗУ</li>
+<li>Ищет и загружает в оперативную память код загрузчика</li>
+<li>Передает управление загрузчику</li>
+</ul>
+<p>Кроме этого BIOS предоставляет API для работы с устройствами еще до загрузки Операционной Системы</p>
+<p>Подробно останавливаться на этом этапе смысла нет,
+мы будем собирать образ диска с linux и загружать его используя эмулятор QEMU</p>
+<details><summary>Подробнее про QEMU</summary>
+<p><a href="https://www.qemu.org/" target="_blank" rel="noopener">https://www.qemu.org/</a></p>
+<p>Эмулятор аппаратных платформ, позволяет эмулировать разные процессоры.</p>
+<p>Мы будем использовать qemu для x86_64</p>
+</details>
+<h2 id="zagruzka-s-ustrojstva" tabindex="-1">Загрузка с устройства <a class="direct-link" href="#zagruzka-s-ustrojstva" aria-hidden="true">#</a></h2>
+<div class="info">
+<p>Все команды выполнялись на ubuntu 16.04</p>
+</div>
+<p>BIOS в зависимости от своих настроек выбирает устройство для загрузки или последовательно проверяет несколько устройств.</p>
+<p>в случае с QEMU это выглядит так:</p>
+<pre class="language-bash"><code class="language-bash">$ qemu-system-x86_64 <span class="token punctuation">\</span> <span class="token comment"># запускаем эмулятор с архитектурой x86_64</span><br>    -nographic <span class="token punctuation">\</span>       <span class="token comment"># весь вывод будет в консоль, иначе откроется gui-окно</span><br>    -m 128m            <span class="token comment"># оперативки будет 128 Мб - нам хватит</span><br><br><span class="token punctuation">..</span>.<br><br>Booting from Hard Disk<span class="token punctuation">..</span>.<br>Boot failed: could not <span class="token builtin class-name">read</span> the boot disk<br><br>Booting from Floppy<span class="token punctuation">..</span>.<br>Boot failed: could not <span class="token builtin class-name">read</span> the boot disk<br><br>Booting from DVD/CD<span class="token punctuation">..</span>.<br>Boot failed: Could not <span class="token builtin class-name">read</span> from CDROM <span class="token punctuation">(</span>code 0003<span class="token punctuation">)</span><br>Booting from ROM<span class="token punctuation">..</span>.<br><br><span class="token punctuation">..</span>.<br></code></pre>
+<div class="message">
+<p>Выход из QEMU по <code>CTRL+a x</code></p>
+</div>
+<p>Ни CDROM, ни диск не указан, поэтому и загрузки не происходит.</p>
+<p>Исправляем это и создаем маленький по современным меркам жесткий диск на 256 mb.</p>
+<p>Перед созданием образа стоит поговорить про стандарты таблиц разделов на диске. Сейчас их два:</p>
+<ul>
+<li>MBR (Main Boot Record) - старый стандарт таблицы разделов (из 1983 года)</li>
+<li>GPT (Guid Partition Table) - современный стандарт разделов, является частью стандарта EFI (Extensible Firmware Interface), разработанного Intel для замены BIOS</li>
+</ul>
+<p>Подробнее про стандарты будет ссылка в конце статьи. Сейчас сделаем образ с MBR, а как-нибудь в другой серии с GPT, потому что с ним все немного сложнее</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">dd</span> <span class="token assign-left variable">if</span><span class="token operator">=</span>/dev/zero <span class="token assign-left variable">of</span><span class="token operator">=</span>./mbr_hdd.img <span class="token assign-left variable">bs</span><span class="token operator">=</span>1024k <span class="token assign-left variable">count</span><span class="token operator">=</span><span class="token number">256</span><br><span class="token number">256</span>+0 records <span class="token keyword">in</span><br><span class="token number">256</span>+0 records out<br><span class="token number">268435456</span> bytes transferred <span class="token keyword">in</span> <span class="token number">0.362737</span> secs <span class="token punctuation">(</span><span class="token number">740027899</span> bytes/sec<span class="token punctuation">)</span></code></pre>
+<details><summary>немного про dd</summary>
+<p><code>dd</code> позволяет копировать файлы блоками заданного размера</p>
+<p>в данном случае мы копируем нули из /dev/zero блоками по 1024 килобайт (1Mb) 256 раз</p>
+<p>про dd и устройство файловой систему будем разбираться в следующих статьях</p>
+</details>
+<p>Если сразу попытаться подсунуть образ диска в qemu, то ничего не поменятся,
+так как на диске нет таблицы разделов, а только нули.</p>
+<p>Создаем один загрузочный linux-раздел, например, с помощью fdisk (или cfdisk или parted)</p>
+<p>Должно получиться так:</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">fdisk</span> -l ./mbr_hdd.img<br>Disk ./mbr_hdd.img: <span class="token number">256</span> MiB, <span class="token number">268435456</span> bytes, <span class="token number">524288</span> sectors<br>Units: sectors of <span class="token number">1</span> * <span class="token number">512</span> <span class="token operator">=</span> <span class="token number">512</span> bytes<br>Sector size <span class="token punctuation">(</span>logical/physical<span class="token punctuation">)</span>: <span class="token number">512</span> bytes / <span class="token number">512</span> bytes<br>I/O size <span class="token punctuation">(</span>minimum/optimal<span class="token punctuation">)</span>: <span class="token number">512</span> bytes / <span class="token number">512</span> bytes<br>Disklabel type: dos<br>Disk identifier: 0x00000000<br><br>Device         Boot Start    End Sectors  Size Id Type<br>./mbr_hdd.img1 *     <span class="token number">2048</span> <span class="token number">524287</span>  <span class="token number">522240</span>  255M <span class="token number">83</span> Linux</code></pre>
+<p>Теперь на диске есть таблица разделов, пробуем загружаться:</p>
+<pre class="language-bash"><code class="language-bash">$ qemu-system-x86_64 -nographic -m 128m <span class="token punctuation">\</span><br>  -boot c <span class="token punctuation">\</span>          <span class="token comment"># загружаться с жесткого диска</span><br>  -hda ./mbr_hdd.img <span class="token comment"># указываем образ первого жесткого диска</span><br><br><span class="token punctuation">..</span>.<br><br>Booting from Hard Disk<span class="token punctuation">..</span>.<br></code></pre>
+<p>У нас есть жесткий диск, на нем есть таблица разделов, есть загрузочный раздел - пришло время поговорить про загрузчики.</p>
+<h3 id="zagruzchik-bootloader" tabindex="-1">Загрузчик (bootloader) <a class="direct-link" href="#zagruzchik-bootloader" aria-hidden="true">#</a></h3>
+<p>Для linux по большому счету существует два загрузчика: LILO и GRUB.</p>
+<p>LILO считается устаревшим, он не умеет работать с файловыми системами и для его конфигурации нужно каждый раз обновлять загрузочную запись на диске. Его рассматривать не будем.</p>
+<p>GRUB умеет работать с разными файловыми системами, multiboot, grub-shell, консоль восстановления и много чего еще.</p>
+<p>Конфиги GRUB, архивы с ядрами и initrd можно смотреть и править в каталоге (разделе) <code>/boot</code>.</p>
+<p>Для начала нужно создать файловую систему в разделе нашего hdd.</p>
+<p>Для реальных hdd разделы диска будут отображатся с номерами в /dev и в выводе команды <code>lsblk</code> выглядят примерно так:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># lsblk показывает блочные устройства в системе</span><br><br>$ lsblk<br><br><span class="token punctuation">..</span>.<br>sda         <span class="token number">8</span>:0    <span class="token number">0</span>    10G  <span class="token number">0</span> disk<br>└─sda1      <span class="token number">8</span>:1    <span class="token number">0</span>    10G  <span class="token number">0</span> part /mnt<br><span class="token punctuation">..</span>.<br></code></pre>
+<p>Видим что примонтирован диск sda с одним разделом sda1.
+Для нашего образа диска нам нужно как-то подключить файл образа как устройство.</p>
+<p>Один из способов - команда <code>losetup</code>, с помощью нее можно подключать образы как блочные устройства.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">sudo</span> losetup <span class="token punctuation">\</span><br>    --find <span class="token punctuation">\</span>      <span class="token comment"># ищет свободный id для блочного устройства</span><br>    --partscan <span class="token punctuation">\</span>  <span class="token comment"># ищет на устройстве разделы, а нас как раз один раздел</span><br>    ./mbr_hdd.img<br><br>$ lsblk<br><br><span class="token punctuation">..</span>.<br>loop0       <span class="token number">7</span>:0    <span class="token number">0</span>  256M  <span class="token number">0</span> loop <span class="token comment"># видим наш диск с одним разделом</span><br>└─loop0p1 <span class="token number">259</span>:0    <span class="token number">0</span>  255M  <span class="token number">0</span> loop<br><span class="token punctuation">..</span>.<br></code></pre>
+<p>Теперь можем форматировать раздел в ext4:</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">sudo</span> mkfs.ext4 /dev/loop0p1<br><br><span class="token function">mke2fs</span> <span class="token number">1.42</span>.13 <span class="token punctuation">(</span><span class="token number">17</span>-May-2015<span class="token punctuation">)</span><br><span class="token punctuation">..</span>.<br>Writing superblocks and filesystem accounting information: <span class="token keyword">done</span><br></code></pre>
+<p>Примонтируем раздел и посмотрим что на нем есть.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">mkdir</span> /mnt/hdd               <span class="token comment"># создаем точку монтирования</span><br><br>$ <span class="token function">mount</span> /dev/loop0p1 /mnt/hdd  <span class="token comment"># монтируем раздел</span><br><br>$ <span class="token function">ls</span> -l /mnt/hdd               <span class="token comment"># внутри только lost+found</span><br><br>total <span class="token number">12</span><br>drwx------ <span class="token number">2</span> root root <span class="token number">12288</span> May <span class="token number">13</span> <span class="token number">16</span>:45 lost+found<br></code></pre>
+<p>Вот мы плавно и подошли к установке загрузчика - как говорил ранее, будем ставить grub.</p>
+<p>При установке загрузчик будет записывать файлы непосредственно в файловую систему и изменять MBR на самом диске.</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> grub-install <span class="token punctuation">\</span><br>    --root-directory<span class="token operator">=</span>/mnt/hdd <span class="token punctuation">\</span>  <span class="token comment"># тут нужно указывать полный путь до примонтированного раздела</span><br>     /dev/loop0                  <span class="token comment"># тут указываем сам диск, а не раздел</span><br><br>Installing <span class="token keyword">for</span> i386-pc platform.<br>Installation finished. No error reported.</code></pre>
+<p>На диске появилась директория <code>boot</code></p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">ls</span> -l /mnt/hdd/boot/grub/<br>total <span class="token number">12</span><br>drwxr-xr-x <span class="token number">2</span> root root <span class="token number">1024</span> May <span class="token number">13</span> <span class="token number">16</span>:50 fonts<br>-rw-r--r-- <span class="token number">1</span> root root <span class="token number">1024</span> May <span class="token number">13</span> <span class="token number">16</span>:50 grubenv<br>drwxr-xr-x <span class="token number">2</span> root root <span class="token number">9216</span> May <span class="token number">13</span> <span class="token number">16</span>:50 i386-pc<br>drwxr-xr-x <span class="token number">2</span> root root <span class="token number">1024</span> May <span class="token number">13</span> <span class="token number">16</span>:50 locale<br><br><span class="token comment"># а команда file говорит так</span><br>$ <span class="token function">file</span> mbr_hdd.img<br>mbr_hdd.img: DOS/MBR boot sector</code></pre>
+<p>Загрузчик установлен, пробуем загружаться в QEMU</p>
+<pre class="language-bash"><code class="language-bash">$ qemu-system-x86_64 -nographic -m 128m -boot c -hda ./mbr_hdd.img<br><br><span class="token punctuation">..</span>.<br><br>Booting from Hard Disk<span class="token punctuation">..</span>.<br><br>                             GNU GRUB  version <span class="token number">2.02</span><br><br>   Minimal <span class="token environment constant">BASH</span>-like line editing is supported. For the first word, TAB<br>   lists possible <span class="token builtin class-name">command</span> completions. Anywhere <span class="token keyword">else</span> TAB lists possible<br>   device or <span class="token function">file</span> completions.<br><br><br>grub<span class="token operator">></span><br></code></pre>
+<p>Видим приветствие GRUB и grub shell.</p>
+<p>В шелле можно посмотреть диски, информацию по разделам, поставить классные картинки на boot-screen, но то что нам пригодится сейчас - это возможность указать путь до образа ядра и ram-диска.</p>
+<h3 id="zagruzka-yadra" tabindex="-1">Загрузка ядра <a class="direct-link" href="#zagruzka-yadra" aria-hidden="true">#</a></h3>
+<p>самый простой вариант получить образ ядра это скопировать его уже из готовой системы</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">ls</span> -l /boot<br>total <span class="token number">31584</span><br>-rw-r--r-- <span class="token number">1</span> root root   <span class="token number">217458</span> Apr <span class="token number">22</span> <span class="token number">18</span>:31 config-4.15.0-99-generic<br>drwxr-xr-x <span class="token number">5</span> root root     <span class="token number">4096</span> May <span class="token number">11</span> <span class="token number">15</span>:58 grub<br>-rw-r--r-- <span class="token number">1</span> root root <span class="token number">19659681</span> May <span class="token number">11</span> <span class="token number">15</span>:57 initrd.img-4.15.0-99-generic<br>-rw------- <span class="token number">1</span> root root  <span class="token number">4071696</span> Apr <span class="token number">22</span> <span class="token number">18</span>:31 System.map-4.15.0-99-generic<br>-rw------- <span class="token number">1</span> root root  <span class="token number">8380056</span> Apr <span class="token number">22</span> <span class="token number">18</span>:32 vmlinuz-4.15.0-99-generic<br><br>$ <span class="token function">cp</span> /boot/vmlinuz-4.15.0-99-generic /mnt/hdd/boot</code></pre>
+<p>Запускаем QEMU и в консоли grub грузим ядро:</p>
+<div class="info" style="margin-bottom: 15px">
+<p>тут поменял -nographic на -curses, так лучше отображается в консоли, но этот ключ можно вообще убрать и работать в отдельном окне.</p>
+</div>
+<pre class="language-bash"><code class="language-bash">$ qemu-system-x86_64 -curses -m 128m -boot c -hda ./mbr_hdd.img<br><br>grub<span class="token operator">></span> <span class="token function">ls</span> /boot<br>grub/ vmlinuz-4.15.0-99-generic                  <span class="token comment"># вот ядро в директории /boot</span><br><br>grub<span class="token operator">></span> linux /boot/vmlinuz-4.15.0-99-generic      <span class="token comment"># указываем какое ядро загружать</span><br>grub<span class="token operator">></span> boot                                       <span class="token comment"># загружаемся</span><br><br><span class="token punctuation">..</span>.                                              <span class="token comment"># тут лог загрузки</span><br><br><span class="token comment"># и в итоге получаем ошибку kernel panic</span><br><br><span class="token punctuation">[</span>    <span class="token number">2.159628</span><span class="token punctuation">]</span> ---<span class="token punctuation">[</span> end Kernel panic - not syncing: VFS: Unable to <span class="token function">mount</span> root fs  on unknown-block<span class="token punctuation">(</span><span class="token number">0,0</span><span class="token punctuation">)</span><br></code></pre>
+<div class="message">
+<p>В этом режиме чтобы выйти из виртуалки нужно перейти в QEMU monitor по <code>Ctrl-Alt-2</code> и выполнить команду <code>quit</code>. Подробнее про хоткеи в <a href="https://qemu.weilnetz.de/doc/qemu-doc.html" target="_blank" rel="noopener">доке</a> раздел “2.4 Keys in the graphical frontends”</p>
+</div>
+<p>После загрузки ядро должно иметь временную файловую систему и из нее запустить первый процесс в пользовательском пространстве с pid=1.</p>
+<p>Временная файловая система (ram-диск) это и есть initrd и этот образ нужно будет собрать.</p>
+<p>После загрузки ядра при запуске пользовательского пространства нужны хоть какие-то команды и есть такой набор инструментов - busybox.</p>
+<p>busybox - это один бинарный файл, который содержит в себе минимальный набор программ для работы с системой. Добавим busybox в сборке ram-диска.</p>
+<h3 id="minimalnyj-initrd" tabindex="-1">минимальный initrd <a class="direct-link" href="#minimalnyj-initrd" aria-hidden="true">#</a></h3>
+<pre class="language-bash"><code class="language-bash"><span class="token function">mkdir</span> initrd<br><span class="token builtin class-name">cd</span> initrd<br><br><span class="token comment"># создаем основные директории</span><br><span class="token function">mkdir</span> bin sys dev proc<br><br><span class="token comment">#  загружаем busybox и расставляем симлинки</span><br><span class="token function">wget</span> https://busybox.net/downloads/binaries/1.30.0-i686/busybox -O bin/busybox<br><br><span class="token comment"># обязательно нужно добавить права на выполнение для busybox</span><br><span class="token function">chmod</span> +x bin/busybox<br><br><span class="token comment"># симлинки для некоторых команд, остальные добавим позже</span><br><span class="token function">ln</span> -s busybox bin/echo<br><span class="token function">ln</span> -s busybox bin/ash<br><span class="token function">ln</span> -s busybox bin/ls<br><span class="token function">ln</span> -s busybox bin/cat<br><br><span class="token comment"># копируем файлы устройств, про файлы в linux поговорим в других статьях</span><br><span class="token function">cp</span> -a /dev/console ./dev<br><span class="token function">cp</span> -a /dev/null ./dev<br><span class="token function">cp</span> -a /dev/tty1 ./dev<br><span class="token function">cp</span> -a /dev/tty2 ./dev<br><br><span class="token comment"># создаем скрипт с которого начнется запуск пользовательского пространства</span><br><br><span class="token function">cat</span> <span class="token operator">>></span> ./init <span class="token operator">&lt;&lt;</span> <span class="token string">EOF<br>#!/bin/ash<br>/bin/ash --login<br>EOF</span><br><br><span class="token comment"># делаем скрипт исполняемым</span><br><span class="token function">chmod</span> +x init<br><br><span class="token comment"># из этой же директории пакуем initrd в cpio-архив</span><br><span class="token function">find</span> <span class="token builtin class-name">.</span> <span class="token operator">|</span> cpio -o -H newc <span class="token operator">|</span> <span class="token function">gzip</span> -9 <span class="token operator">></span> <span class="token punctuation">..</span>/initrd.img<br></code></pre>
+<p>копируем полученный initrd.img в /boot на нашем hdd</p>
+<pre class="language-bash"><code class="language-bash"><span class="token builtin class-name">cd</span> <span class="token punctuation">..</span> <span class="token operator">&amp;&amp;</span> <span class="token function">cp</span> ./initrd.img /mnt/hdd/boot</code></pre>
+<p>и запускаем qemu:</p>
+<pre class="language-bash"><code class="language-bash">$ qemu-system-x86_64 -curses -m 128m -boot c -hda ./mbr_hdd.img<br><br>grub<span class="token operator">></span> <span class="token function">ls</span> /boot<br>grub/ vmlinuz-4.15.0-99-generic initrd.img<br><br>grub<span class="token operator">></span> linux /boot/vmlinuz-4.15.0-99-generic    <span class="token comment"># задаем ядро</span><br>grub<span class="token operator">></span> initrd /boot/initrd.img                  <span class="token comment"># задаем образ initrd</span><br><br>grub<span class="token operator">></span> boot                                     <span class="token comment"># грузимся</span><br><br><span class="token punctuation">..</span>.<br><br>/ <span class="token comment"># ls</span><br><br> bin   dev   init  proc  root  sbin  sys</code></pre>
+<p>Видим процесс загрузки ядра, после загрузки видим шелл, выполняем <code>ls</code> и видим содержимое диска - самый минимум грузится осталось немного автоматизировать процесс загрузки.</p>
+<p>Настроим grub чтобы система стартовала без ручного ввода ядра и ram-диска.</p>
+<p>Для этого достаточно в <code>/boot/grub</code> создать файл <code>grub.cfg</code> (для grub2 нужно именно расширение <code>.cfg</code>, а не <code>.conf</code>)</p>
+<pre class="language-bash"><code class="language-bash"><span class="token builtin class-name">set</span> <span class="token assign-left variable">default</span><span class="token operator">=</span><span class="token number">0</span><br><span class="token builtin class-name">set</span> <span class="token assign-left variable">timeout</span><span class="token operator">=</span><span class="token number">5</span><br><br>menuentry <span class="token string">'linux'</span> <span class="token punctuation">{</span><br>  linux /boot/vmlinuz-4.15.0-99-generic<br>  initrd /boot/initrd.img<br><span class="token punctuation">}</span></code></pre>
+<p>если снова запустить qemu - увидим меню выбора системы</p>
+<p><img src="/img/linux-first/boot-mbr-1.png" alt=""></p>
+<p>потом загрузку ядра и шелл</p>
+<p><img src="/img/linux-first/boot-mbr-2.png" alt=""></p>
+<h2 id="itogo" tabindex="-1">Итого <a class="direct-link" href="#itogo" aria-hidden="true">#</a></h2>
+<p>В общих чертах разобрались с процессом загрузки и создали образ, в котором загружается ядро и первым процессом стартует shell (ash). Это только начало, дальше будем разбираться с файловой системой и с тем процесс должен быть запущен первым, да и вообще с процессами и не только.</p>
+<h2 id="primery" tabindex="-1">Примеры <a class="direct-link" href="#primery" aria-hidden="true">#</a></h2>
+<p>Готовый образ из статьи можно взять тут:</p>
+<p><a href="https://github.com/rootaround/examples/tree/master/linux-first/2020-05-13-boot-mbr" target="_blank" rel="noopener">https://github.com/rootaround/examples/tree/master/linux-first/2020-05-13-boot-mbr</a></p>
+<h2 id="ssylki" tabindex="-1">Ссылки <a class="direct-link" href="#ssylki" aria-hidden="true">#</a></h2>
+<ul>
+<li>Про BIOS: <a href="https://ru.wikipedia.org/wiki/BIOS" target="_blank" rel="noopener">https://ru.wikipedia.org/wiki/BIOS</a></li>
+<li>Про стандарты таблиц разделов MBR, GPT <a href="https://losst.ru/chem-otlichaetsya-mbr-ot-gpt" target="_blank" rel="noopener">https://losst.ru/chem-otlichaetsya-mbr-ot-gpt</a></li>
+<li>Форматирование диска: <a href="https://losst.ru/formatirovanie-diska-v-linux" target="_blank" rel="noopener">https://losst.ru/formatirovanie-diska-v-linux</a></li>
+<li>GRUB (wikipedia) <a href="https://ru.wikipedia.org/wiki/GNU_GRUB" target="_blank" rel="noopener">https://ru.wikipedia.org/wiki/GNU_GRUB</a></li>
+<li>GNU GRUB официальная дока <a href="https://www.gnu.org/software/grub/manual/grub/grub.html" target="_blank" rel="noopener">https://www.gnu.org/software/grub/manual/grub/grub.html</a></li>
+<li>IBM: Подробности процесса загрузки Linux <a href="https://www.ibm.com/developerworks/ru/library/l-linuxboot/" target="_blank" rel="noopener">https://www.ibm.com/developerworks/ru/library/l-linuxboot/</a></li>
+</ul>
+<!--
+GRUB
+
+- https://superuser.com/questions/130955/how-to-install-grub-into-an-img-file
+- https://ru.wikibooks.org/wiki/Grub_2#%D0%92%D0%BE%D1%81%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_GRUB2_%D1%81_LiveCD
+- https://www.gnu.org/software/grub/manual/grub/grub.html
+- https://wiki.archlinux.org/index.php/GRUB_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)#%D0%9A%D0%BE%D0%BD%D1%81%D0%BE%D0%BB%D1%8C_GRUB2
+- https://serverfault.com/questions/869559/grub-hangs-before-menu-after-a-hdd-upgrade-how-to-debug
+
+
+
+https://www.ibm.com/developerworks/library/l-initrd/
+https://www.kernel.org/doc/html/v4.14/admin-guide/initrd.html
+https://ru.wikipedia.org/wiki/BusyBox
+https://habr.com/post/126427/
+
+http://iportnov.blogspot.com/2010/03/linux-10.html
+
+https://losst.ru/ustanovka-zagruzchika-grub
+https://losst.ru/chem-otlichaetsya-mbr-ot-gpt
+
+https://www.ibm.com/developerworks/ru/library/l-linuxboot/
+
+https://unix.stackexchange.com/questions/124681/how-to-ssh-from-host-to-guest-using-qemu
+
+https://losst.ru/sobiraem-yadro-linux
+
+https://ru.wikipedia.org/wiki/Процесс_загрузки_Linux
+
+https://losst.ru/ustanovka-zagruzchika-grub
+
+https://losst.ru/nastrojka-zagruzchika-grub
+
+https://wiki.archlinux.org/index.php/GRUB_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)#%D0%9A%D0%BE%D0%BD%D1%81%D0%BE%D0%BB%D1%8C_GRUB2
+
+-->
+<hr>
+<p><a href="/tags/linux-first">Все статьи серии “Linux First”</a></p>
+
+
+    </main>
+    <footer></footer>
+    <!-- Current page: /posts/blog/2020-05-15-linux-first-boot-mbr/ -->
+  </body>
+</html>

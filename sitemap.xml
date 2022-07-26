@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2020-05-13-linux-first-shortly-about-kernel/</loc>
+    <lastmod>2020-05-13</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2020-05-15-linux-first-boot-mbr/</loc>
+    <lastmod>2020-05-15</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2020-12-linux-tools-shells-part-1-historical/</loc>
+    <lastmod>2020-12-23</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2020-12-linux-tools-shells-part-2-ash-startup/</loc>
+    <lastmod>2020-12-24</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2020-12-linux-tools-shells-part-3-ash-commands/</loc>
+    <lastmod>2020-12-29</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2021-01-linux-tools-shells-part-4-ash-redirections/</loc>
+    <lastmod>2021-01-02</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2021-01-linux-tools-shells-part-5-ash-complex-commands/</loc>
+    <lastmod>2021-01-13</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2021-01-linux-tools-shells-part-6-ash-functions/</loc>
+    <lastmod>2021-01-20</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/blog/2021-06-linux-tools-shells-ash-6-environment-variables/</loc>
+    <lastmod>2021-06-16</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/wiki/javascript/</loc>
+    <lastmod>2021-07-24</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/wiki/linux-shells/</loc>
+    <lastmod>2021-07-26</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/page-list/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/linux/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/linux-first/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/kernel/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/boot/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/mbr/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/grub/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/qemu/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/initrd/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/shell/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/ash/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/blog/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/wiki/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/public-posts/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/</loc>
+    <lastmod>2022-07-25</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/about/</loc>
+    <lastmod>2022-07-25</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/drafts/test/</loc>
+    <lastmod>2022-07-25</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/wiki/</loc>
+    <lastmod>2022-07-26</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/toc/</loc>
+    <lastmod>2022-07-26</lastmod>
+  </url>
+</urlset>

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <meta
+    name="description" content="">
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="root around ⚒️">
+    <link
+    rel="alternate" href="/feed/feed.json" type="application/json" title="root around ⚒️">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+          (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t),
+        a = e.getElementsByTagName(t)[0],
+        k.async = 1,
+        k.src = r,
+        a.parentNode.insertBefore(k, a)
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym(46241478, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    </script>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/46241478" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+  <body>
+    <header>
+      
+      <h1 class="home">
+        <a href="/">root around ⚒️</a>
+      </h1>
+      <ul class="nav">
+          <li class="nav-item">
+            <a href="/">blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="/wiki/">wiki</a>
+          </li>
+        <li class="nav-item">
+          <a href="https://t.me/rootaround" target="_blank">telegram</a>
+        </li>
+      </ul>
+    </header>
+    <main  class="tmpl-post" >
+      
+<h1>Test</h1>
+<time datetime="2022-07-25">25 Jul 2022</time>
+<p><a href="/posts/wiki/javascript">javascript</a></p>
+<h1 id="mrk-test-markdown-it-page" tabindex="-1">mrk test markdown-it page <a class="direct-link" href="#mrk-test-markdown-it-page" aria-hidden="true">#</a></h1>
+<h1 id="n1" tabindex="-1"><a href="..">N1</a> <a class="direct-link" href="#n1" aria-hidden="true">#</a></h1>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="chart_div"></div>
+<script type="text/javascript">
+google.charts.load('current', {packages:["orgchart"]});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'Name');
+  data.addColumn('string', 'Manager');
+  data.addColumn('string', 'ToolTip');
+
+  // For each orgchart box, provide the name, manager, and tooltip to show.
+  data.addRows([
+    [
+        {
+            v:'Mike',
+            f:'Mike<div style="color:red; font-style:italic">President</div>'
+        },
+        '',
+        'The President'
+    ],
+    [
+        {
+            v:'Jim',
+            f:'Jim<div style="color:red; font-style:italic">Vice President</div>'
+        },
+        'Mike',
+        'VP'
+    ],
+    [
+        'Alice',
+        'Mike',
+        ''
+    ],
+    [
+        'Bob',
+        'Jim',
+        'Bob Sponge'
+    ],
+    [
+        'Carol',
+        'Bob',
+        ''
+    ]
+  ]);
+
+  // Create the chart.
+  var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+  // Draw the chart, setting the allowHtml option to true for the tooltips.
+  chart.draw(data, {allowHtml:true});
+}
+</script>
+<p><strong>Advertisement 😃</strong></p>
+<ul>
+<li><strong><a href="https://nodeca.github.io/pica/demo/" target="_blank" rel="noopener">pica</a></strong> - high quality and fast image
+resize in browser.</li>
+<li><strong><a href="https://github.com/nodeca/babelfish/" target="_blank" rel="noopener">babelfish</a></strong> - developer friendly
+i18n with plurals support and easy syntax.</li>
+</ul>
+<p>You will like those projects!</p>
+<hr>
+<h1 id="h1-heading" tabindex="-1">h1 Heading 😎 <a class="direct-link" href="#h1-heading" aria-hidden="true">#</a></h1>
+<h2 id="h2-heading" tabindex="-1">h2 Heading <a class="direct-link" href="#h2-heading" aria-hidden="true">#</a></h2>
+<h3 id="h3-heading" tabindex="-1">h3 Heading <a class="direct-link" href="#h3-heading" aria-hidden="true">#</a></h3>
+<h4 id="h4-heading" tabindex="-1">h4 Heading <a class="direct-link" href="#h4-heading" aria-hidden="true">#</a></h4>
+<h5>h5 Heading</h5>
+<h6>h6 Heading</h6>
+<h2 id="horizontal-rules" tabindex="-1">Horizontal Rules <a class="direct-link" href="#horizontal-rules" aria-hidden="true">#</a></h2>
+<hr>
+<hr>
+<hr>
+<h2 id="typographic-replacements" tabindex="-1">Typographic replacements <a class="direct-link" href="#typographic-replacements" aria-hidden="true">#</a></h2>
+<p>Enable typographer option to see result.</p>
+<p>© © ® ® ™ ™ (p) (P) ±</p>
+<p>test… test… test… test?.. test!..</p>
+<p>!!! ??? , – —</p>
+<p>“Smartypants, double quotes” and ‘single quotes’</p>
+<h2 id="emphasis" tabindex="-1">Emphasis <a class="direct-link" href="#emphasis" aria-hidden="true">#</a></h2>
+<p><strong>This is bold text</strong></p>
+<p><strong>This is bold text</strong></p>
+<p><em>This is italic text</em></p>
+<p><em>This is italic text</em></p>
+<p><s>Strikethrough</s></p>
+<h2 id="blockquotes" tabindex="-1">Blockquotes <a class="direct-link" href="#blockquotes" aria-hidden="true">#</a></h2>
+<blockquote>
+<p>Blockquotes can also be nested…</p>
+<blockquote>
+<p>…by using additional greater-than signs right next to each other…</p>
+<blockquote>
+<p>…or with spaces between arrows.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h2 id="lists" tabindex="-1">Lists <a class="direct-link" href="#lists" aria-hidden="true">#</a></h2>
+<p>Unordered</p>
+<ul>
+<li>Create a list by starting a line with <code>+</code>, <code>-</code>, or <code>*</code></li>
+<li>Sub-lists are made by indenting 2 spaces:
+<ul>
+<li>Marker character change forces new list start:
+<ul>
+<li>Ac tristique libero volutpat at</li>
+</ul>
+<ul>
+<li>Facilisis in pretium nisl aliquet</li>
+</ul>
+<ul>
+<li>Nulla volutpat aliquam velit</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Very easy!</li>
+</ul>
+<p>Ordered</p>
+<ol>
+<li>
+<p>Lorem ipsum dolor sit amet</p>
+</li>
+<li>
+<p>Consectetur adipiscing elit</p>
+</li>
+<li>
+<p>Integer molestie lorem at massa</p>
+</li>
+<li>
+<p>You can use sequential numbers…</p>
+</li>
+<li>
+<p>…or keep all the numbers as <code>1.</code></p>
+</li>
+</ol>
+<p>Start numbering with offset:</p>
+<ol start="57">
+<li>foo</li>
+<li>bar</li>
+</ol>
+<h2 id="code" tabindex="-1">Code <a class="direct-link" href="#code" aria-hidden="true">#</a></h2>
+<p>Inline <code>code</code></p>
+<p>Indented code</p>
+<pre><code>// Some comments
+line 1 of code
+line 2 of code
+line 3 of code
+</code></pre>
+<p>Block code “fences”</p>
+<pre><code>Sample text here...
+</code></pre>
+<p>Syntax highlighting</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">bar</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> bar<span class="token operator">++</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2 id="tables" tabindex="-1">Tables <a class="direct-link" href="#tables" aria-hidden="true">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>path to data files to supply the data that will be passed into templates.</td>
+</tr>
+<tr>
+<td>engine</td>
+<td>engine to be used for processing templates. Handlebars is the default.</td>
+</tr>
+<tr>
+<td>ext</td>
+<td>extension to be used for dest files.</td>
+</tr>
+</tbody>
+</table>
+<p>Right aligned columns</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Option</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">data</td>
+<td style="text-align:right">path to data files to supply the data that will be passed into templates.</td>
+</tr>
+<tr>
+<td style="text-align:right">engine</td>
+<td style="text-align:right">engine to be used for processing templates. Handlebars is the default.</td>
+</tr>
+<tr>
+<td style="text-align:right">ext</td>
+<td style="text-align:right">extension to be used for dest files.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="links" tabindex="-1">Links <a class="direct-link" href="#links" aria-hidden="true">#</a></h2>
+<p><a href="http://dev.nodeca.com" target="_blank" rel="noopener">link text</a></p>
+<p><a href="http://nodeca.github.io/pica/demo/" title="title text!" target="_blank" rel="noopener">link with title</a></p>
+<p>Autoconverted link <a href="https://github.com/nodeca/pica" target="_blank" rel="noopener">https://github.com/nodeca/pica</a> (enable linkify to see)</p>
+<h2 id="images" tabindex="-1">Images <a class="direct-link" href="#images" aria-hidden="true">#</a></h2>
+<p><img src="https://octodex.github.com/images/minion.png" alt="Minion">
+<img src="https://octodex.github.com/images/stormtroopocat.jpg" alt="Stormtroopocat" title="The Stormtroopocat"></p>
+<p>Like links, Images also have a footnote style syntax</p>
+<p><img src="https://octodex.github.com/images/dojocat.jpg" alt="Alt text" title="The Dojocat"></p>
+<p>With a reference later in the document defining the URL location:</p>
+<h2 id="plugins" tabindex="-1">Plugins <a class="direct-link" href="#plugins" aria-hidden="true">#</a></h2>
+<p>The killer feature of <code>markdown-it</code> is very effective support of
+<a href="https://www.npmjs.org/browse/keyword/markdown-it-plugin" target="_blank" rel="noopener">syntax plugins</a>.</p>
+<h3 id="emojies" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-emoji" target="_blank" rel="noopener">Emojies</a> <a class="direct-link" href="#emojies" aria-hidden="true">#</a></h3>
+<blockquote>
+<p>Classic markup: 😉 :crush: 😢 :tear: 😆 😋</p>
+<p>Shortcuts (emoticons): 😃 😦 😎 😉</p>
+</blockquote>
+<p>see <a href="https://github.com/markdown-it/markdown-it-emoji#change-output" target="_blank" rel="noopener">how to change output</a> with twemoji.</p>
+<h3 id="subscript-superscript" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-sub" target="_blank" rel="noopener">Subscript</a> / <a href="https://github.com/markdown-it/markdown-it-sup" target="_blank" rel="noopener">Superscript</a> <a class="direct-link" href="#subscript-superscript" aria-hidden="true">#</a></h3>
+<ul>
+<li>19<sup>th</sup></li>
+<li>H<sub>2</sub>O</li>
+</ul>
+<h3 id="ins" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-ins" target="_blank" rel="noopener">&lt;ins&gt;</a> <a class="direct-link" href="#ins" aria-hidden="true">#</a></h3>
+<p><ins>Inserted text</ins></p>
+<h3 id="mark" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-mark" target="_blank" rel="noopener">&lt;mark&gt;</a> <a class="direct-link" href="#mark" aria-hidden="true">#</a></h3>
+<p><mark>Marked text</mark></p>
+<h3 id="footnotes" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-footnote" target="_blank" rel="noopener">Footnotes</a> <a class="direct-link" href="#footnotes" aria-hidden="true">#</a></h3>
+<p>Footnote 1 link<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.</p>
+<p>Footnote 2 link<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.</p>
+<p>Inline footnote<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup> definition.</p>
+<p>Duplicated footnote reference<sup class="footnote-ref"><a href="#fn2" id="fnref2:1">[2:1]</a></sup>.</p>
+<h3 id="definition-lists" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-deflist" target="_blank" rel="noopener">Definition lists</a> <a class="direct-link" href="#definition-lists" aria-hidden="true">#</a></h3>
+<p>Term 1</p>
+<p>: Definition 1
+with lazy continuation.</p>
+<p>Term 2 with <em>inline markup</em></p>
+<p>: Definition 2</p>
+<pre><code>    { some code, part of Definition 2 }
+
+Third paragraph of definition 2.
+</code></pre>
+<p><em>Compact style:</em></p>
+<p>Term 1
+~ Definition 1</p>
+<p>Term 2
+~ Definition 2a
+~ Definition 2b</p>
+<h3 id="abbreviations" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-abbr" target="_blank" rel="noopener">Abbreviations</a> <a class="direct-link" href="#abbreviations" aria-hidden="true">#</a></h3>
+<p>This is HTML abbreviation example.</p>
+<p>It converts “HTML”, but keep intact partial entries like “xxxHTMLyyy” and so on.</p>
+<p>*[HTML]: Hyper Text Markup Language</p>
+<h3 id="custom-containers" tabindex="-1"><a href="https://github.com/markdown-it/markdown-it-container" target="_blank" rel="noopener">Custom containers</a> <a class="direct-link" href="#custom-containers" aria-hidden="true">#</a></h3>
+<p>::: warning
+<em>here be dragons</em>
+:::</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Footnote <strong>can have markup</strong></p>
+<p>and multiple paragraphs. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Footnote text. <a href="#fnref2" class="footnote-backref">↩︎</a> <a href="#fnref2:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>Text of inline footnote <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+
+    </main>
+    <footer></footer>
+    <!-- Current page: /posts/drafts/test/ -->
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Tools: shells, ash #6 - environment variables</title>
+    <meta
+    name="description" content="">
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="root around ⚒️">
+    <link
+    rel="alternate" href="/feed/feed.json" type="application/json" title="root around ⚒️">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+          (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t),
+        a = e.getElementsByTagName(t)[0],
+        k.async = 1,
+        k.src = r,
+        a.parentNode.insertBefore(k, a)
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym(46241478, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    </script>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/46241478" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+  <body>
+    <header>
+      
+      <h1 class="home">
+        <a href="/">root around ⚒️</a>
+      </h1>
+      <ul class="nav">
+          <li class="nav-item">
+            <a href="/">blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="/wiki/">wiki</a>
+          </li>
+        <li class="nav-item">
+          <a href="https://t.me/rootaround" target="_blank">telegram</a>
+        </li>
+      </ul>
+    </header>
+    <main  class="tmpl-post" >
+      
+<h1>Linux Tools: shells, ash #6 - environment variables</h1>
+<time datetime="2021-06-16">16 Jun 2021</time>
+  <a href="/tags/linux/" class="post-tag">linux</a>
+  <a href="/tags/linux-tools/" class="post-tag">linux-tools</a>
+  <a href="/tags/shell/" class="post-tag">shell</a>
+  <a href="/tags/ash/" class="post-tag">ash</a>
+<p>Уже достаточно много раз говорили о переменных и environment-переменных , в этом разделе разберем встроенные переменные ash</p>
+<!-- more -->
+<p>Предыдущая статья: <a href="/posts/blog/2021-01-linux-tools-shells-part-6-ash-functions/">shells, ash #5 - ash functions</a></p>
+<h2 id="home" tabindex="-1">HOME <a class="direct-link" href="#home" aria-hidden="true">#</a></h2>
+<p>Домашняя директория пользователя и passwd файла, переменная устанавливается командой login и используется множеством разных команд, например, командой cd без параметров для перехода в домашнюю директорию пользователя</p>
+<p>Для проверки можно запустить ash без env-переменных от root пользователя и выполнить команду login</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment">## запускаем ash без env-параметров текущего shell и под root</span><br><span class="token comment">## root - нужен для запуска login,</span><br><span class="token comment">## иначе будет ошибка login: must be suid to work properly</span><br>$ <span class="token function">sudo</span> <span class="token function">env</span> -i /usr/bin/ash<br><br><span class="token comment">## далее одинарная решетка это prompt root пользователя</span><br><span class="token comment"># env</span><br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin<br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu<br><br><span class="token comment"># login -f ubuntu</span><br><span class="token comment">## ...</span><br><span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/home/ubuntu/bin:/home/ubuntu/.local/bin:/data/bin:/bin:/usr/bin<br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu<br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable"><span class="token environment constant">USER</span></span><span class="token operator">=</span>ubuntu<br><span class="token assign-left variable"><span class="token environment constant">HOME</span></span><span class="token operator">=</span>/home/ubuntu<br><span class="token comment">## ...</span></code></pre>
+<h2 id="path" tabindex="-1">PATH <a class="direct-link" href="#path" aria-hidden="true">#</a></h2>
+<p>Список директорий разделенный двоеточиями</p>
+<p>В этих директориях shell ищет программы, подробнее процесс поиска мы рассмотрели <a href="/2021-01-linux-tools-shells-part-5-ash-complex-commands/#command-types-programs">в статье с выполнением команд</a></p>
+<h2 id="cdpath" tabindex="-1">CDPATH <a class="direct-link" href="#cdpath" aria-hidden="true">#</a></h2>
+<p>Путь относительно которого работает команда cd</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># задаем CDPATH=/home/ubuntu</span><br>$ <span class="token builtin class-name">export</span> <span class="token assign-left variable">CDPATH</span><span class="token operator">=</span>/home/ubuntu<br><br>$ <span class="token builtin class-name">cd</span><br>/home/ubuntu<br><br><span class="token comment"># теперь все относительные пути без указания первого слэша</span><br><span class="token comment"># будут считаться относительно /home/ubuntu</span><br>$ <span class="token builtin class-name">cd</span> tmp<br><span class="token comment"># мы в /home/ubuntu/tmp - если такая директория существует</span></code></pre>
+<h2 id="mail" tabindex="-1">MAIL <a class="direct-link" href="#mail" aria-hidden="true">#</a></h2>
+<p>Следующие 3 env-переменных нужны для проверки почты, точнее в самом shell реализовано слежение за изменением в файле</p>
+<p>в MAIL может содержаться путь к файлу, за изменениями которого нужно следить</p>
+<h2 id="mailcheck" tabindex="-1">MAILCHECK <a class="direct-link" href="#mailcheck" aria-hidden="true">#</a></h2>
+<p>в MAILCHECK устанавливается время в секундах, через сколько нужно проверять файл или файлы указанные в MAIL или MAILPATH</p>
+<p>По умолчанию = 60</p>
+<p>Если поставить 0, то проверка будет происходит после каждого выполнения команды, В доке формулируется так “If set to 0, the check will occur at each prompt”, то есть при каждом показе приглашения к вводу команды.</p>
+<h2 id="mailpath" tabindex="-1">MAILPATH <a class="direct-link" href="#mailpath" aria-hidden="true">#</a></h2>
+<p>в MAILPATH через двоеточие <code>:</code> может быть указано несколько файлов, которые нужно проверять</p>
+<p>если указан MAILPATH, то MAIL игнорируется.</p>
+<p>работает это так</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">touch</span> ~/mail.txt<br>$ <span class="token builtin class-name">export</span> <span class="token assign-left variable">MAILPATH</span><span class="token operator">=</span>/home/ubuntu/mail.txt<br>$ <span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">MAILCHECK</span></span><span class="token operator">=</span><span class="token number">5</span><br><br><span class="token comment"># меняем файл, в случае почтовых программ они меняют файл</span><br><span class="token comment"># и bash видимо умеет их парсить и выводить даже количество писем</span><br>$ <span class="token builtin class-name">echo</span> <span class="token number">1</span> <span class="token operator">>></span> ~/mail.txt<br><br><span class="token comment"># далее после выполнения команды или просто пустой строки ash выведет</span><br>$<br>you have mail<br>$<br><span class="token comment"># то есть проверка происходит перед показом prompt</span></code></pre>
+<h2 id="ps1" tabindex="-1">PS1 <a class="direct-link" href="#ps1" aria-hidden="true">#</a></h2>
+<p>Prompt String - это основная подсказка к вводу команды и по умолчанию для обычного пользователя это переменная равна <code>$ </code> (доллар и пробел), для суперпользователя root <code># </code> (решетка и пробел)</p>
+<p>значение может содержать не специальные последовательности</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># например, по умолчанию PS1 в ash выводит еще и текущую директорию</span><br><span class="token comment"># сейчас мы в домашней директории</span><br>~ $<br><br><span class="token comment"># а переменная равна</span><br>$ <span class="token builtin class-name">echo</span> <span class="token environment constant">$PS1</span><br><span class="token punctuation">\</span>w <span class="token punctuation">\</span>$</code></pre>
+<p>Подробнее про эти опции поговорим в статьях про bash</p>
+<h2 id="ps2" tabindex="-1">PS2 <a class="direct-link" href="#ps2" aria-hidden="true">#</a></h2>
+<p>Подсказка ввода для многострочных команд. По умолчанию <code>&gt; </code></p>
+<pre><code>$ (
+&gt; echo 123
+&gt; )
+123
+$
+</code></pre>
+<h2 id="ps3" tabindex="-1">PS3 <a class="direct-link" href="#ps3" aria-hidden="true">#</a></h2>
+<p>Почему-то не описано в документации, возможно в ash не используется</p>
+<h2 id="ps4" tabindex="-1">PS4 <a class="direct-link" href="#ps4" aria-hidden="true">#</a></h2>
+<p>В случае если включена трассировка опцией <code>-x</code>, перед каждой выполненной командой выводится значение PS4</p>
+<p>По умолчанию равно <code>+ </code></p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">set</span> -x<br>$ <span class="token builtin class-name">echo</span> <span class="token number">1</span> <span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token number">2</span><br>+ <span class="token builtin class-name">echo</span> <span class="token number">1</span><br><span class="token number">1</span><br>+ <span class="token builtin class-name">echo</span> <span class="token number">2</span><br><span class="token number">2</span><br>$</code></pre>
+<h2 id="ifs" tabindex="-1"><a id="IFS" href="#IFS"></a> IFS <a class="direct-link" href="#ifs" aria-hidden="true">#</a></h2>
+<p>Input Field Separators</p>
+<p>Разделители при чтении и выводе параметров - подробнее разберем в следующей статье про Special Parameters (здесь будет ссылка на статью)</p>
+<h2 id="term" tabindex="-1">TERM <a class="direct-link" href="#term" aria-hidden="true">#</a></h2>
+<p>В переменной содержится название текущего терминала, и используется программами для определения возможностей терминала, например, программа может определить поддерживает ли терминал цвета (xterm или xterm-256color)</p>
+<h2 id="histsize" tabindex="-1">HISTSIZE <a class="direct-link" href="#histsize" aria-hidden="true">#</a></h2>
+<p>Сколько команд хранить в истории shell’a (это переключение истории команд стрелками)</p>
+<p>По умолчанию равно 15</p>
+<h2 id="pwd" tabindex="-1">PWD <a class="direct-link" href="#pwd" aria-hidden="true">#</a></h2>
+<p>Текущая директория, эту переменную меняет команда cd</p>
+<h2 id="oldpwd" tabindex="-1">OLDPWD <a class="direct-link" href="#oldpwd" aria-hidden="true">#</a></h2>
+<p>Предыдущая директория</p>
+<h2 id="ppid" tabindex="-1">PPID <a class="direct-link" href="#ppid" aria-hidden="true">#</a></h2>
+<p>ID процесса текущего shell</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token environment constant">$PPID</span><br><span class="token number">1527</span></code></pre>
+<p> </p>
+<h2 id="itogo" tabindex="-1">Итого <a class="direct-link" href="#itogo" aria-hidden="true">#</a></h2>
+<p>В статье разобрали все возможные Environment Variables в ash, больше переменных и логики будет в bash</p>
+<p> </p>
+<p>Предыдущая статья: <a href="/posts/blog/2021-01-linux-tools-shells-part-6-ash-functions/">shells, ash #5 - ash functions</a></p>
+<p> </p>
+<h2 id="ssylki" tabindex="-1">Ссылки <a class="direct-link" href="#ssylki" aria-hidden="true">#</a></h2>
+<ul>
+<li><a href="https://man7.org/linux/man-pages/man1/dash.1.html" target="_blank" rel="noopener">https://man7.org/linux/man-pages/man1/dash.1.html</a></li>
+<li><a href="https://man7.org/linux/man-pages/man1/login.1.html" target="_blank" rel="noopener">https://man7.org/linux/man-pages/man1/login.1.html</a></li>
+<li><a href="https://github.com/mandober/enwars#mail" target="_blank" rel="noopener">https://github.com/mandober/enwars#mail</a></li>
+<li><a href="https://unix.stackexchange.com/questions/528323/what-uses-the-term-variable" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/528323/what-uses-the-term-variable</a></li>
+</ul>
+<p> </p>
+<hr>
+<p><a href="/tags/linux-tools">Все статьи серии “Linux Tools”</a></p>
+
+
+    </main>
+    <footer></footer>
+    <!-- Current page: /posts/blog/2021-06-linux-tools-shells-ash-6-environment-variables/ -->
+  </body>
+</html>

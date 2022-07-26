@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux First: Кратко о linux-ядре</title>
+    <meta
+    name="description" content="">
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" rel="stylesheet">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="root around ⚒️">
+    <link
+    rel="alternate" href="/feed/feed.json" type="application/json" title="root around ⚒️">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+          (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t),
+        a = e.getElementsByTagName(t)[0],
+        k.async = 1,
+        k.src = r,
+        a.parentNode.insertBefore(k, a)
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym(46241478, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    </script>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/46241478" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+  <body>
+    <header>
+      
+      <h1 class="home">
+        <a href="/">root around ⚒️</a>
+      </h1>
+      <ul class="nav">
+          <li class="nav-item">
+            <a href="/">blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="/wiki/">wiki</a>
+          </li>
+        <li class="nav-item">
+          <a href="https://t.me/rootaround" target="_blank">telegram</a>
+        </li>
+      </ul>
+    </header>
+    <main  class="tmpl-post" >
+      
+<h1>Linux First: Кратко о linux-ядре</h1>
+<time datetime="2020-05-13">13 May 2020</time>
+  <a href="/tags/linux/" class="post-tag">linux</a>
+  <a href="/tags/linux-first/" class="post-tag">linux-first</a>
+  <a href="/tags/kernel/" class="post-tag">kernel</a>
+<p>Этим постом начинаю серию статей “Linux First” - разбираюсь как устроен и как работает linux с начала загрузки ядра и дальше про подсистемы, сеть, процессы и многое другое.</p>
+<p>Cписок статей серии можно найти по тэгу <a href="/tags/linux-first">linux-first</a></p>
+<p>Сегодня немного про историю и в общем про архитектуру.</p>
+<h3 id="istoriya" tabindex="-1">История <a class="direct-link" href="#istoriya" aria-hidden="true">#</a></h3>
+<p>В августе 1991 года Линус Торвальдс написал в новостную ленту “minix” <a href="https://groups.google.com/forum/#!msg/comp.os.minix/dlNtH7RRrGA/SwRavCzVE7gJ" target="_blank" rel="noopener">сообщение</a> о том что он разрабатывает свободную операционую систему и хочет получить фидбэк от заинтересованных людей.</p>
+<p>В сентябре Линус опубликовал версию 0.01. Этот исторический код можно посмотреть на <a href="https://github.com/zavg/linux-0.01" target="_blank" rel="noopener">github</a>.</p>
+<p><a href="http://www.oldlinux.org" target="_blank" rel="noopener">Особо сентиментальные ребята</a> запилили образы для Qemu, в которых запускаются первые версии ядра и можно даже вызывать “доисторические” команды ls без хэлпов и прочих прелестей современных unix-команд.</p>
+<p>К проекту сразу появился интерес и совместными усилиями Линуса и коммьюнити linux-ядро начало развиваться.</p>
+<p>Через 3 года в 1994 выходит <a href="https://github.com/kalamangga-net/linux-1.0" target="_blank" rel="noopener">первая версия</a>.</p>
+<p>Ядро изначально проектировалось как монолитное и переносимое на разные процессорные архитектуры.
+Собственно из-за аритектуры в 1992 в группе обсуждения minix разгорелся холивар “монолит-ядро vs микро-ядрo” между Линусом Торвальдсом и Эндрю Таненбаумом (<em>почти как и сейчас про монолит vs микросервисы</em>).</p>
+<!-- ОС Minix была разработана Эндрю Таненбаумом для образовательных целей, чтобы его студенты могли  поэкспериментировать с операционной системой. -->
+<p>Основной посыл холивара был в том что монолитное ядро устарело уже в 1992 году, а микроядра рулят и за ними будущее, но как показала история, даже 26 лет спустя монолитное ядро все еще живо и продолжает развиваться.</p>
+<p>Текущая версия доросла до <code>5.6</code> (май 2020) и код начиная с <code>2.6</code> можно смотреть на <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/refs/" target="_blank" rel="noopener">оф сайте</a> или на github-зеркале <a href="https://github.com/torvalds/linux" target="_blank" rel="noopener">torvalds/linux</a></p>
+<h3 id="arhitektura" tabindex="-1">Архитектура <a class="direct-link" href="#arhitektura" aria-hidden="true">#</a></h3>
+<p><img src="/img/linux-first/linux-kernel-1.jpg" alt="Cхема из статьи IBM &quot;Анатомия ядра Linux&quot;"></p>
+<p>Ядро делится на пространство ядра и пространство пользователя.</p>
+<p>Пространство ядра через Интерфейс системных вызовов (SCI) позволяется вызывать функции ядра из пространства пользователя.</p>
+<p>Вся работа с железом контролируется ядром, основная часть ядра архитектурно-независима, то есть этот код работает на любой архитектуре процессоров.</p>
+<p>Специфичный код для работы с железом - архитектуро-зависимый - и либо уже есть в дистрибутиве Linux для определенной архитектуры, либо добавляется с помощью драйверов.</p>
+<p>Ресурсы <strong>CPU</strong> распределяются между процессами планировщиком процессов O(1). Код планировщика может использовать фишки определенной процессорной архитектуры, поэтому как раз код планировщика разделен на архитектурно-независимый и архитектурно-зависимый.</p>
+<p><strong>Память</strong> аналогично ресурсам CPU контролируется ядром и эта же подсистема управляет подкачкой (swap).</p>
+<p><strong>Виртуальная файловая система (VFS)</strong> абстрагирует от конкретных файловых систем и через SCI позволяет работать с любыми файловыми система одинаково. Поддержка конкретных файлов систем добавляется через модули ядра.</p>
+<p><strong>Сеть</strong> контролируется отдельной подсистемой и через все тот же SCI позволяет открывать и работать с сетевыми сокетами разных протоколов.</p>
+<p>Если хочется узнать подробнее про подсистемы - есть целая интерактивная карта linux-ядра, из которой можно узнать много нового и интересного - <a href="http://www.makelinux.net/kernel_map/" target="_blank" rel="noopener"><strong>www.makelinux.net/kernel_map</strong></a></p>
+<p>Ну и документацию конечно никто не отменял <a href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener"><strong>www.kernel.org/doc/html/latest/</strong></a></p>
+<h3 id="istochniki" tabindex="-1">Источники <a class="direct-link" href="#istochniki" aria-hidden="true">#</a></h3>
+<ul>
+<li>Схема архитектуры и описание из статьи IBM “<a href="https://www.ibm.com/developerworks/ru/library/l-linux-kernel/" target="_blank" rel="noopener">Анатомия ядра Linux</a>”. В статье чуть подробнее описано как устроено ядро.</li>
+</ul>
+<hr>
+<p><a href="/tags/linux-first">Все статьи серии “Linux First”</a></p>
+
+
+    </main>
+    <footer></footer>
+    <!-- Current page: /posts/blog/2020-05-13-linux-first-shortly-about-kernel/ -->
+  </body>
+</html>
