@@ -87,6 +87,21 @@
   </url>
   
   <url>
+    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/shell/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/ash/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rootaround.github.io/tags/boot/</loc>
     <lastmod>2022-07-22</lastmod>
   </url>
@@ -108,21 +123,6 @@
   
   <url>
     <loc>https://rootaround.github.io/tags/initrd/</loc>
-    <lastmod>2022-07-22</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
-    <lastmod>2022-07-22</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/shell/</loc>
-    <lastmod>2022-07-22</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/ash/</loc>
     <lastmod>2022-07-22</lastmod>
   </url>
   
