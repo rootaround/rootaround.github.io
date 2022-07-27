@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2020-05-13-linux-first-shortly-about-kernel/</loc>
+    <loc>https://rootaround.github.io/linux-first-shortly-about-kernel/</loc>
     <lastmod>2020-05-13</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2020-05-15-linux-first-boot-mbr/</loc>
+    <loc>https://rootaround.github.io/linux-first-boot-mbr/</loc>
     <lastmod>2020-05-15</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2020-12-linux-tools-shells-part-1-historical/</loc>
+    <loc>https://rootaround.github.io/2020-12-linux-tools-shells-part-1-historical/</loc>
     <lastmod>2020-12-23</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2020-12-linux-tools-shells-part-2-ash-startup/</loc>
+    <loc>https://rootaround.github.io/2020-12-linux-tools-shells-part-2-ash-startup/</loc>
     <lastmod>2020-12-24</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2020-12-linux-tools-shells-part-3-ash-commands/</loc>
+    <loc>https://rootaround.github.io/2020-12-linux-tools-shells-part-3-ash-commands/</loc>
     <lastmod>2020-12-29</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2021-01-linux-tools-shells-part-4-ash-redirections/</loc>
+    <loc>https://rootaround.github.io/2021-01-linux-tools-shells-part-4-ash-redirections/</loc>
     <lastmod>2021-01-02</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2021-01-linux-tools-shells-part-5-ash-complex-commands/</loc>
+    <loc>https://rootaround.github.io/2021-01-linux-tools-shells-part-5-ash-complex-commands/</loc>
     <lastmod>2021-01-13</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2021-01-linux-tools-shells-part-6-ash-functions/</loc>
+    <loc>https://rootaround.github.io/2021-01-linux-tools-shells-part-6-ash-functions/</loc>
     <lastmod>2021-01-20</lastmod>
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/posts/blog/2021-06-linux-tools-shells-ash-6-environment-variables/</loc>
+    <loc>https://rootaround.github.io/2021-06-linux-tools-shells-ash-6-environment-variables/</loc>
     <lastmod>2021-06-16</lastmod>
   </url>
   
@@ -82,16 +82,6 @@
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
-    <lastmod>2022-07-22</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/shell/</loc>
-    <lastmod>2022-07-22</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rootaround.github.io/tags/boot/</loc>
     <lastmod>2022-07-22</lastmod>
   </url>
@@ -113,6 +103,16 @@
   
   <url>
     <loc>https://rootaround.github.io/tags/initrd/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
+    <lastmod>2022-07-22</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/shell/</loc>
     <lastmod>2022-07-22</lastmod>
   </url>
   
