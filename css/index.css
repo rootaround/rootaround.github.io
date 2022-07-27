@@ -146,6 +146,10 @@ pre {
 }
 code {
   word-break: break-all;
+  background-color: #eee;
+  border-radius: 3px;
+  font-family: courier, monospace;
+  padding: 0 3px;
 }
 
 /* Header */
