@@ -96,7 +96,7 @@ header .logo {
 header .home {
   padding: 0 1rem;
   float: left;
-  margin: 1rem 0;
+  /* margin: 1rem 0; */
   font-size: 1em;
 }
 
@@ -152,9 +152,10 @@ code {
 .home {
   padding: 0 1rem;
   float: left;
-  margin: 1rem 0; /* 16px /16 */
+  /* margin: 1rem 0; 16px /16 */
   font-size: 1em; /* 16px /16 */
 }
+
 .home :link:not(:hover) {
   text-decoration: none;
 }
@@ -184,7 +185,8 @@ code {
   padding: 0;
 }
 .postlist-item {
-  display: flex;
+  /* display: flex; */
+  margin-bottom: 0.5em;
   flex-wrap: wrap;
   align-items: baseline;
   counter-increment: start-from -1;
