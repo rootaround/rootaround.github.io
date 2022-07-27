@@ -67,7 +67,7 @@
 <p>Предыдущая статья: <a href="/posts/blog/2020-12-linux-tools-shells-part-2-ash-startup/">shells, ash #1 - ash startup and arguments</a></p>
 <p>Следующая статья: <a href="/posts/blog/2021-01-linux-tools-shells-part-4-ash-redirections/">shells, ash #3 - ash syntax, redirections</a></p>
 <p>Тут нужно сделать небольшое отступление про стандарты. Существует стандарт POSIX 1003.2, который определяет много чего, но сейчас нам важно что он определяет как должна работать командная оболочка, какие команды должны существовать, как работать.</p>
-<p>Так вот ash практически ее поддерерживает судя по документации:</p>
+<p>Так вот ash практически ее поддерживает судя по документации:</p>
 <pre class="language-bash"><code class="language-bash"><span class="token punctuation">..</span>. is <span class="token keyword">in</span> the process of being changed to conform<br>with the POSIX <span class="token number">1003.2</span> and <span class="token number">1003</span>.2a specifications <span class="token keyword">for</span> the shell.<br><br><span class="token punctuation">..</span>.<br><br>Only features designated by POSIX, plus a few Berkeley extensions,<br>are being incorporated into this shell.<br><br><span class="token punctuation">..</span>.</code></pre>
 <p>Видимо полная реализация стандарта довольно трудоемкое (и противоречивое) занятие, поэтому даже этот шелл имеет какие-то свои нестандартные фичи. К слову у bash их еще больше и называют их bashisms, но в нем есть режим совместимости с POSIX.</p>
 <p>Возвращаемся к ash и сегодня поговорим про то как можно писать команды и какой синтаксис и удобства предоставляет нам шелл.</p>
@@ -95,14 +95,7 @@
 <p>Все что внутри одинарных кавычек, кроме одинарных кавычек, считается обычным символом</p>
 <pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'&amp;;|>>'</span><br><span class="token operator">&amp;</span><span class="token punctuation">;</span><span class="token operator">|</span><span class="token operator">>></span></code></pre>
 <p>Одинарные кавычки при необходимости можно вывести отдельно с помощью <a href="#backslash">backslash</a></p>
-<pre><code># последняя кавычка экранирована с помощью backslash
-# и считается обычным символом
-$ echo '&amp;|$'\'
-&amp;|$'
-
-$ echo '$PATH'
-$PATH
-</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># последняя кавычка экранирована с помощью backslash</span><br><span class="token comment"># и считается обычным символом</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'&amp;|$'</span><span class="token punctuation">\</span>'<br><span class="token operator">&amp;</span><span class="token operator">|</span><span class="token string">$'<br><br>$ echo '</span><span class="token environment constant">$PATH</span>'<br><span class="token environment constant">$PATH</span></code></pre>
 <h3 id="parnye-dvojnye-kavychki-matched-double-qoutes" tabindex="-1"><a id="double-quotes" href="#double-quotes"></a> парные двойные кавычки — matched double qoutes <a class="direct-link" href="#parnye-dvojnye-kavychki-matched-double-qoutes" aria-hidden="true">#</a></h3>
 <p>С двойными кавычками все немного сложнеe. Все символы внутри двойных кавычек считаются обычными, за исключением символов знака доллара (dollarsign) - <code>$</code>, обратной кавычки (backquote) - <code>`</code> и обратного слэша (backslash) - <code>\</code></p>
 <p>backslash внутри двойных кавычек позволяет экранировать только символы: <code>$ ` &quot; \ &lt;newline&gt;</code></p>
