@@ -146,7 +146,8 @@ pre {
 }
 code {
   word-break: break-all;
-  background-color: #eee;
+  background-color: #000;
+  color: #fff;
   border-radius: 3px;
   font-family: courier, monospace;
   padding: 0 3px;
