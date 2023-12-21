@@ -202,16 +202,19 @@ i18n with plurals support and easy syntax.</li>
 <h2 id="code" tabindex="-1">Code <a class="direct-link" href="#code" aria-hidden="true">#</a></h2>
 <p>Inline <code>code</code></p>
 <p>Indented code</p>
-<pre><code>// Some comments
+<p>// Some comments
 line 1 of code
 line 2 of code
-line 3 of code
-</code></pre>
+line 3 of code</p>
 <p>Block code “fences”</p>
 <pre><code>Sample text here...
 </code></pre>
 <p>Syntax highlighting</p>
-<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">bar</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token keyword">return</span> bar<span class="token operator">++</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">var</span> <span class="token function-variable function">foo</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">bar</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> bar<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h2 id="tables" tabindex="-1">Tables <a class="direct-link" href="#tables" aria-hidden="true">#</a></h2>
 <table>
 <thead>
@@ -297,10 +300,8 @@ line 3 of code
 with lazy continuation.</p>
 <p>Term 2 with <em>inline markup</em></p>
 <p>: Definition 2</p>
-<pre><code>    { some code, part of Definition 2 }
-
-Third paragraph of definition 2.
-</code></pre>
+<p>{ some code, part of Definition 2 }</p>
+<p>Third paragraph of definition 2.</p>
 <p><em>Compact style:</em></p>
 <p>Term 1
 ~ Definition 1</p>

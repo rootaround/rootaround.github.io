@@ -65,48 +65,166 @@
 <p>В прошлой статье прошли по сложным командам, циклам и условиям. Теперь усложняем. Что если нужно выполнять много сложных команд и еще хочется переиспользовать некоторые части команд?</p>
 <!-- more -->
 <p>На помощь приходят функции</p>
-<pre class="language-bash"><code class="language-bash"><span class="token function-name function">name</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token builtin class-name">command</span><br>  <span class="token punctuation">..</span>.<br>  <span class="token builtin class-name">return</span> <span class="token punctuation">[</span>exitstatus<span class="token punctuation">]</span><br><span class="token punctuation">}</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token function-name function">name</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token builtin class-name">command</span>
+  <span class="token punctuation">..</span>.
+  <span class="token builtin class-name">return</span> <span class="token punctuation">[</span>exitstatus<span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Функции могут содержать всего одну команду и записываться без фигурных скобок</p>
-<pre class="language-bash"><code class="language-bash">$ hello<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span><br>$ hello<br>Hello</code></pre>
+<pre class="language-bash"><code class="language-bash">$ hello<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span>
+$ hello
+Hello</code></pre>
 <p>Или несколько команд</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span><br>  <span class="token builtin class-name">echo</span> <span class="token string">'World'</span><br><span class="token punctuation">}</span><br>$ hello<br>Hello<br>World</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">'World'</span>
+<span class="token punctuation">}</span>
+$ hello
+Hello
+World</code></pre>
 <p>Каждая функция работает как обычная команда-программа и возвращает exit-код. По умолчанию возвращается 0, но можно вернуть нужный exit-код c помощью return. При этом выполнение функции прекращается на return.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span><br><span class="token builtin class-name">return</span> <span class="token number">100</span><br><span class="token builtin class-name">echo</span> <span class="token string">'World'</span><br><span class="token punctuation">}</span><br><br><span class="token comment"># World не выводится</span><br>$ hello<br>Hello<br><br><span class="token comment"># $? содержит exit-код предыдущей команды</span><br>$ <span class="token builtin class-name">echo</span> <span class="token variable">$?</span><br><span class="token number">100</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span>
+<span class="token builtin class-name">return</span> <span class="token number">100</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'World'</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># World не выводится</span>
+$ hello
+Hello
+
+<span class="token comment"># $? содержит exit-код предыдущей команды</span>
+$ <span class="token builtin class-name">echo</span> <span class="token variable">$?</span>
+<span class="token number">100</span></code></pre>
 <h2 id="parametry-i-peremennye" tabindex="-1"><a id="parameters-variables" href="#parameters-variables"></a> Параметры и переменные <a class="direct-link" href="#parametry-i-peremennye" aria-hidden="true">#</a></h2>
 <p>В 3 статье серии мы уже немного <a href="/2020-12-linux-tools-shells-part-3-ash-commands/#variables">говорили о переменных</a>, сегодня разберемся с ними подробно.</p>
 <p>Параметры (Parameters) могут позиционными и специальными, а параметры с именем называются переменными (Variables).</p>
 <h3 id="poziczionnye-parametry-positional-parameters" tabindex="-1"><a id="postional-parameters" href="#postional-parameters"></a> Позиционные параметры - Positional Parameters <a class="direct-link" href="#poziczionnye-parametry-positional-parameters" aria-hidden="true">#</a></h3>
 <p>При запуске скрипта все параметры перечисленные после команды являются позиционными параметрами и ash позволяет обращаться к ним по номерам, начиная с 1.</p>
 <p>В параметре <code>$0</code> хранится путь к текущему скрипту или путь к shell, если запущен интерактивный режим</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># параметр $0 самого shell хранит путь к shell-программе</span><br>$ <span class="token builtin class-name">echo</span> <span class="token variable">$0</span><br>/usr/bin/ash<br><br>$ <span class="token function">cat</span> ./test.sh<br><span class="token builtin class-name">echo</span> <span class="token string">'$0='</span><span class="token variable">$0</span><br><span class="token builtin class-name">echo</span> <span class="token string">'$1='</span><span class="token variable">$1</span><br><span class="token builtin class-name">echo</span> <span class="token string">'$2='</span><span class="token variable">$2</span><br><br><span class="token comment"># передаем пару параметров скрипту test.sh</span><br>$ ash ./test.sh first second<br><span class="token variable">$0</span><span class="token operator">=</span>./test.sh<br><span class="token variable">$1</span><span class="token operator">=</span>first<br><span class="token variable">$2</span><span class="token operator">=</span>second</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># параметр $0 самого shell хранит путь к shell-программе</span>
+$ <span class="token builtin class-name">echo</span> <span class="token variable">$0</span>
+/usr/bin/ash
+
+$ <span class="token function">cat</span> ./test.sh
+<span class="token builtin class-name">echo</span> <span class="token string">'$0='</span><span class="token variable">$0</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'$1='</span><span class="token variable">$1</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'$2='</span><span class="token variable">$2</span>
+
+<span class="token comment"># передаем пару параметров скрипту test.sh</span>
+$ ash ./test.sh first second
+<span class="token variable">$0</span><span class="token operator">=</span>./test.sh
+<span class="token variable">$1</span><span class="token operator">=</span>first
+<span class="token variable">$2</span><span class="token operator">=</span>second</code></pre>
 <p>Точно такая же логика с позиционными параметрами работает и для функций. В <code>$0</code> будет содержаться путь к shell, а параметры в функции можно передавать аналогично скриптам</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'$0='</span><span class="token variable">$0</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Hello, <span class="token variable">$1</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><br><br>$ hello World<br><span class="token variable">$0</span><span class="token operator">=</span>/usr/bin/ash<br>Hello, World</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'$0='</span><span class="token variable">$0</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"Hello, <span class="token variable">$1</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+$ hello World
+<span class="token variable">$0</span><span class="token operator">=</span>/usr/bin/ash
+Hello, World</code></pre>
 <p>Позиционные параметры в скриптах и функциях можно переопределять с помощью builtin-команды <code>set</code> (подробно синтаксис set разберем в отдельной статье про builtin-команды)</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token builtin class-name">echo</span> <span class="token string">"Hello, <span class="token variable">$1</span> and <span class="token variable">$2</span>"</span><span class="token punctuation">;</span><br><span class="token builtin class-name">set</span> Beavis Butthead<span class="token punctuation">;</span><br><span class="token builtin class-name">echo</span> <span class="token string">"Hello, <span class="token variable">$1</span> and <span class="token variable">$2</span>"</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>$ hello Rick Morty<br>Hello, Rick and Morty<br>Hello, Beavis and Butthead</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"Hello, <span class="token variable">$1</span> and <span class="token variable">$2</span>"</span><span class="token punctuation">;</span>
+<span class="token builtin class-name">set</span> Beavis Butthead<span class="token punctuation">;</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"Hello, <span class="token variable">$1</span> and <span class="token variable">$2</span>"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+$ hello Rick Morty
+Hello, Rick and Morty
+Hello, Beavis and Butthead</code></pre>
 <h3 id="peremennye-variables" tabindex="-1"><a id="variables" href="#variables"></a> Переменные - Variables <a class="direct-link" href="#peremennye-variables" aria-hidden="true">#</a></h3>
 <p>Shell-переменные можно использовать внутри скриптов для хранения значений</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span><br>$ <span class="token assign-left variable">b</span><span class="token operator">=</span><span class="token number">2</span><br>$ <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100500</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$a</span>-<span class="token variable">$b</span>-<span class="token variable">$TEST</span>"</span><br><span class="token number">1</span>-2-100500</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span>
+$ <span class="token assign-left variable">b</span><span class="token operator">=</span><span class="token number">2</span>
+$ <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100500</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$a</span>-<span class="token variable">$b</span>-<span class="token variable">$TEST</span>"</span>
+<span class="token number">1</span>-2-100500</code></pre>
 <p>Но эти параметры не передаются при вызовах команд в environment-переменные, можно делать вручную задавать environment-переменные для каждой команды</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> ./test.sh<br><span class="token builtin class-name">echo</span> <span class="token string">'$TEST='</span><span class="token variable">$TEST</span><br><br><span class="token comment"># переменная TEST будет пуста</span><br>$ ./test.sh<br><span class="token variable">$TEST</span><span class="token operator">=</span><br><br><span class="token comment"># передаем значение переменной TEST на момент вызова</span><br>$ <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">1</span> ./test.sh<br><span class="token variable">$TEST</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> ./test.sh
+<span class="token builtin class-name">echo</span> <span class="token string">'$TEST='</span><span class="token variable">$TEST</span>
+
+<span class="token comment"># переменная TEST будет пуста</span>
+$ ./test.sh
+<span class="token variable">$TEST</span><span class="token operator">=</span>
+
+<span class="token comment"># передаем значение переменной TEST на момент вызова</span>
+$ <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">1</span> ./test.sh
+<span class="token variable">$TEST</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
 <p>Для того чтобы shell-переменные передавались в окружение (environment) всем выполняемым командам, нужно экспортировать переменную</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">export</span> <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100500</span><br><br>$ ./test.sh<br><span class="token variable">$TEST</span><span class="token operator">=</span><span class="token number">100500</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">export</span> <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100500</span>
+
+$ ./test.sh
+<span class="token variable">$TEST</span><span class="token operator">=</span><span class="token number">100500</span></code></pre>
 <h3 id="peremennye-v-funkcziyah" tabindex="-1"><a id="function-variables" href="#function-variables"></a> Переменные в функциях <a class="direct-link" href="#peremennye-v-funkcziyah" aria-hidden="true">#</a></h3>
 <p>В функциях видны все shell-переменные (и environment-переменные тоже) — их можно использовать внутри.</p>
 <p>Также все команды, выполненные внутри функций влияют на shell, в общем все точно также как и при выполнении обычных команд без функции. Чтобы команды не влияли на текущий shell можно <a href="/2021-01-linux-tools-shells-part-5-ash-complex-commands/#grouping-parentheses">группировать их в круглых скобках </a>.</p>
 <h3 id="lokalnye-peremennye-v-funkcziyah" tabindex="-1"><a id="local-function-variables" href="#local-function-variables"></a> Локальные переменные в функциях <a class="direct-link" href="#lokalnye-peremennye-v-funkcziyah" aria-hidden="true">#</a></h3>
 <p>Если определенные переменные нужны только внутри функции можно воспользоваться builtin-функцией local.</p>
 <p>Команда <code>local</code> должна быть вызвана в начале функции и должна содержать имя локальной переменной. Локальные переменные никак не инициализируются и задавать значения им нужно отдельно.</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># в shell своя переменная name</span><br>$ <span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino<br><br>$ <span class="token function-name function">hello</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token builtin class-name">local</span> name <span class="token comment"># в функции своя переменная name</span><br><span class="token builtin class-name">echo</span> <span class="token string">'local name='</span><span class="token variable">$name</span><br><span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro<br><span class="token builtin class-name">echo</span> <span class="token string">'local name='</span><span class="token variable">$name</span><br><span class="token punctuation">}</span><br><br>$ hello<br><span class="token builtin class-name">local</span> <span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino<br><span class="token builtin class-name">local</span> <span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro<br><br><span class="token comment"># в shell переменная не поменялась</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'name='</span><span class="token variable">$name</span><br><span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># в shell своя переменная name</span>
+$ <span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino
+
+$ <span class="token function-name function">hello</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token builtin class-name">local</span> name <span class="token comment"># в функции своя переменная name</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'local name='</span><span class="token variable">$name</span>
+<span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro
+<span class="token builtin class-name">echo</span> <span class="token string">'local name='</span><span class="token variable">$name</span>
+<span class="token punctuation">}</span>
+
+$ hello
+<span class="token builtin class-name">local</span> <span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino
+<span class="token builtin class-name">local</span> <span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro
+
+<span class="token comment"># в shell переменная не поменялась</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'name='</span><span class="token variable">$name</span>
+<span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino</code></pre>
 <p>Кроме этого scope локальных переменных сохраняется при создании вложенных функций - то есть для вложенной функции будет своя переменная, а не глобальная.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino<br><br>$ <span class="token function-name function">hello</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>  <span class="token builtin class-name">local</span> name<br>  <span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro<br>  <span class="token builtin class-name">echo</span> <span class="token string">'name='</span><span class="token variable">$name</span><br><br>  <span class="token function-name function">bang</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'bang name='</span><span class="token variable">$name</span> <span class="token punctuation">}</span><br><br>  bang<br><span class="token punctuation">}</span><br><br><br>$ hello<br><span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro<br><span class="token comment"># в функции bang переиспользуется локальная переменная name</span><br><span class="token comment"># из функции hello</span><br>bang <span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro<br><br><span class="token comment"># в shell осталась своя переменная</span><br>$ <span class="token builtin class-name">echo</span> <span class="token variable">$name</span><br>Pachino</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">name</span><span class="token operator">=</span>Pachino
+
+$ <span class="token function-name function">hello</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token builtin class-name">local</span> name
+  <span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro
+  <span class="token builtin class-name">echo</span> <span class="token string">'name='</span><span class="token variable">$name</span>
+
+  <span class="token function-name function">bang</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'bang name='</span><span class="token variable">$name</span> <span class="token punctuation">}</span>
+
+  bang
+<span class="token punctuation">}</span>
+
+
+$ hello
+<span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro
+<span class="token comment"># в функции bang переиспользуется локальная переменная name</span>
+<span class="token comment"># из функции hello</span>
+bang <span class="token assign-left variable">name</span><span class="token operator">=</span>DeNiro
+
+<span class="token comment"># в shell осталась своя переменная</span>
+$ <span class="token builtin class-name">echo</span> <span class="token variable">$name</span>
+Pachino</code></pre>
 <p>Вместо имени переменной в <code>local</code> можно указать <code>-</code></p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br><span class="token builtin class-name">local</span> -<br><span class="token comment"># ...</span><br><span class="token punctuation">}</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token builtin class-name">local</span> -
+<span class="token comment"># ...</span>
+<span class="token punctuation">}</span></code></pre>
 <p>В этом случае все установленные опции с помощью команды <code>set</code> будут локальными и вернуться к своим значениям при выходе из функции. Про установку опций с помощью <code>set</code> говорили во <a href="/2020-12-linux-tools-shells-part-2-ash-startup/#xtrace-arg-adv">2 статье серии</a>.</p>
 <h2 id="potoki-v-funkcziyah" tabindex="-1"><a id="function-streams" href="#function-streams"></a> Потоки в функциях <a class="direct-link" href="#potoki-v-funkcziyah" aria-hidden="true">#</a></h2>
 <p>Раз функция ведет себя как команда, значит внутри нее можно работать с потоками и использовать функции в пайплайнах</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># передаем в cat данные из stdin-потока</span><br>$ hello <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span> <span class="token function">cat</span> <span class="token operator">&lt;</span><span class="token file-descriptor important">&amp;0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><br><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'World'</span> <span class="token operator">|</span> hello<br>Hello<br>World</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># передаем в cat данные из stdin-потока</span>
+$ hello <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span> <span class="token function">cat</span> <span class="token operator">&lt;</span><span class="token file-descriptor important">&amp;0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+$ <span class="token builtin class-name">echo</span> <span class="token string">'World'</span> <span class="token operator">|</span> hello
+Hello
+World</code></pre>
 <p>stdout и stderr- потоки у функции также свои</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;1</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">'World'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;2</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><br><br>$ hello<br>Hello<br>World<br><br><span class="token comment"># перенаправляем stderr в /dev/null</span><br>$ hello <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null<br>Hello</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function-name function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token builtin class-name">echo</span> <span class="token string">'Hello'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;1</span><span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">'World'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;2</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+$ hello
+Hello
+World
+
+<span class="token comment"># перенаправляем stderr в /dev/null</span>
+$ hello <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null
+Hello</code></pre>
 <p> </p>
 <h1 id="itogo" tabindex="-1">Итого <a class="direct-link" href="#itogo" aria-hidden="true">#</a></h1>
 <p>Сегодня узнали как создавать shell-функции и как использовать параметры, потоки и переменные внутри shell-функций.</p>

@@ -68,7 +68,15 @@
 <p>Следующая статья: <a href="/posts/blog/2021-01-linux-tools-shells-part-4-ash-redirections/">shells, ash #3 - ash syntax, redirections</a></p>
 <p>Тут нужно сделать небольшое отступление про стандарты. Существует стандарт POSIX 1003.2, который определяет много чего, но сейчас нам важно что он определяет как должна работать командная оболочка, какие команды должны существовать, как работать.</p>
 <p>Так вот ash практически ее поддерживает судя по документации:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token punctuation">..</span>. is <span class="token keyword">in</span> the process of being changed to conform<br>with the POSIX <span class="token number">1003.2</span> and <span class="token number">1003</span>.2a specifications <span class="token keyword">for</span> the shell.<br><br><span class="token punctuation">..</span>.<br><br>Only features designated by POSIX, plus a few Berkeley extensions,<br>are being incorporated into this shell.<br><br><span class="token punctuation">..</span>.</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token punctuation">..</span>. is <span class="token keyword">in</span> the process of being changed to conform
+with the POSIX <span class="token number">1003.2</span> and <span class="token number">1003</span>.2a specifications <span class="token keyword">for</span> the shell.
+
+<span class="token punctuation">..</span>.
+
+Only features designated by POSIX, plus a few Berkeley extensions,
+are being incorporated into this shell.
+
+<span class="token punctuation">..</span>.</code></pre>
 <p>Видимо полная реализация стандарта довольно трудоемкое (и противоречивое) занятие, поэтому даже этот шелл имеет какие-то свои нестандартные фичи. К слову у bash их еще больше и называют их bashisms, но в нем есть режим совместимости с POSIX.</p>
 <p>Возвращаемся к ash и сегодня поговорим про то как можно писать команды и какой синтаксис и удобства предоставляет нам шелл.</p>
 <p>ash читает скрипт построчно, разбивает его на слова по пробелам и табам. Дальше некоторые последовательности символов определяются как операторы. Операторы бывают двух видов:</p>
@@ -88,37 +96,68 @@
 </ul>
 <h3 id="obratnyj-slesh-backslash" tabindex="-1"><a id="backslash" href="#backslash"></a> обратный слэш — backslash <a class="direct-link" href="#obratnyj-slesh-backslash" aria-hidden="true">#</a></h3>
 <p>Backslash перед спец символом делает его обычным символом</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># команда ничего не выведет,</span><br><span class="token comment"># потому что точка с запятой интеретируется как разделитель команд</span><br>$ <span class="token builtin class-name">echo</span> <span class="token punctuation">;</span><br><br><span class="token comment"># выведется точка с запятой, как обычный символ</span><br>$ <span class="token builtin class-name">echo</span> <span class="token punctuation">\</span><span class="token punctuation">;</span><br><span class="token punctuation">;</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># команда ничего не выведет,</span>
+<span class="token comment"># потому что точка с запятой интеретируется как разделитель команд</span>
+$ <span class="token builtin class-name">echo</span> <span class="token punctuation">;</span>
+
+<span class="token comment"># выведется точка с запятой, как обычный символ</span>
+$ <span class="token builtin class-name">echo</span> <span class="token punctuation">\</span><span class="token punctuation">;</span>
+<span class="token punctuation">;</span></code></pre>
 <p>Кроме этого backslash перед символом конца строки (переводом строки) интерпретируется как продолжение строки</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token number">1</span><span class="token punctuation">\</span><br><span class="token number">2</span><span class="token punctuation">\</span><br><span class="token number">3</span><br><span class="token number">123</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token number">1</span><span class="token punctuation">\</span>
+<span class="token number">2</span><span class="token punctuation">\</span>
+<span class="token number">3</span>
+<span class="token number">123</span></code></pre>
 <h3 id="parnye-odinarnye-kavychki-matched-single-quotes" tabindex="-1"><a id="single-quotes" href="#single-quotes"></a> парные одинарные кавычки — matched single quotes <a class="direct-link" href="#parnye-odinarnye-kavychki-matched-single-quotes" aria-hidden="true">#</a></h3>
 <p>Все что внутри одинарных кавычек, кроме одинарных кавычек, считается обычным символом</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'&amp;;|>>'</span><br><span class="token operator">&amp;</span><span class="token punctuation">;</span><span class="token operator">|</span><span class="token operator">>></span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'&amp;;|>>'</span>
+<span class="token operator">&amp;</span><span class="token punctuation">;</span><span class="token operator">|</span><span class="token operator">>></span></code></pre>
 <p>Одинарные кавычки при необходимости можно вывести отдельно с помощью <a href="#backslash">backslash</a></p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># последняя кавычка экранирована с помощью backslash</span><br><span class="token comment"># и считается обычным символом</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'&amp;|$'</span><span class="token punctuation">\</span>'<br><span class="token operator">&amp;</span><span class="token operator">|</span><span class="token string">$'<br><br>$ echo '</span><span class="token environment constant">$PATH</span>'<br><span class="token environment constant">$PATH</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># последняя кавычка экранирована с помощью backslash</span>
+<span class="token comment"># и считается обычным символом</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'&amp;|$'</span><span class="token punctuation">\</span>'
+<span class="token operator">&amp;</span><span class="token operator">|</span><span class="token string">$'
+
+$ echo '</span><span class="token environment constant">$PATH</span>'
+<span class="token environment constant">$PATH</span></code></pre>
 <h3 id="parnye-dvojnye-kavychki-matched-double-qoutes" tabindex="-1"><a id="double-quotes" href="#double-quotes"></a> парные двойные кавычки — matched double qoutes <a class="direct-link" href="#parnye-dvojnye-kavychki-matched-double-qoutes" aria-hidden="true">#</a></h3>
 <p>С двойными кавычками все немного сложнеe. Все символы внутри двойных кавычек считаются обычными, за исключением символов знака доллара (dollarsign) - <code>$</code>, обратной кавычки (backquote) - <code>`</code> и обратного слэша (backslash) - <code>\</code></p>
 <p>backslash внутри двойных кавычек позволяет экранировать только символы: <code>$ ` &quot; \ &lt;newline&gt;</code></p>
 <p>Кратко рассмотрим зачем вообще нужны эти символы – дальше они будут разобраны подробнее.</p>
 <p><code>$</code> - dollarsign</p>
 <p>с помощью <code>$</code> можно использовать shell-переменные вообще без кавычек</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token environment constant">$PATH</span><br>/sbin:/usr/sbin:/bin:/usr/bin<br><br><span class="token comment"># аналогично $ работает в двойных кавычках</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token environment constant">$PATH</span>"</span><br>/sbin:/usr/sbin:/bin:/usr/bin</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token environment constant">$PATH</span>
+/sbin:/usr/sbin:/bin:/usr/bin
+
+<span class="token comment"># аналогично $ работает в двойных кавычках</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token environment constant">$PATH</span>"</span>
+/sbin:/usr/sbin:/bin:/usr/bin</code></pre>
 <p><code>`</code> - backquote</p>
 <p>команда, заключенная в обратные кавычки, выполняется и output команды подставляется вместо обратных кавычек. Работает и без двойных кавычек.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">pwd</span><span class="token variable">`</span></span><br>/home/ubuntu<br><br>$ <span class="token builtin class-name">echo</span> <span class="token string">"current directory is <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">pwd</span><span class="token variable">`</span></span>"</span><br>current directory is /home/ubuntu</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">pwd</span><span class="token variable">`</span></span>
+/home/ubuntu
+
+$ <span class="token builtin class-name">echo</span> <span class="token string">"current directory is <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">pwd</span><span class="token variable">`</span></span>"</span>
+current directory is /home/ubuntu</code></pre>
 <p><code>\</code> - backslash</p>
 <p>работает как и раньше, экранирует символы: <code>$ ` &quot; \ </code> и backslash перед переводом строки считается продолжением строки без переноса</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"\<span class="token environment constant">$PWD</span> = \<br><span class="token entity" title="\&quot;">\"</span><span class="token environment constant">$PWD</span><span class="token entity" title="\&quot;">\"</span>"</span><br><span class="token environment constant">$PWD</span> <span class="token operator">=</span> <span class="token string">"/home/ubuntu"</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"\<span class="token environment constant">$PWD</span> = \
+<span class="token entity" title="\&quot;">\"</span><span class="token environment constant">$PWD</span><span class="token entity" title="\&quot;">\"</span>"</span>
+<span class="token environment constant">$PWD</span> <span class="token operator">=</span> <span class="token string">"/home/ubuntu"</span></code></pre>
 <h3 id="kombinirovanie-raznyh-kavychek-dlya-komand-i-argumentov" tabindex="-1"><a id="combine-quotes" href="#combine-quotes"></a> Комбинирование разных кавычек для команд и аргументов <a class="direct-link" href="#kombinirovanie-raznyh-kavychek-dlya-komand-i-argumentov" aria-hidden="true">#</a></h3>
 <p>Все способы формирования можно комбинировать: использовать поочерердно разные кавычки, переменные:</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> my<span class="token string">' path is '</span><span class="token string">" = "</span><span class="token environment constant">$PWD</span><span class="token string">""</span><br>my path is  <span class="token operator">=</span> /home/ubuntu</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> my<span class="token string">' path is '</span><span class="token string">" = "</span><span class="token environment constant">$PWD</span><span class="token string">""</span>
+my path is  <span class="token operator">=</span> /home/ubuntu</code></pre>
 <p>Главное чтобы в рамках одного аргумента строки соединялись без пробелов, иначе после пробела shell будет считать строку уже другим аргументом.</p>
 <h2 id="komandy" tabindex="-1"><a id="commands" href="#commands"></a> Команды <a class="direct-link" href="#komandy" aria-hidden="true">#</a></h2>
 <p>Вот мы и подобрались к сути, ведь shell нужен как раз для выполнения команд.</p>
 <p>Если при обработке строки скрипта первое слово не является зарезервирванным, то ash начинает обработку этой строки как команды.</p>
 <p>Команды могут быть простыми — вызов одной команды, или сложными конструкциями из нескольких связанных команд с условиями или без. Начнем по порядку с простых команд.</p>
 <p>Для примера рассмотрим команду <code>env</code>, которая выводит текущие переменные окружения (environment variables).</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">env</span><br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin<br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">env</span>
+<span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin
+<span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu</code></pre>
 <p>Команда вывела несколько переменных окружнения:</p>
 <ul>
 <li><code>SHLVL</code> - текущий уровень “вложенности” шеллов, если в этом шелл запустить еще раз команду ash - SHLVL будет равен 2, а внутри этого шелла запустить еще один, то в нем будет SHLVL=3 и так далее</li>
@@ -127,21 +166,72 @@
 </ul>
 <h3 id="neskolko-slov-pro-peremennye-variables" tabindex="-1"><a id="variables" href="#variables"></a> Несколько слов про переменные - variables <a class="direct-link" href="#neskolko-slov-pro-peremennye-variables" aria-hidden="true">#</a></h3>
 <p>Команда запускает процесс, у процесса могут быть переменные окружения (environment variables, env vars). Переменные окружения для конкретной команды можно задать непосредственно при вызове:</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token function">env</span><br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin<br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu<br><span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token comment"># &lt;&lt;&lt; переменная 'a' есть в переменных окружения</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token function">env</span>
+<span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin
+<span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu
+<span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token comment"># &lt;&lt;&lt; переменная 'a' есть в переменных окружения</span></code></pre>
 <p>Вообще и в интерактивном шелле и в скриптах все что соответствует паттертну <code>name=value</code> с начала строки (или после служебного слова) считается переменной и если после переменных следует команда, то все эти переменные попадут в переменные окружения процесса запущенного этой командой:</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">b</span><span class="token operator">=</span><span class="token number">2</span> <span class="token function">env</span><br><span class="token comment"># ...</span><br><span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable">b</span><span class="token operator">=</span><span class="token number">2</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">b</span><span class="token operator">=</span><span class="token number">2</span> <span class="token function">env</span>
+<span class="token comment"># ...</span>
+<span class="token assign-left variable">a</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">b</span><span class="token operator">=</span><span class="token number">2</span></code></pre>
 <p>Если переменные указаны без команды, то они определяются как переменные шелла - shell variables.</p>
 <p>Shell variables доступны для подстановки в самом шелле, но во все выполняемые команды передаются только environment variables.</p>
 <p>Shell-переменные (в том числе environment-переменные) можно посмотреть builtin-командой <code>set</code>, а env-переменные командой <code>env</code> или <code>export</code>.</p>
 <p>Несколько примеров чтобы стало понятнее</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># определяем shell-переменную my_test_var</span><br>$ <span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">1</span><br><br><span class="token comment"># смотрим что переменная определилась</span><br><span class="token comment"># в результатах set выводятся вообще все переменные,</span><br><span class="token comment"># в том числе environment variables</span><br>$ <span class="token builtin class-name">set</span><br><span class="token comment"># ...</span><br><span class="token assign-left variable"><span class="token environment constant">PS4</span></span><span class="token operator">=</span><span class="token string">'+ '</span><br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span><span class="token string">'/home/ubuntu'</span><br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token string">'1'</span><br><span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token string">'1'</span> <span class="token comment"># &lt;&lt;&lt; тут есть переменная 'my_test_var'</span><br><br><span class="token comment"># так как my_test_var еще не environment variable,</span><br><span class="token comment"># ее нет в выводе команды env</span><br>$ <span class="token function">env</span><br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin<br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu<br><br><span class="token comment"># но ее можно использовать в самом шелле</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'my_test_var = '</span><span class="token variable">$my_test_var</span><br>my_test_var <span class="token operator">=</span> <span class="token number">1</span><br><br><span class="token comment"># для того чтобы переменная стала environment-переменной</span><br><span class="token comment"># ее нужно экспортировать</span><br>$ <span class="token builtin class-name">export</span> my_test_var<br><br><span class="token comment"># теперь переменная my_test_var является environment-переменной</span><br><span class="token comment"># и передаётся в environment всех команд запущенных в шелле</span><br>$ <span class="token function">env</span><br><span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span><br><span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin<br><span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu<br><span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">1</span> <span class="token comment"># &lt;&lt;&lt;</span><br><br><span class="token comment"># для конкретного вызова команды</span><br><span class="token comment"># environment-переменную всегда можно переопределить</span><br>$ <span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">100500</span> <span class="token function">env</span><br><span class="token comment"># ...</span><br><span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">100500</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># определяем shell-переменную my_test_var</span>
+$ <span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">1</span>
+
+<span class="token comment"># смотрим что переменная определилась</span>
+<span class="token comment"># в результатах set выводятся вообще все переменные,</span>
+<span class="token comment"># в том числе environment variables</span>
+$ <span class="token builtin class-name">set</span>
+<span class="token comment"># ...</span>
+<span class="token assign-left variable"><span class="token environment constant">PS4</span></span><span class="token operator">=</span><span class="token string">'+ '</span>
+<span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span><span class="token string">'/home/ubuntu'</span>
+<span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token string">'1'</span>
+<span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token string">'1'</span> <span class="token comment"># &lt;&lt;&lt; тут есть переменная 'my_test_var'</span>
+
+<span class="token comment"># так как my_test_var еще не environment variable,</span>
+<span class="token comment"># ее нет в выводе команды env</span>
+$ <span class="token function">env</span>
+<span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin
+<span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu
+
+<span class="token comment"># но ее можно использовать в самом шелле</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'my_test_var = '</span><span class="token variable">$my_test_var</span>
+my_test_var <span class="token operator">=</span> <span class="token number">1</span>
+
+<span class="token comment"># для того чтобы переменная стала environment-переменной</span>
+<span class="token comment"># ее нужно экспортировать</span>
+$ <span class="token builtin class-name">export</span> my_test_var
+
+<span class="token comment"># теперь переменная my_test_var является environment-переменной</span>
+<span class="token comment"># и передаётся в environment всех команд запущенных в шелле</span>
+$ <span class="token function">env</span>
+<span class="token assign-left variable"><span class="token environment constant">SHLVL</span></span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/sbin:/usr/sbin:/bin:/usr/bin
+<span class="token assign-left variable"><span class="token environment constant">PWD</span></span><span class="token operator">=</span>/home/ubuntu
+<span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">1</span> <span class="token comment"># &lt;&lt;&lt;</span>
+
+<span class="token comment"># для конкретного вызова команды</span>
+<span class="token comment"># environment-переменную всегда можно переопределить</span>
+$ <span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">100500</span> <span class="token function">env</span>
+<span class="token comment"># ...</span>
+<span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">100500</span></code></pre>
 <p>Пример показывает что все переменные доступны для подстановки внутри shell, но только environment-переменные передаются в окружение всем командам, выполняемым в shell.</p>
 <p>В названии переменных могут использоваться символы латинского алфавита, числа и символ подчеркивания, название переменной не может начинаться с числа.</p>
 <p>Для более явного разделения переменных существует негласное правило:</p>
 <blockquote>
 <p>environment-переменные пишутся заглавными буквами, а обычные shell-переменные строчными</p>
 </blockquote>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># PATH - environment-переменная</span><br>$ <span class="token builtin class-name">echo</span> <span class="token environment constant">$PATH</span><br><br><span class="token comment"># my_test_var - обычная shell-переменная</span><br>$ <span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># PATH - environment-переменная</span>
+$ <span class="token builtin class-name">echo</span> <span class="token environment constant">$PATH</span>
+
+<span class="token comment"># my_test_var - обычная shell-переменная</span>
+$ <span class="token assign-left variable">my_test_var</span><span class="token operator">=</span><span class="token number">1</span></code></pre>
 <p> </p>
 <h1 id="itogo" tabindex="-1">Итого <a class="direct-link" href="#itogo" aria-hidden="true">#</a></h1>
 <p>Сегодня начали разбирать синтаксис и посмотрели как можно писать команды и аргументы с помощью кавычек, как формируется команда, как работать с переменными в общем и с переменными окружения в частности. В следующей статье разберемся как управлять перенаправлением потоков stdin, stdout и stderr с помощью redirection operators.</p>

@@ -80,37 +80,85 @@
 <p>Интерактивный режим позволяет вводить, редактировать и выполнять команды снова, видеть ошибки выполнения команд, в общем напрямую взаимодействовать с системой.</p>
 <h1 id="zapusk-shell-skriptov-non-interactive-shell" tabindex="-1"><a id="script-shell" href="#script-shell"></a> Запуск shell-скриптов - non-interactive shell <a class="direct-link" href="#zapusk-shell-skriptov-non-interactive-shell" aria-hidden="true">#</a></h1>
 <p>Противоположность интерактивному режиму - запуск скриптов с помощью ash, это режим включается при указании пути к скрипту или аргумента <code>-c</code></p>
-<pre class="language-bash"><code class="language-bash">$ ash ./test.sh<br><br>$ ash -c <span class="token string">'echo 100500'</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ ash ./test.sh
+
+$ ash <span class="token parameter variable">-c</span> <span class="token string">'echo 100500'</span></code></pre>
 <p>С этим режимом связано довольно много аргументов ash, помогающих разрабатывать скрипты.</p>
 <h2 id="noexec-argument-n" tabindex="-1"><a id="noexec-arg-adv" href="#noexec-arg-adv"></a> noexec - аргумент <code>-n</code> <a class="direct-link" href="#noexec-argument-n" aria-hidden="true">#</a></h2>
 <p>Проверка скрипта без выполнения команд. Работает только при выполнении файла-скрипта, но <strong>не</strong> работает при указании команд через <code>-c</code>.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">exit</span> <span class="token number">0</span><br><br>$ ash test.sh<br><span class="token number">123</span><br><br>$ ash -n test.sh</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">exit</span> <span class="token number">0</span>
+
+$ ash test.sh
+<span class="token number">123</span>
+
+$ ash <span class="token parameter variable">-n</span> test.sh</code></pre>
 <p>У последней команды не будет никакого вывода, потому что указан аргумент <code>-n</code> и команды echo и exit не будет выполнены, но в случае именно ошибки синтаксиса выведется текст ошибки и ненулевой exit code.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token operator">&amp;</span> <span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">exit</span> <span class="token number">0</span><br><br><span class="token comment"># '&amp;' в начале это ошибка в shell-скрипте</span><br><br>$ ash -n test.sh<br>./test.sh: line <span class="token number">1</span>: syntax error: unexpected <span class="token string">"&amp;"</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token operator">&amp;</span> <span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">exit</span> <span class="token number">0</span>
+
+<span class="token comment"># '&amp;' в начале это ошибка в shell-скрипте</span>
+
+$ ash <span class="token parameter variable">-n</span> test.sh
+./test.sh: line <span class="token number">1</span>: syntax error: unexpected <span class="token string">"&amp;"</span></code></pre>
 <p>Конечно этот режим не проверяет наличие самих команд, но для проверки синтаксиса удобно.</p>
 <h2 id="verbose-argument-v" tabindex="-1"><a id="verbose-arg-adv" href="#verbose-arg-adv"></a> verbose - аргумент <code>-v</code> <a class="direct-link" href="#verbose-argument-v" aria-hidden="true">#</a></h2>
 <p>В stderr будет записано все что ash читает в процессе работы.</p>
 <p>Например, в login-режиме (про него далее) читается файл <code>$HOME/.profile</code> и выполняются команды из него – с опцией <code>-v</code> все содержимое <code>.profile</code> будет записано в stderr для отладки.</p>
 <h2 id="xtrace-argument-x" tabindex="-1"><a id="xtrace-arg-adv" href="#xtrace-arg-adv"></a> xtrace - аргумент <code>-x</code> <a class="direct-link" href="#xtrace-argument-x" aria-hidden="true">#</a></h2>
 <p>С этим аргументом каждая выполняемая команда будет записано в stderr</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">exit</span> <span class="token number">0</span><br><br>$ ash -x test.sh<br>+ <span class="token builtin class-name">echo</span> <span class="token number">123</span><br><span class="token number">123</span><br>+ <span class="token builtin class-name">exit</span> <span class="token number">0</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">exit</span> <span class="token number">0</span>
+
+$ ash <span class="token parameter variable">-x</span> test.sh
++ <span class="token builtin class-name">echo</span> <span class="token number">123</span>
+<span class="token number">123</span>
++ <span class="token builtin class-name">exit</span> <span class="token number">0</span></code></pre>
 <p>Вообще все опции включатся через <code>-</code> , а выключаются через <code>+</code> <em>// кажется что нелогично и должно быть наоборот</em></p>
 <p>В интерактивном режиме тоже можно включать опции с помощью builtin-команды set</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">set</span> -x<br><br><span class="token comment"># xtrace ВКЛючен</span><br><br>$ <span class="token builtin class-name">set</span> +x<br><br><span class="token comment"># xtrace ВЫКЛючен</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">set</span> <span class="token parameter variable">-x</span>
+
+<span class="token comment"># xtrace ВКЛючен</span>
+
+$ <span class="token builtin class-name">set</span> +x
+
+<span class="token comment"># xtrace ВЫКЛючен</span></code></pre>
 <h2 id="errexit-argument-e" tabindex="-1"><a id="errexit-arg-adv" href="#errexit-arg-adv"></a> errexit - аргумент <code>-e</code> <a class="direct-link" href="#errexit-argument-e" aria-hidden="true">#</a></h2>
 <p>С <code>-e</code> все непротестированные команды (без проверки exit-кода через <code>if</code>, <code>elif</code>) будут приводить к завершению скрипта.</p>
 <p>Для примера рассмотрим скрипт с листингом несуществующей директории.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token function">ls</span> /none<span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">'good'</span><br><br>$ ash test.sh<br>ls: /none: No such <span class="token function">file</span> or directory<br>good<br>$ <span class="token builtin class-name">echo</span> <span class="token variable">$?</span><br><span class="token number">0</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token function">ls</span> /none<span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">'good'</span>
+
+$ ash test.sh
+ls: /none: No such <span class="token function">file</span> or directory
+good
+$ <span class="token builtin class-name">echo</span> <span class="token variable">$?</span>
+<span class="token number">0</span></code></pre>
 <p>При обычном запуске команды <code>ls</code> и <code>echo</code> выполняются независимо друг от друга и <code>echo</code> будет выполнено после <code>ls</code> <em>// конечно в данном случае нужно использовать <code>&amp;&amp;</code>, но об этом в следующих статьях</em></p>
 <p>С аргументом <code>-e</code> выход из скрипта произойдет после <code>ls</code> и скрипт завершится с ненулевым exit-кодом.</p>
-<pre class="language-bash"><code class="language-bash">$ ash -e test.sh<br>ls: /none: No such <span class="token function">file</span> or directory<br>$ <span class="token builtin class-name">echo</span> <span class="token variable">$?</span><br><span class="token number">1</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ ash <span class="token parameter variable">-e</span> test.sh
+ls: /none: No such <span class="token function">file</span> or directory
+$ <span class="token builtin class-name">echo</span> <span class="token variable">$?</span>
+<span class="token number">1</span></code></pre>
 <p>Еще один полезный момент — передача параметров при запуске скрипта. Все аргументы после указания пути к скрипту считаются позиционными аргументами и могут быть почитаны в скрипте из переменных $1, $2</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token variable">$1</span><br><span class="token builtin class-name">echo</span> <span class="token variable">$11</span><br><br>$ ash test.sh <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span> <span class="token number">4</span> <span class="token number">5</span> <span class="token number">6</span> <span class="token number">7</span> <span class="token number">8</span> <span class="token number">9</span> <span class="token number">10</span> <span class="token number">11</span><br><span class="token number">1</span><br><span class="token number">11</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token variable">$1</span>
+<span class="token builtin class-name">echo</span> <span class="token variable">$11</span>
+
+$ ash test.sh <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span> <span class="token number">4</span> <span class="token number">5</span> <span class="token number">6</span> <span class="token number">7</span> <span class="token number">8</span> <span class="token number">9</span> <span class="token number">10</span> <span class="token number">11</span>
+<span class="token number">1</span>
+<span class="token number">11</span></code></pre>
 <p>Отдельно стоит отметить $0 - это переменная содержит путь к скрипту</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token variable">$0</span><br><br>$ ash ./test.sh<br>./test.sh</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token variable">$0</span>
+
+$ ash ./test.sh
+./test.sh</code></pre>
 <h2 id="login-shell" tabindex="-1"><a id="login-shell" href="#login-shell"></a> login shell <a class="direct-link" href="#login-shell" aria-hidden="true">#</a></h2>
 <p>Еще одним режимом запуска является login, включается опцией <code>-l</code> или передачей первым аргументом символа <code>-</code>.</p>
-<pre class="language-bash"><code class="language-bash">$ ash -l<br><br>$ ash -</code></pre>
+<pre class="language-bash"><code class="language-bash">$ ash <span class="token parameter variable">-l</span>
+
+$ ash -</code></pre>
 <p>Работает в interactive и non-interactive режимах.</p>
 <p>Смысл режима инициализировать окружение для пользователя. В login-режиме ash ищет и выполняет shell-скрипты <code>/etc/profile</code> и <code>$HOME/.profile</code>. Если в этих файлах указать и экспортировать переменную ENV, в которой указать путь к файлу, его содержимое также будет обработано и выполнено как shell-скрипт на этапе запуска.</p>
 <pre class="language-bash"><code class="language-bash"><span class="token assign-left variable">ENV</span><span class="token operator">=</span><span class="token environment constant">$HOME</span>/.shinit<span class="token punctuation">;</span> <span class="token builtin class-name">export</span> ENV</code></pre>
@@ -121,14 +169,39 @@
 <h2 id="a" tabindex="-1"><a id="allexport-arg" href="#allexport-arg"></a> <code>-a</code> <a class="direct-link" href="#a" aria-hidden="true">#</a></h2>
 <p>allexport</p>
 <p>Экспорт env-переменных <em>// не увидел разницы с обычным режимом, все назначенные переменные окружения и так видны внутри shell при запуске</em></p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">env</span> -i <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100</span> ash -c <span class="token string">'echo $TEST'</span><br><span class="token number">100</span><br><br>$ <span class="token function">env</span> -i <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100</span> ash -a -c <span class="token string">'echo $TEST'</span><br><span class="token number">100</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">env</span> <span class="token parameter variable">-i</span> <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100</span> ash <span class="token parameter variable">-c</span> <span class="token string">'echo $TEST'</span>
+<span class="token number">100</span>
+
+$ <span class="token function">env</span> <span class="token parameter variable">-i</span> <span class="token assign-left variable">TEST</span><span class="token operator">=</span><span class="token number">100</span> ash <span class="token parameter variable">-a</span> <span class="token parameter variable">-c</span> <span class="token string">'echo $TEST'</span>
+<span class="token number">100</span></code></pre>
 <h2 id="c" tabindex="-1"><a id="command-arg" href="#command-arg"></a> <code>-c</code> <a class="direct-link" href="#c" aria-hidden="true">#</a></h2>
 <p>Режим выполнения команд, выполняет команды указанные после аргумента</p>
-<pre class="language-bash"><code class="language-bash">$ ash -c <span class="token string">'echo 100500'</span><br><span class="token number">100500</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ ash <span class="token parameter variable">-c</span> <span class="token string">'echo 100500'</span>
+<span class="token number">100500</span></code></pre>
 <h2 id="c-1" tabindex="-1"><a id="noclobber-arg" href="#noclobber-arg"></a> <code>-C</code> <a class="direct-link" href="#c-1" aria-hidden="true">#</a></h2>
 <p>noclobber <em>// не колошматить 😃</em></p>
 <p>тут речь про оператор <code>&gt;</code> при перенаправление потока в файл, по умолчанию этот оператор создает или перезаписывает содержимое файла, аргумент <code>-C</code> меняет это поведение — если файл уже существует, произойдет ошибка.</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># скрипт записывает значение первого аргумента в файл tmp.txt</span><br>$ <span class="token function">cat</span> ./test.sh<br><span class="token builtin class-name">echo</span> <span class="token variable">$1</span> <span class="token operator">></span> tmp.txt<br><br><span class="token comment"># выполняем</span><br>$ ash ./test.sh <span class="token number">100</span><br><br><span class="token comment"># в файл записано 100</span><br>$ <span class="token function">cat</span> tmp.txt<br><span class="token number">100</span><br><br><span class="token comment"># выполняем еще раз</span><br>$ ash ./test.txt <span class="token number">101</span><br><br><span class="token comment"># файл перезаписан со значением 101</span><br>$ <span class="token function">cat</span> tmp.txt<br><span class="token number">101</span><br><br><span class="token comment"># выполняем c аргументом -C - получаем ошибку</span><br>$ ash -C ./test.txt <span class="token number">102</span><br>test.sh: line <span class="token number">1</span>: can't create test.txt: File exists</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># скрипт записывает значение первого аргумента в файл tmp.txt</span>
+$ <span class="token function">cat</span> ./test.sh
+<span class="token builtin class-name">echo</span> <span class="token variable">$1</span> <span class="token operator">></span> tmp.txt
+
+<span class="token comment"># выполняем</span>
+$ ash ./test.sh <span class="token number">100</span>
+
+<span class="token comment"># в файл записано 100</span>
+$ <span class="token function">cat</span> tmp.txt
+<span class="token number">100</span>
+
+<span class="token comment"># выполняем еще раз</span>
+$ ash ./test.txt <span class="token number">101</span>
+
+<span class="token comment"># файл перезаписан со значением 101</span>
+$ <span class="token function">cat</span> tmp.txt
+<span class="token number">101</span>
+
+<span class="token comment"># выполняем c аргументом -C - получаем ошибку</span>
+$ ash <span class="token parameter variable">-C</span> ./test.txt <span class="token number">102</span>
+test.sh: line <span class="token number">1</span>: can't create test.txt: File exists</code></pre>
 <h2 id="e" tabindex="-1"><a id="errexit-arg" href="#errexit-arg"></a> <code>-e</code> <a class="direct-link" href="#e" aria-hidden="true">#</a></h2>
 <p>errexit</p>
 <p>Этот аргумент <a href="#errexit-arg-adv">рассмотрели выше</a> — выход из скрипта, если команда завершается с ненулевым exit-кодом и не обработана условиями типа <code>if</code></p>
@@ -136,14 +209,33 @@
 <p>noglob</p>
 <p>В шеллах существует прекрасная штука - file globbing - это возможность указывать путь к файлам не полностью, а, например, через wildcard — <code>cat *.txt</code> — вывести на экран все файлы с расширением txt.</p>
 <p>Так вот опция <code>-f</code> отключает file globbing для выполняемого скрипта.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token comment"># this is script</span><br><span class="token function">cat</span> *.sh<br><br><span class="token comment"># выводит все файлы с расширением sh</span><br>$ ash test.sh<br><span class="token comment"># this is script</span><br><span class="token function">cat</span> *.sh<br><br><span class="token function">file</span> globbing отключен - *.sh интерпретируется как имя файла<br>$ ash -f test.sh<br>cat: can<span class="token string">'t open '</span>*.sh': No such <span class="token function">file</span> or directory</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token comment"># this is script</span>
+<span class="token function">cat</span> *.sh
+
+<span class="token comment"># выводит все файлы с расширением sh</span>
+$ ash test.sh
+<span class="token comment"># this is script</span>
+<span class="token function">cat</span> *.sh
+
+<span class="token function">file</span> globbing отключен - *.sh интерпретируется как имя файла
+$ ash <span class="token parameter variable">-f</span> test.sh
+cat: can<span class="token string">'t open '</span>*.sh': No such <span class="token function">file</span> or directory</code></pre>
 <h2 id="n" tabindex="-1"><a id="noexec-arg" href="#noexec-arg"></a> <code>-n</code> <a class="direct-link" href="#n" aria-hidden="true">#</a></h2>
 <p>noexec</p>
 <p>Не выполняет команды, удобно для проверки синтаксиса, подробнее <a href="#noexec-arg-adv">рассмотрели выше</a></p>
 <h2 id="u" tabindex="-1"><a id="nounset-arg" href="#nounset-arg"></a> <code>-u</code> <a class="direct-link" href="#u" aria-hidden="true">#</a></h2>
 <p>nounset</p>
 <p>Завершать скрипт с ошибкой если происходит обращение к переменной, которая не определена.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token variable">$SOME</span><br><br><span class="token comment"># скрипт успешно выполнен, хотя переменная SOME не определена</span><br>$ ash test.sh<br><br><span class="token comment"># с аргументом -u присходит ошибка</span><br>$ ash -u test.sh<br>test.sh: line <span class="token number">1</span>: SOME: parameter not <span class="token builtin class-name">set</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token variable">$SOME</span>
+
+<span class="token comment"># скрипт успешно выполнен, хотя переменная SOME не определена</span>
+$ ash test.sh
+
+<span class="token comment"># с аргументом -u присходит ошибка</span>
+$ ash <span class="token parameter variable">-u</span> test.sh
+test.sh: line <span class="token number">1</span>: SOME: parameter not <span class="token builtin class-name">set</span></code></pre>
 <h2 id="v" tabindex="-1"><a id="verbose-arg" href="#verbose-arg"></a> <code>-v</code> <a class="direct-link" href="#v" aria-hidden="true">#</a></h2>
 <p>verbose</p>
 <p>Выводит в stderr все shell-файлы, которые ash читает и выполняет</p>
@@ -154,7 +246,17 @@
 <p>ignoreeof</p>
 <p>Игнорирует EOF (символы конца строки) из stdin</p>
 <p><em>// Пока не очень понятно зачем это нужно, но работает так</em></p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># echo передает EOF (/n) после строки и скрипт выводит содержимое файла скриптов</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'cat *.sh'</span> <span class="token operator">|</span> ash<br><span class="token builtin class-name">echo</span> <span class="token variable">$SOME</span><br><br><span class="token comment"># с -I конец строки игнорируется и будет ошибка</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'cat *.sh'</span> <span class="token operator">|</span> ash -I<br>Use <span class="token string">"exit"</span> to leave shell.<br><br>Use <span class="token string">"exit"</span> to leave shell.<br><br><span class="token punctuation">..</span>.</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># echo передает EOF (/n) после строки и скрипт выводит содержимое файла скриптов</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'cat *.sh'</span> <span class="token operator">|</span> ash
+<span class="token builtin class-name">echo</span> <span class="token variable">$SOME</span>
+
+<span class="token comment"># с -I конец строки игнорируется и будет ошибка</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'cat *.sh'</span> <span class="token operator">|</span> ash <span class="token parameter variable">-I</span>
+Use <span class="token string">"exit"</span> to leave shell.
+
+Use <span class="token string">"exit"</span> to leave shell.
+
+<span class="token punctuation">..</span>.</code></pre>
 <h2 id="i-1" tabindex="-1"><a id="interactive-arg" href="#interactive-arg"></a> <code>-i</code> <a class="direct-link" href="#i-1" aria-hidden="true">#</a></h2>
 <p>interactive</p>
 <p>принудительно включается интерактивный режим</p>
@@ -167,7 +269,21 @@
 <h2 id="s" tabindex="-1"><a id="stdin-arg" href="#stdin-arg"></a><code>-s</code> <a class="direct-link" href="#s" aria-hidden="true">#</a></h2>
 <p>stdin</p>
 <p>читать скрипт из stdin. Если не указан путь к скрипту, то включено.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash<br>Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span><br><br><span class="token comment"># идентично c -s</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash -s<br>Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span><br><br><span class="token comment"># но не работает если указан скрипт</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash -s test.sh<br><span class="token comment"># test script commands</span><br><br><span class="token comment"># при этом выполняются обе команды с -c и -s</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash -s -c <span class="token string">'date'</span><br>Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span><br>Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash
+Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span>
+
+<span class="token comment"># идентично c -s</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash <span class="token parameter variable">-s</span>
+Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span>
+
+<span class="token comment"># но не работает если указан скрипт</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash <span class="token parameter variable">-s</span> test.sh
+<span class="token comment"># test script commands</span>
+
+<span class="token comment"># при этом выполняются обе команды с -c и -s</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'date'</span> <span class="token operator">|</span> ash <span class="token parameter variable">-s</span> <span class="token parameter variable">-c</span> <span class="token string">'date'</span>
+Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span>
+Fri Dec <span class="token number">24</span> 00:38:31 UTC <span class="token number">2020</span></code></pre>
 <p> </p>
 <h1 id="itogo" tabindex="-1">Итого <a class="direct-link" href="#itogo" aria-hidden="true">#</a></h1>
 <p>Сегодня разобрали запуск ash, режимы и аргументы, в следующих статьях начнем разбирать возможности скриптов, синтаксис и команды.</p>

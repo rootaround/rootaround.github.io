@@ -75,63 +75,199 @@
 <p>Все перенаправления потоков, рассмотренные дальше, действуют только в рамках текущей команды или набора команд.</p>
 <h3 id="operator-n-file" tabindex="-1"><a id="operator-n-to-file" href="#operator-n-to-file"></a> оператор <code>[n]&gt; file</code> <a class="direct-link" href="#operator-n-file" aria-hidden="true">#</a></h3>
 <p>Потоки можно перенаправлять в файлы</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># 123 будет записано в файл</span><br><span class="token comment"># тут мы перенаправили поток stdout в файл tmp.txt</span><br>$ <span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">></span> tmp.txt</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># 123 будет записано в файл</span>
+<span class="token comment"># тут мы перенаправили поток stdout в файл tmp.txt</span>
+$ <span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">></span> tmp.txt</code></pre>
 <p>Оператор <code>&gt;</code> позволяет перенаправить поток в файл по номеру потока. Приведенная выше команда это краткая запись команды. Полная запись выглядит так</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># перенаправляем stdout в файл tmp.txt</span><br>$ <span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator"><span class="token file-descriptor important">1</span>></span> tmp.txt</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># перенаправляем stdout в файл tmp.txt</span>
+$ <span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator"><span class="token file-descriptor important">1</span>></span> tmp.txt</code></pre>
 <p>Аналогичным образом можно перенаправить stderr</p>
 <pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">'error'</span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> errors.log</code></pre>
 <p>Оператор <code>&gt;</code> полностью перезаписывает содержимое файла новыми данными, если файл уже существует. Если файла нет - создает и записывает данные.</p>
 <p>Для защиты от перезаписи файлов, например, при отладке каких-то уже существующих скриптов, существует аргумент <code>-С</code> (<a href="/2020-12-linux-tools-shells-part-2-ash-startup/#noclobber-arg">noclobber</a>), который предотвращает перезапись файла — с этим аргументом ash будет выдавать ошибку, если файл уже существует.</p>
 <h3 id="operator-n-file-1" tabindex="-1"><a id="operator-n-to-stick-file" href="#operator-n-to-stick-file"></a> оператор <code>[n]&gt;| file</code> <a class="direct-link" href="#operator-n-file-1" aria-hidden="true">#</a></h3>
 <p>Делает все то же самое что и предыдущий оператор, но при запуске с аргументом <code>-C</code> (<a href="/2020-12-linux-tools-shells-part-2-ash-startup/#noclobber-arg">noclobber</a>) файл все равно будет перезаписан — такой force для перенаправления потока в файл.</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># скрипт записывает текст в файл с использованием оператора ></span><br>$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">></span> tmp.txt<br><br><span class="token comment"># выполняем - в файл tmp.txt записывается 123</span><br>$ ash test.sh<br><br><span class="token comment"># еще раз выполняем тот же скрипт,</span><br><span class="token comment"># файл tmp.txt будет перезаписан с тем же текстом 123</span><br>$ ash test.sh<br><br><span class="token comment"># с аргументом -C при перенаправлении с оператором > будет ошибка</span><br>$ ash -C test.sh<br>test.sh: line <span class="token number">1</span>: can't create tmp.txt: File exists<br><br><span class="token comment"># если переделать оператор > на >|</span><br>$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token number">1234</span> <span class="token operator">>|</span> tmp.txt<br><br><span class="token comment"># то даже с аргументом -C файл будет перезаписан</span><br>$ ash -C test.sh</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># скрипт записывает текст в файл с использованием оператора ></span>
+$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token number">123</span> <span class="token operator">></span> tmp.txt
+
+<span class="token comment"># выполняем - в файл tmp.txt записывается 123</span>
+$ ash test.sh
+
+<span class="token comment"># еще раз выполняем тот же скрипт,</span>
+<span class="token comment"># файл tmp.txt будет перезаписан с тем же текстом 123</span>
+$ ash test.sh
+
+<span class="token comment"># с аргументом -C при перенаправлении с оператором > будет ошибка</span>
+$ ash <span class="token parameter variable">-C</span> test.sh
+test.sh: line <span class="token number">1</span>: can't create tmp.txt: File exists
+
+<span class="token comment"># если переделать оператор > на >|</span>
+$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token number">1234</span> <span class="token operator">>|</span> tmp.txt
+
+<span class="token comment"># то даже с аргументом -C файл будет перезаписан</span>
+$ ash <span class="token parameter variable">-C</span> test.sh</code></pre>
 <h3 id="operator-n-file-2" tabindex="-1"><a id="operator-n-double-to-file" href="#operator-n-double-to-file"></a> оператор <code>[n]&gt;&gt; file</code> <a class="direct-link" href="#operator-n-file-2" aria-hidden="true">#</a></h3>
 <p>Дописывает данные из потока в конец файла, если файла нет - то создает</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token number">567</span> <span class="token operator"><span class="token file-descriptor important">1</span>>></span> tmp.txt<br>$ <span class="token builtin class-name">echo</span> <span class="token number">890</span> <span class="token operator">>></span> tmp.txt<br>$ <span class="token function">cat</span> tmp.txt<br><span class="token number">1234</span><br><span class="token number">567</span><br><span class="token number">890</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token number">567</span> <span class="token operator"><span class="token file-descriptor important">1</span>>></span> tmp.txt
+$ <span class="token builtin class-name">echo</span> <span class="token number">890</span> <span class="token operator">>></span> tmp.txt
+$ <span class="token function">cat</span> tmp.txt
+<span class="token number">1234</span>
+<span class="token number">567</span>
+<span class="token number">890</span></code></pre>
 <h3 id="operator-n-file-3" tabindex="-1"><a id="operator-n-from-file" href="#operator-n-from-file"></a> оператор <code>[n]&lt; file</code> <a class="direct-link" href="#operator-n-file-3" aria-hidden="true">#</a></h3>
 <p>чтение потока из файла</p>
 <p>В основном используется для чтения stdin</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># команда cat выводит stdin</span><br><span class="token comment"># или содержимое файла (если указан путь к файлу)</span><br><span class="token comment"># будет выведено содержимое stdin,</span><br><span class="token comment"># которое будет прочитано из файла tmp.txt</span><br>$ <span class="token function">cat</span> <span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span> tmp.txt<br><span class="token number">1234</span><br><span class="token number">567</span><br><span class="token number">890</span><br><br><span class="token comment"># сокращенная запись без указания номера потока</span><br>$ <span class="token function">cat</span> <span class="token operator">&lt;</span> tmp.txt<br><span class="token comment"># вывод такой же</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># команда cat выводит stdin</span>
+<span class="token comment"># или содержимое файла (если указан путь к файлу)</span>
+<span class="token comment"># будет выведено содержимое stdin,</span>
+<span class="token comment"># которое будет прочитано из файла tmp.txt</span>
+$ <span class="token function">cat</span> <span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span> tmp.txt
+<span class="token number">1234</span>
+<span class="token number">567</span>
+<span class="token number">890</span>
+
+<span class="token comment"># сокращенная запись без указания номера потока</span>
+$ <span class="token function">cat</span> <span class="token operator">&lt;</span> tmp.txt
+<span class="token comment"># вывод такой же</span></code></pre>
 <p>Оператор перенаправления может быть записан и до команды</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token operator">&lt;</span> tmp.txt <span class="token function">cat</span><br><span class="token comment"># командой cat из stdin будет выведено содержимое файла tmp.txt</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token operator">&lt;</span> tmp.txt <span class="token function">cat</span>
+<span class="token comment"># командой cat из stdin будет выведено содержимое файла tmp.txt</span></code></pre>
 <h3 id="operator-n1-and-n2" tabindex="-1"><a id="operator-n-to-descriptor" href="#operator-n-to-descriptor"></a> оператор <code>[n1]&gt;&amp;n2</code> <a class="direct-link" href="#operator-n1-and-n2" aria-hidden="true">#</a></h3>
 <p>Перенаправляет поток n1 (или stdout - 1 по умолчанию) в поток с номером n2</p>
 <p>Интерактивный шелл тоже процесс и у него есть свои stdin, stdout, stderr</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># пишем в stdout - поток с номером 1</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'out'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;1</span><br>out<br><br><span class="token comment"># пишем в stderr - поток с номером 2</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'error'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;2</span><br>error</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># пишем в stdout - поток с номером 1</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'out'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;1</span>
+out
+
+<span class="token comment"># пишем в stderr - поток с номером 2</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'error'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;2</span>
+error</code></pre>
 <p>Вывод обеих команд будет отображен в консоли, потому что для интерактивного шелла весь вывод идет на экран.</p>
 <p>Для скриптов также можно писать отдельно в stdout и stderr</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># скрипт пишет раздельно в stdout и в stderr</span><br>$ <span class="token function">cat</span> test.sh<br><span class="token builtin class-name">echo</span> <span class="token string">'out'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;1</span><br><span class="token builtin class-name">echo</span> <span class="token string">'error'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;2</span><br><br><span class="token comment"># если просто выполнить скрипт, то всё увидим в консоли</span><br>$ ash test.sh<br>out<br>error<br><br><span class="token comment"># С помощью оператора ></span><br><span class="token comment"># мы можем перенаправить stdout и stderr в разные файлы</span><br>$ ash test.sh <span class="token operator"><span class="token file-descriptor important">1</span>></span> stdout.txt <span class="token operator"><span class="token file-descriptor important">2</span>></span>stderr.txt<br>$ <span class="token function">cat</span> stdout.txt<br>out<br>$ <span class="token function">cat</span> stderr.txt<br>error</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># скрипт пишет раздельно в stdout и в stderr</span>
+$ <span class="token function">cat</span> test.sh
+<span class="token builtin class-name">echo</span> <span class="token string">'out'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;1</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'error'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;2</span>
+
+<span class="token comment"># если просто выполнить скрипт, то всё увидим в консоли</span>
+$ ash test.sh
+out
+error
+
+<span class="token comment"># С помощью оператора ></span>
+<span class="token comment"># мы можем перенаправить stdout и stderr в разные файлы</span>
+$ ash test.sh <span class="token operator"><span class="token file-descriptor important">1</span>></span> stdout.txt <span class="token operator"><span class="token file-descriptor important">2</span>></span>stderr.txt
+$ <span class="token function">cat</span> stdout.txt
+out
+$ <span class="token function">cat</span> stderr.txt
+error</code></pre>
 <p>Еще с помощью этого оператора можно наоборот сводить потоки, например, stdout и stderr в один файл</p>
-<pre class="language-bash"><code class="language-bash">$ ash test.sh <span class="token operator"><span class="token file-descriptor important">1</span>></span> stdout.txt<br>error<br><br><span class="token comment"># в консоли вывелось error,</span><br><span class="token comment"># потому что sterr не перенаправлен и отображается в консоль</span><br><br><span class="token comment"># заворачиваем поток stderr в stdout</span><br>$ ash test.sh <span class="token operator"><span class="token file-descriptor important">1</span>></span> stdout.txt <span class="token operator"><span class="token file-descriptor important">2</span>></span><span class="token file-descriptor important">&amp;1</span><br><br><span class="token comment"># и stdout и stderr записались в файл stdout.txt</span><br>$ <span class="token function">cat</span> stdout.txt<br>out<br>error</code></pre>
+<pre class="language-bash"><code class="language-bash">$ ash test.sh <span class="token operator"><span class="token file-descriptor important">1</span>></span> stdout.txt
+error
+
+<span class="token comment"># в консоли вывелось error,</span>
+<span class="token comment"># потому что sterr не перенаправлен и отображается в консоль</span>
+
+<span class="token comment"># заворачиваем поток stderr в stdout</span>
+$ ash test.sh <span class="token operator"><span class="token file-descriptor important">1</span>></span> stdout.txt <span class="token operator"><span class="token file-descriptor important">2</span>></span><span class="token file-descriptor important">&amp;1</span>
+
+<span class="token comment"># и stdout и stderr записались в файл stdout.txt</span>
+$ <span class="token function">cat</span> stdout.txt
+out
+error</code></pre>
 <h3 id="mnogostrochnye-dannye-dlya-potoka-here-document-heredoc" tabindex="-1"><a id="heredoc" href="#heredoc"></a> Многострочные данные для потока - here-document, heredoc <a class="direct-link" href="#mnogostrochnye-dannye-dlya-potoka-here-document-heredoc" aria-hidden="true">#</a></h3>
 <p>Во всех примерах до этого мы рассмотрели перенаправления в файл и из файла. С помощью backslash(/) можно визуально переносить строки для лучшей читаемости и перенаправить их на вход другой команде (об этом в следующих статьях). Но при этом переносы строк не будут выводится</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"very very very \<br>long long long \<br>text text text"</span><br>very very very long long long text text text</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"very very very \
+long long long \
+text text text"</span>
+very very very long long long text text text</code></pre>
 <p>Для решения этой проблемы в ash существует синтаксис here-document, который в общем виде выглядит так</p>
 <pre><code>[n]&lt;&lt; delimiter
     here-doc-text ...
 delimiter
 </code></pre>
 <p>delimiter может быть любой последовательностью символов, первый раз после указания delimiter на следующей строке должны начаться данные, после второго указания delimiter с начала строки данные завершились. Обычно delimiter указывают EOL - как аббревиатура End Of Line, но он может быть и другой последовательностью символов.</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> <span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span><span class="token operator">&lt;</span> EOL<br><span class="token operator">></span> very very very<br><span class="token operator">></span> long long long<br><span class="token operator">></span> text text text<br><span class="token operator">></span> EOL<br>very very very<br>long long long<br>text text text</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> <span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span><span class="token operator">&lt;</span> EOL
+<span class="token operator">></span> very very very
+<span class="token operator">></span> long long long
+<span class="token operator">></span> text text text
+<span class="token operator">></span> EOL
+very very very
+long long long
+text text text</code></pre>
 <p>В интерактивном режиме после EOL и переноса строки shell символом <code>&gt;</code> в начале строки подсказывает что ввод команды продолжается.</p>
 <p>Для скриптов heredoc используется аналогично</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOL<br>1<br>2<br>3<br>EOL</span><br>$ ash test.sh<br><span class="token number">1</span><br><span class="token number">2</span><br><span class="token number">3</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOL
+1
+2
+3
+EOL</span>
+$ ash test.sh
+<span class="token number">1</span>
+<span class="token number">2</span>
+<span class="token number">3</span></code></pre>
 <p>Если требуется в скрипте визуально отделить содержимое heredoc, можно использовать символ табуляции и добавить оператор <code>&lt;&lt;-</code> – в этом случае shell удалит все табы с начала строк</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token function">cat</span> <span class="token operator">&lt;&lt;-</span> <span class="token string">EOL<br>&lt;tab>1<br>&lt;tab>2<br>&lt;tab>3<br>EOL</span><br>$ ash test.sh<br><span class="token number">1</span><br><span class="token number">2</span><br><span class="token number">3</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token function">cat</span> <span class="token operator">&lt;&lt;-</span> <span class="token string">EOL
+&lt;tab>1
+&lt;tab>2
+&lt;tab>3
+EOL</span>
+$ ash test.sh
+<span class="token number">1</span>
+<span class="token number">2</span>
+<span class="token number">3</span></code></pre>
 <p>Кроме этого внутри heredoc можно использовать shell-переменные</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOL<br>pwd = <span class="token environment constant">$PWD</span><br>EOL</span><br>$ ash test.sh<br><span class="token builtin class-name">pwd</span> <span class="token operator">=</span> /home/ubuntu</code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> <span class="token string">EOL
+pwd = <span class="token environment constant">$PWD</span>
+EOL</span>
+$ ash test.sh
+<span class="token builtin class-name">pwd</span> <span class="token operator">=</span> /home/ubuntu</code></pre>
 <p>Чтобы текст внутри heredoc обрабатывался как обычные символы без подстановки переменных, нужно первый delimiter заключить в кавычки (двойные или одинарные)</p>
-<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh<br><span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'EOL'<br>pwd = $PWD<br>EOL</span><br>$ ash test.sh<br><span class="token builtin class-name">pwd</span> <span class="token operator">=</span> <span class="token environment constant">$PWD</span></code></pre>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> test.sh
+<span class="token function">cat</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'EOL'
+pwd = $PWD
+EOL</span>
+$ ash test.sh
+<span class="token builtin class-name">pwd</span> <span class="token operator">=</span> <span class="token environment constant">$PWD</span></code></pre>
 <h3 id="rabota-s-deskriptorami" tabindex="-1"><a id="descriptors" href="#descriptors"></a> Работа с дескрипторами <a class="direct-link" href="#rabota-s-deskriptorami" aria-hidden="true">#</a></h3>
 <p>Еще одна фича для работы с дескрипторами файлов — это возможность открыть файл в какой-то номер дескриптора, номера могут быть от 0 до 9.</p>
 <p>Для того чтобы использовать номер дескриптора в скрипте или интерактивном shell для нескольких команд нужно использовать builtin-команду exec (подробнее мы рассмотрим ее в следующих статьях).</p>
 <p>Сейчас нам нужно знать что все перенаправления выполненные в exec становятся постоянными (permanant) в рамках шелла или скрипта, то есть открытые дескрипторы можно использовать для последующих команд.</p>
 <h3 id="operator-n-file-4" tabindex="-1"><a id="operator-open-descriptor" href="#operator-open-descriptor"></a> оператор <code>[n]&lt;&gt; file</code> <a class="direct-link" href="#operator-n-file-4" aria-hidden="true">#</a></h3>
 <p>Позволяет открыть дескриптор файла на чтение и запись</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># открываем поток (дескриптор файла) с номером 3 для файла tmp.txt</span><br>$ <span class="token builtin class-name">exec</span> <span class="token operator"><span class="token file-descriptor important">3</span>&lt;></span> ./tmp.txt<br><span class="token comment"># так как команда была выполнена с помощью exec</span><br><span class="token comment"># дескриптор доступен для следующих команд</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'1'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'2'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span><br>$ <span class="token builtin class-name">echo</span> <span class="token string">'3'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span><br>$ <span class="token function">cat</span> ./tmp.txt<br><span class="token number">1</span><br><span class="token number">2</span><br><span class="token number">3</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># открываем поток (дескриптор файла) с номером 3 для файла tmp.txt</span>
+$ <span class="token builtin class-name">exec</span> <span class="token operator"><span class="token file-descriptor important">3</span>&lt;></span> ./tmp.txt
+<span class="token comment"># так как команда была выполнена с помощью exec</span>
+<span class="token comment"># дескриптор доступен для следующих команд</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'1'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'2'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span>
+$ <span class="token builtin class-name">echo</span> <span class="token string">'3'</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span>
+$ <span class="token function">cat</span> ./tmp.txt
+<span class="token number">1</span>
+<span class="token number">2</span>
+<span class="token number">3</span></code></pre>
 <h3 id="operator-n" tabindex="-1"><a id="operator-close-descriptor" href="#operator-close-descriptor"></a> оператор <code>[n]&gt;-</code> <a class="direct-link" href="#operator-n" aria-hidden="true">#</a></h3>
 <p>Закрыть дескриптор файла</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># продолжая предыдущий пример</span><br>$ <span class="token builtin class-name">exec</span> <span class="token operator"><span class="token file-descriptor important">3</span>></span>-<br><span class="token comment"># дескриптор файла tmp.txt закрыт</span><br><span class="token comment"># если снова открыть дескриптор,</span><br><span class="token comment"># то запись или чтение из файла начнется с начала</span><br>$ <span class="token builtin class-name">exec</span> <span class="token operator"><span class="token file-descriptor important">3</span>&lt;></span> ./tmp.txt<br><span class="token comment"># читаем из дескриптора 2 байта (1\n) - единицу и перенос строки</span><br>$ <span class="token builtin class-name">read</span> -n <span class="token number">2</span> <span class="token operator">&lt;</span><span class="token file-descriptor important">&amp;3</span><br><span class="token comment"># сейчас указатель дексриптора указывает на вторую строку (2\n)</span><br><span class="token comment"># запишем 9</span><br>$ <span class="token builtin class-name">echo</span> <span class="token number">9</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span><br>$ <span class="token function">cat</span> ./tmp.txt<br><span class="token number">1</span><br><span class="token number">9</span><br><span class="token number">3</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># продолжая предыдущий пример</span>
+$ <span class="token builtin class-name">exec</span> <span class="token operator"><span class="token file-descriptor important">3</span>></span>-
+<span class="token comment"># дескриптор файла tmp.txt закрыт</span>
+<span class="token comment"># если снова открыть дескриптор,</span>
+<span class="token comment"># то запись или чтение из файла начнется с начала</span>
+$ <span class="token builtin class-name">exec</span> <span class="token operator"><span class="token file-descriptor important">3</span>&lt;></span> ./tmp.txt
+<span class="token comment"># читаем из дескриптора 2 байта (1\n) - единицу и перенос строки</span>
+$ <span class="token builtin class-name">read</span> <span class="token parameter variable">-n</span> <span class="token number">2</span> <span class="token operator">&lt;</span><span class="token file-descriptor important">&amp;3</span>
+<span class="token comment"># сейчас указатель дексриптора указывает на вторую строку (2\n)</span>
+<span class="token comment"># запишем 9</span>
+$ <span class="token builtin class-name">echo</span> <span class="token number">9</span> <span class="token operator">></span><span class="token file-descriptor important">&amp;3</span>
+$ <span class="token function">cat</span> ./tmp.txt
+<span class="token number">1</span>
+<span class="token number">9</span>
+<span class="token number">3</span></code></pre>
 <p>Аналогично можно работать с input с помощью операторов <code>[n1]&lt;&amp;n2</code>, <code>[n]&lt;-</code></p>
 <p> </p>
 <h1 id="" tabindex="-1">= <a class="direct-link" href="#" aria-hidden="true">#</a></h1>
