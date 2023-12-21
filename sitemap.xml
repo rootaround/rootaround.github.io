@@ -137,17 +137,17 @@
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/tags/kernel/</loc>
-    <lastmod>2023-12-21</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rootaround.github.io/tags/boot/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
   
   <url>
     <loc>https://rootaround.github.io/tags/mbr/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/kernel/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
   

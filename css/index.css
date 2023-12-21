@@ -82,24 +82,20 @@ header {
   border-bottom: 1px dashed var(--color-gray-20);
 }
 
-header .logo {
+/* header .logo {
   float: left;
   display: inline-block;
   background-image: url(/img/logo.jpg);
   width: 3em;
   height: 3em;
   border-radius:50%;
+  margin-block: 0;
   background-size: cover;
   margin: 0.5em;
-}
+} */
 
-header .home {
-  padding: 0 1rem;
-  float: left;
-  /* margin: 1rem 0; */
-  font-size: 1em;
-  margin-block-start: 16px;
-  margin-block-end: 16px;
+.home {
+  font-weight: bold;
 }
 
 header .nav {
@@ -107,8 +103,15 @@ header .nav {
   list-style: none;
   float: left;
   margin-left: 1em;
-  margin-block-start: 16px;
-  margin-block-end: 16px;
+
+  margin-block: 0;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  height: 26px;
+
+
+  /* margin-block-start: 16px;
+  margin-block-end: 16px; */
 }
 header:after {
   content: "";
@@ -176,9 +179,14 @@ code {
   float: left;
   margin-left: 1em;
 }
+.nav-item.logo {
+  margin-right: 0.1em;
+}
+
 .nav-item {
   display: inline-block;
   margin-right: 1em;
+  vertical-align: middle;
 }
 .nav-item a[href]:not(:hover) {
   text-decoration: none;
