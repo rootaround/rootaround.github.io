@@ -1275,9 +1275,9 @@ $&lt;/code&gt;&lt;/pre&gt;
 	
 	<entry>
 		<title>Переехал с hexo на 11ly</title>
-		<link href="https://rootaround.github.io/posts/blog/202207262240/"/>
+		<link href="https://rootaround.github.io/posts/blog/2022-07-26-22-40/"/>
 		<updated>2022-07-26T22:40:00Z</updated>
-		<id>https://rootaround.github.io/posts/blog/202207262240/</id>
+		<id>https://rootaround.github.io/posts/blog/2022-07-26-22-40/</id>
 		<content type="html">&lt;p&gt;Переехал с hexo на 11ly - &lt;a href=&quot;https://www.11ty.dev/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.11ty.dev/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Понадобилось, чтобы вести посты и вики в obsidian.&lt;/p&gt;
 &lt;p&gt;Почти из коробки завелись obsidian-ссылки вида &lt;a href=&quot;https://rootaround.github.io/posts/wiki/javascript&quot;&gt;javascript&lt;/a&gt;.&lt;/p&gt;
