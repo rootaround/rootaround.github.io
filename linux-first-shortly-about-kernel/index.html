@@ -76,7 +76,7 @@
 <p>Основной посыл холивара был в том что монолитное ядро устарело уже в 1992 году, а микроядра рулят и за ними будущее, но как показала история, даже 26 лет спустя монолитное ядро все еще живо и продолжает развиваться.</p>
 <p>Текущая версия доросла до <code>5.6</code> (май 2020) и код начиная с <code>2.6</code> можно смотреть на <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/refs/" target="_blank" rel="noopener">оф сайте</a> или на github-зеркале <a href="https://github.com/torvalds/linux" target="_blank" rel="noopener">torvalds/linux</a></p>
 <h3 id="arhitektura" tabindex="-1">Архитектура <a class="direct-link" href="#arhitektura" aria-hidden="true">#</a></h3>
-<p><img src="/img/linux-first/linux-kernel-1.jpg" alt="Cхема из статьи IBM &quot;Анатомия ядра Linux&quot;"></p>
+<p><picture><source type="image/webp" srcset="/assets/img/WWqz2PWZIQ-410.webp 410w" sizes="(max-width: 768px) 100vw, 768px"><source type="image/png" srcset="/assets/img/WWqz2PWZIQ-410.png 410w" sizes="(max-width: 768px) 100vw, 768px"><img alt="Cхема из статьи IBM &quot;Анатомия ядра Linux&quot;" loading="lazy" decoding="async" src="/assets/img/WWqz2PWZIQ-410.jpeg" width="410" height="250"></picture></p>
 <p>Ядро делится на пространство ядра и пространство пользователя.</p>
 <p>Пространство ядра через Интерфейс системных вызовов (SCI) позволяется вызывать функции ядра из пространства пользователя.</p>
 <p>Вся работа с железом контролируется ядром, основная часть ядра архитектурно-независима, то есть этот код работает на любой архитектуре процессоров.</p>
