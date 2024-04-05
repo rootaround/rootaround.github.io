@@ -127,21 +127,6 @@
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
-    <lastmod>2023-12-21</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/shell/</loc>
-    <lastmod>2023-12-21</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/ash/</loc>
-    <lastmod>2023-12-21</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rootaround.github.io/tags/boot/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
@@ -167,12 +152,27 @@
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/tags/daily/</loc>
+    <loc>https://rootaround.github.io/tags/linux-tools/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/shell/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/ash/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
   
   <url>
     <loc>https://rootaround.github.io/tags/shells/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/daily/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
   
