@@ -5,7 +5,7 @@
 	
 	<link href="https://rootaround.github.io/feed/feed.xml" rel="self"/>
 	<link href="https://rootaround.github.io/"/>
-	<updated>2024-04-05T09:01:36Z</updated>
+	<updated>2024-04-05T00:00:00Z</updated>
 	<id>https://example.com/</id>
 	<author>
 		<name></name>
@@ -13,11 +13,19 @@
 	</author>
 	
 	<entry>
+		<title>zsh</title>
+		<link href="https://rootaround.github.io/posts/wiki/zsh/"/>
+		<updated>2024-04-05T00:00:00Z</updated>
+		<id>https://rootaround.github.io/posts/wiki/zsh/</id>
+		<content type="html"></content>
+	</entry>
+	
+	<entry>
 		<title>2024-04-05</title>
 		<link href="https://rootaround.github.io/posts/blog/2024-04-05/"/>
-		<updated>2024-04-05T09:01:36Z</updated>
+		<updated>2023-12-21T12:24:04Z</updated>
 		<id>https://rootaround.github.io/posts/blog/2024-04-05/</id>
-		<content type="html">&lt;p&gt;hello &lt;a href=&quot;https://rootaround.github.io/posts/blog/2024-04-05/&quot;&gt;zsh&lt;/a&gt; 😃&lt;/p&gt;
+		<content type="html">&lt;p&gt;hello &lt;a href=&quot;https://rootaround.github.io/posts/wiki/zsh&quot;&gt;zsh&lt;/a&gt; 😃&lt;/p&gt;
 </content>
 	</entry>
 	

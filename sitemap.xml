@@ -142,6 +142,16 @@
   </url>
   
   <url>
+    <loc>https://rootaround.github.io/tags/daily/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/shells/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rootaround.github.io/tags/boot/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
@@ -167,17 +177,12 @@
   </url>
   
   <url>
-    <loc>https://rootaround.github.io/tags/daily/</loc>
-    <lastmod>2023-12-21</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rootaround.github.io/tags/shells/</loc>
-    <lastmod>2023-12-21</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rootaround.github.io/tags/sh/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/tags/zsh/</loc>
     <lastmod>2023-12-21</lastmod>
   </url>
   
@@ -208,6 +213,11 @@
   
   <url>
     <loc>https://rootaround.github.io/posts/blog/2024-04-05/</loc>
+    <lastmod>2023-12-21</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rootaround.github.io/posts/wiki/zsh/</loc>
     <lastmod>2024-04-05</lastmod>
   </url>
 </urlset>
